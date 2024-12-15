@@ -51,7 +51,7 @@ List<Taboccomodel> taboccoParsePost(String responseBody) {
 }
 
 Future<List<Billmodel>> fetch() async {
-  final url = Uri.parse('https://tscoffee-server.onrender.com/v1/boards/bills');
+  final url = Uri.parse('url api');
   final response = await http.get(url);
   final listModelParse = parsePost(response.body);
   return listModelParse;
@@ -59,7 +59,7 @@ Future<List<Billmodel>> fetch() async {
 
 Future<List<Drinkmodel>> fetchDrinks() async {
   final url =
-      Uri.parse('https://tscoffee-server.onrender.com/v1/boards/drinks');
+      Uri.parse('url api');
   final response = await http.get(url);
   final listModelParse = drinkParsePost(response.body);
   return listModelParse;
@@ -67,7 +67,7 @@ Future<List<Drinkmodel>> fetchDrinks() async {
 
 Future<List<Taboccomodel>> fetchTabocco() async {
   final url =
-      Uri.parse('https://tscoffee-server.onrender.com/v1/boards/taboccos');
+      Uri.parse('url api');
   final response = await http.get(url);
   final listModelParse = taboccoParsePost(response.body);
   return listModelParse;
