@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:tscoffee/page/home.dart';
 
 import '../../../model/billmodel.dart';
+import '../../home.dart';
 
 // ignore: must_be_immutable
 class Bills extends StatefulWidget {

@@ -151,13 +151,13 @@ class Billmodel {
     if (json['listNuoc'] != null) {
       _listNuoc = <Drinkbillmodel>[];
       json['listNuoc'].forEach((v) {
-        _listNuoc!.add(Drinkbillmodel.fromJson(v));
+        _listNuoc.add(Drinkbillmodel.fromJson(v));
       });
     }
     if (json['listThuoc'] != null) {
       _listThuoc = <Taboccobillmodel>[];
       json['listThuoc'].forEach((v) {
-        _listThuoc!.add(Taboccobillmodel.fromJson(v));
+        _listThuoc.add(Taboccobillmodel.fromJson(v));
       });
     }
     _comGia = double.parse(json['comGia'].toString());
@@ -181,13 +181,9 @@ class Billmodel {
     data['nguNgay'] = _nguNgay;
     data['nguDem'] = _nguDem;
     data['tam'] = _tam;
-    if (_listNuoc != null) {
-      data['listNuoc'] = _listNuoc!.map((v) => v.toJson()).toList();
-    }
-    if (_listThuoc != null) {
+    data['listNuoc'] = _listNuoc!.map((v) => v.toJson()).toList();
       data['listThuoc'] = _listThuoc!.map((v) => v.toJson()).toList();
-    }
-    data['comGia'] = _comGia;
+      data['comGia'] = _comGia;
     data['giaGiatDo'] = _giaGiatDo;
     data['giaTu'] = _giaTu;
     data['ghiChu'] = _ghiChu;

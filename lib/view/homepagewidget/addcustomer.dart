@@ -4,10 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:tscoffee/apps/globalvariables.dart';
 import 'package:tscoffee/model/drinkbillmodel.dart';
 import 'package:tscoffee/model/taboccobillmodel.dart';
-import 'package:tscoffee/page/homepagewidget/addpagewidgets/drinkswidget.dart';
-import 'package:tscoffee/page/homepagewidget/addpagewidgets/tobaccowidget.dart';
 import 'package:http/http.dart' as http;
 import '../../model/billmodel.dart';
+import 'addpagewidgets/drink/drinkswidget.dart';
+import 'addpagewidgets/tobacco/tobaccowidget.dart';
 
 enum SingingCharacter { lafayette, jefferson }
 
@@ -29,9 +29,9 @@ class _AddCustomerState extends State<AddCustomer> {
     setState(() {});
   }
 
-  void addBill(Map<String, dynamic> item) async {
+  void  addBill(Map<String, dynamic> item) async {
     final response = await http.post(
-      Uri.parse('url api'),
+      Uri.parse('https://tscoffee-server.onrender.com/v1/boards/bills'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -50,7 +50,7 @@ class _AddCustomerState extends State<AddCustomer> {
 
   void updateBill(Map<String, dynamic> item) async {
     final response = await http.put(
-      Uri.parse('url api'),
+      Uri.parse('https://tscoffee-server.onrender.com/v1/boards/bills'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },

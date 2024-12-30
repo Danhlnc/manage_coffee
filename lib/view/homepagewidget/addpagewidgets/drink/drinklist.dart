@@ -3,7 +3,7 @@ import 'package:tscoffee/model/billmodel.dart';
 import 'package:tscoffee/model/drinkbillmodel.dart';
 import 'package:tscoffee/model/taboccobillmodel.dart';
 
-import '../../../apps/globalvariables.dart';
+import '../../../../apps/globalvariables.dart';
 
 // ignore: must_be_immutable
 class Drinklist extends StatefulWidget {

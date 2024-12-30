@@ -1,6 +1,7 @@
 library tscoffee.globals;
 
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -51,24 +52,36 @@ List<Taboccomodel> taboccoParsePost(String responseBody) {
 }
 
 Future<List<Billmodel>> fetch() async {
-  final url = Uri.parse('url api');
-  final response = await http.get(url);
+  final url = Uri.parse('https://tscoffee-server.onrender.com/v1/boards/bills');
+  final response = await http.get(url,headers : {
+    "Access-Control-Allow-Origin": "*",
+    'Content-Type': 'application/json',
+    'Accept': '*/*'
+  });
   final listModelParse = parsePost(response.body);
   return listModelParse;
 }
 
 Future<List<Drinkmodel>> fetchDrinks() async {
   final url =
-      Uri.parse('url api');
-  final response = await http.get(url);
+      Uri.parse('https://tscoffee-server.onrender.com/v1/boards/drinks',);
+  final response = await http.get(url,headers : {
+    "Access-Control-Allow-Origin": "*",
+    'Content-Type': 'application/json',
+    'Accept': '*/*'
+  });
   final listModelParse = drinkParsePost(response.body);
   return listModelParse;
 }
 
 Future<List<Taboccomodel>> fetchTabocco() async {
   final url =
-      Uri.parse('url api');
-  final response = await http.get(url);
+      Uri.parse('https://tscoffee-server.onrender.com/v1/boards/taboccos');
+  final response = await http.get(url,headers : {
+    "Access-Control-Allow-Origin": "*",
+    'Content-Type': 'application/json',
+    'Accept': '*/*'
+  } );
   final listModelParse = taboccoParsePost(response.body);
   return listModelParse;
 }

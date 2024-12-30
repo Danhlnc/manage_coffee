@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:tscoffee/page/home.dart';
+
+import 'view/home.dart';
 
 void main(List<String> args) async {
   WidgetsFlutterBinding.ensureInitialized();

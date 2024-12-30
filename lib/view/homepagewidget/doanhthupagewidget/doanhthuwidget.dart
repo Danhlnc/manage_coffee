@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:tscoffee/model/drinkbillmodel.dart';
 import 'package:tscoffee/model/taboccobillmodel.dart';
-import 'package:tscoffee/page/homepagewidget/addpagewidgets/drinkswidget.dart';
-import 'package:tscoffee/page/homepagewidget/addpagewidgets/tobaccowidget.dart';
 
 import '../../../apps/globalvariables.dart';
 import '../../../model/billmodel.dart';
+import '../addpagewidgets/drink/drinkswidget.dart';
+import '../addpagewidgets/tobacco/tobaccowidget.dart';
 
 // ignore: must_be_immutable
 class Doanhthuwidget extends StatefulWidget {

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:tscoffee/model/drinkbillmodel.dart';
 import 'package:tscoffee/model/taboccobillmodel.dart';
-import 'package:tscoffee/page/homepagewidget/addpagewidgets/tabaccolist.dart';
-import 'package:tscoffee/page/homepagewidget/addpagewidgets/tobaccolistdialog.dart';
 
-import '../../../apps/globalvariables.dart';
-import '../../../model/billmodel.dart';
+import '../../../../apps/globalvariables.dart';
+import '../../../../model/billmodel.dart';
+import 'tabaccolist.dart';
+import 'tobaccolistdialog.dart';
 
 // ignore: must_be_immutable
 class Tobaccowidget extends StatefulWidget {

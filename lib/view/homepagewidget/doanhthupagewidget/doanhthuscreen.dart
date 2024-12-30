@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:tscoffee/page/homepagewidget/addpagewidgets/billlist.dart';
-import 'package:tscoffee/page/homepagewidget/doanhthupagewidget/datetimeDoanhThu.dart';
-import 'package:tscoffee/page/loading.dart';
 
 import '../../../apps/globalvariables.dart';
 import '../../../model/billmodel.dart';
+import '../../loading.dart';
 import '../addcustomer.dart';
+import '../addpagewidgets/billlist.dart';
+import 'datetimeDoanhThu.dart';
 
 // ignore: must_be_immutable
 class Doanhthuscreen extends StatefulWidget {

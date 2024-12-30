@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:tscoffee/page/home.dart';
+
+import 'home.dart';
 
 class Login extends StatelessWidget {
   Login({

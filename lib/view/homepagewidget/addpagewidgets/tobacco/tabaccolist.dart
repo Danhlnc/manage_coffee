@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:tscoffee/model/drinkbillmodel.dart';
 import 'package:tscoffee/model/taboccobillmodel.dart';
 
-import '../../../apps/globalvariables.dart';
-import '../../../model/billmodel.dart';
+import '../../../../apps/globalvariables.dart';
+import '../../../../model/billmodel.dart';
+
 
 // ignore: must_be_immutable
 class Tabaccolist extends StatefulWidget {

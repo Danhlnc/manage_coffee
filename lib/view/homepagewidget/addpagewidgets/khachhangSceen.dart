@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:tscoffee/apps/globalvariables.dart';
 import 'package:tscoffee/model/billmodel.dart';
-import 'package:tscoffee/page/homepagewidget/addpagewidgets/billlist.dart';
-import 'package:tscoffee/page/homepagewidget/addcustomer.dart';
-import 'package:tscoffee/page/homepagewidget/addpagewidgets/datetime.dart';
-import 'package:tscoffee/page/loading.dart';
+
+import '../../loading.dart';
+import '../addcustomer.dart';
+import 'billlist.dart';
+import 'datetime.dart';
 
 // ignore: must_be_immutable
 class KhachhangSceen extends StatefulWidget {
