@@ -29,7 +29,7 @@ class _AddCustomerState extends State<AddCustomer> {
     setState(() {});
   }
 
-  void  addBill(Map<String, dynamic> item) async {
+  Future  addBill(Map<String, dynamic> item) async {
     final response = await http.post(
       Uri.parse('https://tscoffee-server.onrender.com/v1/boards/bills'),
       headers: <String, String>{
@@ -48,7 +48,7 @@ class _AddCustomerState extends State<AddCustomer> {
     }
   }
 
-  void updateBill(Map<String, dynamic> item) async {
+  Future updateBill(Map<String, dynamic> item) async {
     final response = await http.put(
       Uri.parse('https://tscoffee-server.onrender.com/v1/boards/bills'),
       headers: <String, String>{
@@ -113,16 +113,17 @@ class _AddCustomerState extends State<AddCustomer> {
         //print(test);
         if (staTus) {
           setState(() {
-            addBill(test);
-            Navigator.of(context).pop();
+            addBill(test).then((onValue){
+              Navigator.of(context).pop();
             widget.callBack("update");
+            });
           });
         } else {
           setState(() {
-            updateBill(widget.customer.toJson());
-            Navigator.of(context).pop();
-
+            updateBill(widget.customer.toJson()).then((onValue){
+              Navigator.of(context).pop();
             widget.callBack("update");
+            });
           });
         }
       }

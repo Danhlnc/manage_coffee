@@ -53,13 +53,11 @@ class _HomeState extends State<Home> {
         listBills = [...listBillsTotal];
         var listPro = [...listBills];
         for (var action in listPro) {
-          if (date.day != 1) {
-            if (DateFormat('yyyy-MM-dd').format(
+          if (DateFormat('yyyy-MM-dd').format(
                     DateTime.parse(action.keys.first.createdOn.toString())) !=
                 DateFormat('yyyy-MM-dd').format(date)) {
               listBills.remove(action);
             }
-          }
         }
 
         listBills.sort((b, a) => a.keys.first.modifyOn!
