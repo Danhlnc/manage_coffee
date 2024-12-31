@@ -7,8 +7,7 @@
         {
             "name": "tscoffee",
             "request": "launch",
-            "type": "dart",
-            "program": "bin/main.dart"
+            "type": "dart"
 
         },
         {

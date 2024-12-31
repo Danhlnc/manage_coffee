@@ -125,7 +125,7 @@ class _KhachhangSceenState extends State<KhachhangSceen> {
               ],
             ),
           ),
-          Container(
+          SizedBox(
             width: MediaQuery.of(context).size.width,
             height: 50,
             child: Builder(builder: (context) {
@@ -165,7 +165,7 @@ class _KhachhangSceenState extends State<KhachhangSceen> {
                               }
                               return Text(
                                 tongTien.toStringAsFixed(0),
-                                style: TextStyle(fontWeight: FontWeight.bold),
+                                style: const TextStyle(fontWeight: FontWeight.bold),
                               );
                             },
                           ),

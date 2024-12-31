@@ -181,8 +181,8 @@ class Billmodel {
     data['nguNgay'] = _nguNgay;
     data['nguDem'] = _nguDem;
     data['tam'] = _tam;
-    data['listNuoc'] = _listNuoc!.map((v) => v.toJson()).toList();
-      data['listThuoc'] = _listThuoc!.map((v) => v.toJson()).toList();
+    data['listNuoc'] = _listNuoc.map((v) => v.toJson()).toList();
+      data['listThuoc'] = _listThuoc.map((v) => v.toJson()).toList();
       data['comGia'] = _comGia;
     data['giaGiatDo'] = _giaGiatDo;
     data['giaTu'] = _giaTu;

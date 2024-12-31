@@ -184,8 +184,8 @@ class _AddCustomerState extends State<AddCustomer> {
                   );
                 } else if (widget.customer.sId != '') {
                   if (widget.customer.trangThai == true) {
-                    listNuoc = widget.customer.listNuoc!;
-                    listThuoc = widget.customer.listThuoc!;
+                    listNuoc = widget.customer.listNuoc;
+                    listThuoc = widget.customer.listThuoc;
                     return Container(
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.end,
@@ -215,11 +215,11 @@ class _AddCustomerState extends State<AddCustomer> {
                                       return AlertDialog(
                                         title: Row(
                                           children: [
-                                            Text(
+                                            const Text(
                                                 'Xác nhận thanh toán số tiền : '),
                                             Text(
                                               ' ${widget.customer.tongTien!.toStringAsFixed(0)}',
-                                              style: TextStyle(
+                                              style: const TextStyle(
                                                   fontWeight: FontWeight.bold),
                                             ),
                                           ],

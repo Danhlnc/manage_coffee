@@ -22,7 +22,7 @@ class _TobaccolistdialogState extends State<Tobaccolistdialog> {
       child: AlertDialog(
         title: Column(
           children: [
-            Container(
+            SizedBox(
               width: 350,
               height: 50,
               child: TextField(
@@ -51,11 +51,11 @@ class _TobaccolistdialogState extends State<Tobaccolistdialog> {
                 ),
               ),
             ),
-            Container(
+            SizedBox(
               width: 400,
               height: 330,
               child: SingleChildScrollView(
-                child: Container(
+                child: SizedBox(
                   width: 400,
                   height: 330,
                   child: ListView.builder(
@@ -74,7 +74,7 @@ class _TobaccolistdialogState extends State<Tobaccolistdialog> {
                               Taboccobillmodel(taboccomodel: newTabocco);
                           newMap.soLuongBan = 1;
                           newMap.taboccomodel = newTabocco;
-                          if (widget.listThuoc.length != 0) {
+                          if (widget.listThuoc.isNotEmpty) {
                             for (var item in listThuoc) {
                               if (item.taboccomodel!.tobaccoName ==
                                   newTabocco.tobaccoName) {
@@ -103,10 +103,8 @@ class _TobaccolistdialogState extends State<Tobaccolistdialog> {
                           Navigator.of(context).pop();
                         },
                         child: Text(
-                          listAllThuocSearch[index].tobaccoName.toString() +
-                              " : " +
-                              listAllThuocSearch[index].price.toString(),
-                          style: TextStyle(
+                          "${listAllThuocSearch[index].tobaccoName} : ${listAllThuocSearch[index].price}",
+                          style: const TextStyle(
                             fontSize: 16,
                           ),
                         ),

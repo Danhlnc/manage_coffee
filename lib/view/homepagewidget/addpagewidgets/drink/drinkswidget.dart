@@ -53,7 +53,7 @@ class _DrinkswidgetState extends State<Drinkswidget> {
                       builder: (BuildContext context) {
                         listAllNuocSearch = [...listAllNuoc];
                         return Drinklistdialog(
-                            listNuoc: widget.customer.listNuoc!);
+                            listNuoc: widget.customer.listNuoc);
                       });
                   setState(() {
                     widget.customer.tongTien = widget.customer.sac! +
@@ -80,7 +80,7 @@ class _DrinkswidgetState extends State<Drinkswidget> {
                 child: ListView.builder(
                     scrollDirection: Axis.vertical,
                     shrinkWrap: true,
-                    itemCount: widget.customer.listNuoc!.length,
+                    itemCount: widget.customer.listNuoc.length,
                     itemBuilder: (BuildContext ctx, int index) {
                       return InkWell(
                         onTap: () {
@@ -104,7 +104,7 @@ class _DrinkswidgetState extends State<Drinkswidget> {
                           child: Stack(children: [
                             Drinklist(
                                 listNuocSelected:
-                                    widget.customer.listNuoc![index],
+                                    widget.customer.listNuoc[index],
                                 customer: widget.customer,
                                 callBackFunc: callBakFuncDrink),
                             Positioned(
@@ -113,9 +113,9 @@ class _DrinkswidgetState extends State<Drinkswidget> {
                                 icon: const Icon(Icons.delete_forever_outlined),
                                 onPressed: () {
                                   setState(() {
-                                    widget.customer.listNuoc!.remove(
-                                        widget.customer.listNuoc![index]);
-                                    widget.customer.listNuoc!.length;
+                                    widget.customer.listNuoc.remove(
+                                        widget.customer.listNuoc[index]);
+                                    widget.customer.listNuoc.length;
                                     widget.customer.tongTien = widget
                                             .customer.sac! +
                                         (widget.customer.muonSac == true

@@ -79,7 +79,7 @@ class _TobaccowidgetState extends State<Tobaccowidget> {
                 child: ListView.builder(
                     scrollDirection: Axis.vertical,
                     shrinkWrap: true,
-                    itemCount: widget.customer.listThuoc!.length,
+                    itemCount: widget.customer.listThuoc.length,
                     itemBuilder: (BuildContext ctx, int index) {
                       return InkWell(
                         onTap: () {
@@ -92,7 +92,7 @@ class _TobaccowidgetState extends State<Tobaccowidget> {
                           child: Stack(children: [
                             Tabaccolist(
                                 listThuocSelected:
-                                    widget.customer.listThuoc![index],
+                                    widget.customer.listThuoc[index],
                                 customer: widget.customer,
                                 callBackFunc: callBakFuncTobacco),
                             Positioned(
@@ -101,9 +101,9 @@ class _TobaccowidgetState extends State<Tobaccowidget> {
                                 icon: const Icon(Icons.delete_forever_outlined),
                                 onPressed: () {
                                   setState(() {
-                                    widget.customer.listThuoc!.remove(
-                                        widget.customer.listThuoc![index]);
-                                    widget.customer.listThuoc!.length;
+                                    widget.customer.listThuoc.remove(
+                                        widget.customer.listThuoc[index]);
+                                    widget.customer.listThuoc.length;
                                     widget.customer.tongTien = widget
                                         .customer.tongTien = widget
                                             .customer.sac! +

@@ -23,7 +23,7 @@ class _DrinklistdialogState extends State<Drinklistdialog> {
       child: AlertDialog(
         title: Column(
           children: [
-            Container(
+            SizedBox(
               width: 350,
               height: 50,
               child: TextField(
@@ -52,11 +52,11 @@ class _DrinklistdialogState extends State<Drinklistdialog> {
                 ),
               ),
             ),
-            Container(
+            SizedBox(
               width: 400,
               height: 330,
               child: SingleChildScrollView(
-                child: Container(
+                child: SizedBox(
                   width: 400,
                   height: 330,
                   child: ListView.builder(
@@ -74,7 +74,7 @@ class _DrinklistdialogState extends State<Drinklistdialog> {
                               Drinkbillmodel(drinkmodel: newDrink);
                           newMap.soLuongBan = 1;
                           newMap.drinkmodel = newDrink;
-                          if (widget.listNuoc.length != 0) {
+                          if (widget.listNuoc.isNotEmpty) {
                             for (var item in listNuoc) {
                               if (item.drinkmodel!.drinkName ==
                                   newDrink.drinkName) {
@@ -101,10 +101,8 @@ class _DrinklistdialogState extends State<Drinklistdialog> {
                           Navigator.of(context).pop();
                         },
                         child: Text(
-                          listAllNuocSearch[index].drinkName.toString() +
-                              " : " +
-                              listAllNuocSearch[index].price.toString(),
-                          style: TextStyle(
+                          "${listAllNuocSearch[index].drinkName} : ${listAllNuocSearch[index].price}",
+                          style: const TextStyle(
                             fontSize: 16,
                           ),
                         ),

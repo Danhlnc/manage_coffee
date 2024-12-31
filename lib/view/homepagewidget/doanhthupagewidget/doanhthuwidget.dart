@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:tscoffee/model/drinkbillmodel.dart';
 import 'package:tscoffee/model/taboccobillmodel.dart';
 
-import '../../../apps/globalvariables.dart';
 import '../../../model/billmodel.dart';
 import '../addpagewidgets/drink/drinkswidget.dart';
 import '../addpagewidgets/tobacco/tobaccowidget.dart';
