@@ -43,6 +43,13 @@ class _BillsState extends State<Bills> {
             style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
           ),
         ),
+        Expanded(
+          flex: 1,
+          child: Text(
+            widget.Bill.keys.first.tongTien.toString(),
+            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold,color: Colors.redAccent),
+          ),
+        ),
       ],
     ));
   }

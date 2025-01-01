@@ -20,7 +20,9 @@ DateTimeRange dateTimeRange = DateTimeRange(
     end: DateTime.parse(DateFormat('yyyy-MM-dd').format(DateTime(
         DateTime.now().year, DateTime.now().month, DateTime.now().day + 1))));
 List<Map<Billmodel, Color>> listBills = [];
+List<Map<Billmodel, Color>> listBillsSearch = [];
 List<Map<Billmodel, Color>> listBillsTotal = [];
+List<Map<Billmodel, Color>> listBillsTotalSearch = [];
 List<Map<Billmodel, Color>> listBillsTotalDate = [];
 List<Drinkbillmodel> listNuoc = [];
 List<Taboccobillmodel> listThuoc = [];

@@ -37,6 +37,8 @@ class _HomeState extends State<Home> {
       loadData = true;
       setState(() {});
       fetch().then((onValue) {
+        listNuoc.clear();
+        listThuoc.clear();
         widget.listBills.clear();
         listBillsTotal.clear();
         listBills.clear();

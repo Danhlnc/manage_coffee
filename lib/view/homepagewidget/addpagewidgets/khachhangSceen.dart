@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:intl/intl.dart';
 import 'package:tscoffee/apps/globalvariables.dart';
 import 'package:tscoffee/model/billmodel.dart';
@@ -29,6 +30,7 @@ class KhachhangSceen extends StatefulWidget {
 class _KhachhangSceenState extends State<KhachhangSceen> {
   callBack(String status) {
     widget.callBack(status);
+    
     setState(() {});
   }
 
@@ -93,27 +95,27 @@ class _KhachhangSceenState extends State<KhachhangSceen> {
                     obscureText: false,
                     onChanged: (value) {
                       if (value != "") {
-                        widget.listSearch.clear();
+                        listBillsSearch.clear();
                         for (var action in widget.listBills) {
                           if (action.keys.first.bienSoXe!.contains(value) &&
                               action.keys.first.trangThai == true) {
-                            widget.listSearch.add(action);
+                            listBillsSearch.add(action);
                           }
                         }
-                        setState(() {
-                          widget.listBillsGridView = [...widget.listSearch];
-                        });
-                      } else {
-                        widget.listBillsGridView = [...listBills];
-                        for (var item in listBills) {
-                          if (item.keys.first.trangThai == false) {
-                            widget.listBillsGridView.remove(item);
-                          }
-                        }
+                        listBills = [...listBillsSearch];
+                        callBack("");
+                      } else if (value == "")  {
+                        listBillsSearch.clear();
+                         listBills = [...listBillsTotal];
+                        var listPro = [...listBills];
+                        for (var action in listPro) {
+                          if (DateFormat('yyyy-MM-dd').format(
+                                    DateTime.parse(action.keys.first.createdOn.toString())) !=
+                                DateFormat('yyyy-MM-dd').format(date)) {
+                              listBills.remove(action);
+                            }
+                        } callBack("");
                       }
-                      setState(() {
-                        widget.listBillsGridView;
-                      });
                     },
                     decoration: const InputDecoration(
                       hintText: "Tìm kiếm",

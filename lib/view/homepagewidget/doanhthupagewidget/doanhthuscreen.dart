@@ -96,19 +96,26 @@ class _DoanhthuscreenState extends State<Doanhthuscreen> {
                   obscureText: false,
                   onChanged: (value) {
                     if (value != "") {
-                      widget.listSearch.clear();
-                      for (var action in widget.listBills) {
-                        if (action.keys.first.bienSoXe!.contains(value)) {
-                          widget.listSearch.add(action);
+                     listBillsTotalSearch.clear();
+                        for (var action in widget.listBills) {
+                          if (action.keys.first.bienSoXe!.contains(value)) {
+                            listBillsTotalSearch.add(action);
+                          }
+                        }
+                        listBillsTotalDate = [...listBillsTotalSearch];
+                        callBack("");
+                    } else {
+                      listBillsTotalDate = [...listBillsTotal];
+                      var listProDate = [...listBillsTotalDate];
+                      for (var action in listProDate) {
+                        if (action.keys.first.createdOn!.isBefore(dateTimeRange.end) &&
+                            action.keys.first.createdOn!.isAfter(dateTimeRange.start)) {
+                        } else {
+                          listBillsTotalDate.remove(action);
                         }
                       }
-                      setState(() {
-                        widget.listBills = [...widget.listSearch];
-                      });
-                    } else {
-                      widget.listBills = [...listBillsTotalDate];
+                      callBack("");
                     }
-                    setState(() {});
                   },
                   decoration: const InputDecoration(
                     hintText: "Tìm kiếm",
@@ -193,7 +200,7 @@ class _DoanhthuscreenState extends State<Doanhthuscreen> {
                     : GridView.builder(
                         gridDelegate:
                             const SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: 4, mainAxisSpacing: 4),
+                                crossAxisCount: 3, mainAxisSpacing: 4),
                         itemCount: widget.listBills.length,
                         itemBuilder: (BuildContext ctx, int index) {
                           return Card(
