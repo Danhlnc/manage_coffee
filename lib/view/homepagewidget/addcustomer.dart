@@ -31,7 +31,7 @@ class _AddCustomerState extends State<AddCustomer> {
 
   Future  addBill(Map<String, dynamic> item) async {
     final response = await http.post(
-      Uri.parse('https://tscoffee-server.onrender.com/v1/boards/bills'),
+      Uri.parse('https://tscoffee-server-1.onrender.com/v1/boards/bills'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -50,7 +50,7 @@ class _AddCustomerState extends State<AddCustomer> {
 
   Future updateBill(Map<String, dynamic> item) async {
     final response = await http.put(
-      Uri.parse('https://tscoffee-server.onrender.com/v1/boards/bills'),
+      Uri.parse('https://tscoffee-server-1.onrender.com/v1/boards/bills'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
