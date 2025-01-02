@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "411658702585",
+    "project_id": "tscoffee-8eaab",
+    "storage_bucket": "tscoffee-8eaab.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:411658702585:android:83fa004d101047c3f31c28",
+        "android_client_info": {
+          "package_name": "com.example.tscoffee"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB3Kt2yWzRv_h5JHwd-kQGvyRyhLTFhYDE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
