@@ -24,15 +24,14 @@ class Tabaccolist extends StatefulWidget {
 class _TabaccolistState extends State<Tabaccolist> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.only(left: 5, right: 5),
+    return SizedBox(
       width: MediaQuery.of(context).size.width,
       child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           mainAxisSize: MainAxisSize.max,
           children: [
             Expanded(
-                flex: 5,
+                flex: 2,
                 child: Text(widget.listThuocSelected.taboccomodel!.tobaccoName
                     .toString())),
             Expanded(
@@ -110,15 +109,14 @@ class _TabaccolistState extends State<Tabaccolist> {
                               widget.callBackFunc("");
                             });
                           },
-                        )),
+                        )),const Expanded(
+                           flex: 2,
+                           child: SizedBox(width: 3,),
+                        )
                   ],
                 )),
             //
-            const Expanded(
-                flex: 3,
-                child: SizedBox(
-                  width: 5,
-                )),
+           
           ]),
     );
   }

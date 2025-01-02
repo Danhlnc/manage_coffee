@@ -1,6 +1,4 @@
 import 'dart:convert';
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:tscoffee/apps/globalvariables.dart';
@@ -485,13 +483,24 @@ class _AddCustomerState extends State<AddCustomer> {
                     //screen nước
                     AbsorbPointer(
                         absorbing: !widget.customer.trangThai!,
-                        child: Drinkswidget(
-                            customer: widget.customer, callBackFunc: callBack)),
+                        child: SizedBox(
+                          
+                          child: Row(
+                            children: [
+                              Expanded(
+                                flex: 1,
+                                child: Drinkswidget(
+                                    customer: widget.customer, callBackFunc: callBack),
+                              ),Expanded(
+                                flex: 1,
+                                child: Tobaccowidget(
+                                customer: widget.customer, callBackFunc: callBack),
+                              ),
+                            ],
+                          ),
+                        )),
                     //thuốc
-                    AbsorbPointer(
-                        absorbing: !widget.customer.trangThai!,
-                        child: Tobaccowidget(
-                            customer: widget.customer, callBackFunc: callBack)),
+                  
                     //cơm giặt đồ
                     SizedBox(
                       width: MediaQuery.of(context).size.width,
@@ -514,7 +523,7 @@ class _AddCustomerState extends State<AddCustomer> {
                                         margin: const EdgeInsets.only(left: 5),
                                         child: const Text('Cơm: '))),
                                 Expanded(
-                                    flex: 4,
+                                    flex: 3,
                                     child: Container(
                                       height: 40,
                                       margin: const EdgeInsets.all(5),
@@ -524,7 +533,7 @@ class _AddCustomerState extends State<AddCustomer> {
                                           controller: comGia
                                             ..text = widget.customer.comGia!
                                                 .toStringAsFixed(0),
-                                          keyboardType: TextInputType.number,
+                                          
                                           autofocus: false,
                                           obscureText: false,
                                           decoration: const InputDecoration(
@@ -545,19 +554,13 @@ class _AddCustomerState extends State<AddCustomer> {
                                           },
                                         ),
                                       ),
-                                    )),
-                              ],
-                            ),
-                            Row(
-                              mainAxisSize: MainAxisSize.max,
-                              children: [
-                                Expanded(
+                                    )), Expanded(
                                     flex: 1,
                                     child: Container(
                                         margin: const EdgeInsets.only(left: 5),
                                         child: const Text('Giặt đồ: '))),
                                 Expanded(
-                                    flex: 4,
+                                    flex: 3,
                                     child: Container(
                                       height: 40,
                                       margin: const EdgeInsets.all(5),
@@ -567,7 +570,6 @@ class _AddCustomerState extends State<AddCustomer> {
                                           controller: giaGiatDo
                                             ..text = widget.customer.giaGiatDo!
                                                 .toStringAsFixed(0),
-                                          keyboardType: TextInputType.number,
                                           autofocus: false,
       
                                           obscureText: false,

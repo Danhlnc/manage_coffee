@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:tscoffee/apps/globalvariables.dart';
+import 'package:tscoffee/model/WebStorage.dart';
 import 'package:tscoffee/model/billmodel.dart';
+import 'package:tscoffee/view/login.dart';
 import 'homepagewidget/addpagewidgets/khachhangSceen.dart';
 import 'homepagewidget/doanhthupagewidget/doanhthuscreen.dart';
 
@@ -165,16 +167,24 @@ class _HomeState extends State<Home> {
               ],
             ),
           ),
-          const Padding(
-            padding: EdgeInsets.all(15.0),
+          Padding(
+            padding: const EdgeInsets.all(15.0),
             child: Column(
               children: <Widget>[
                 Card(
-                  child: ListTile(
-                    title: Text('Nội dung đang được cập nhật.'),
-                    subtitle: Text('Vui lòng liên hệ ban quản trị.'),
+                  child: InkWell(
+                    onTap: () {
+                      WebStorage.instance.sessionId="";
+                       Navigator.pushReplacement(context,
+                        MaterialPageRoute(builder: (context) => Login()));
+                    },
+                    child: SizedBox(
+                      
+                      width: MediaQuery.of(context).size.width,
+                      child: const Center(child: Text('Đăng xuất'))),
+                    
                   ),
-                ),
+                ),  
               ],
             ),
           ),

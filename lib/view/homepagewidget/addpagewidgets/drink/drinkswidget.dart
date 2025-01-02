@@ -29,7 +29,6 @@ class _DrinkswidgetState extends State<Drinkswidget> {
     var size = MediaQuery.of(context).size;
     return SizedBox(
       width: size.width,
-      height: 300,
       child: Card(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(2), // if you need this
@@ -76,7 +75,7 @@ class _DrinkswidgetState extends State<Drinkswidget> {
             ),
             SingleChildScrollView(
               child: SizedBox(
-                height: 244,
+                height: 150,
                 child: ListView.builder(
                     scrollDirection: Axis.vertical,
                     shrinkWrap: true,
@@ -108,7 +107,7 @@ class _DrinkswidgetState extends State<Drinkswidget> {
                                 customer: widget.customer,
                                 callBackFunc: callBakFuncDrink),
                             Positioned(
-                              right: 5,
+                              right: 1,
                               child: IconButton(
                                 icon: const Icon(Icons.delete_forever_outlined),
                                 onPressed: () {

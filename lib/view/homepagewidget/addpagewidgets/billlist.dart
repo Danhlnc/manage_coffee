@@ -32,7 +32,7 @@ class _BillsState extends State<Bills> {
             child: Text(
               // ignore: prefer_interpolation_to_compose_strings
               "${widget.Bill.keys.first.createdOn!.hour}:${widget.Bill.keys.first.createdOn!.minute < 10 ? "0" + widget.Bill.keys.first.createdOn!.minute.toString() : widget.Bill.keys.first.createdOn!.minute}",
-              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              style: const TextStyle(fontSize: 16),
             ),
           ),
         ),
@@ -40,14 +40,14 @@ class _BillsState extends State<Bills> {
           flex: 1,
           child: Text(
             widget.Bill.keys.first.bienSoXe.toString(),
-            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            style:  TextStyle(fontSize: 16, fontWeight: FontWeight.bold,color:widget.Bill.keys.first.trangThai==true?Colors.redAccent: Colors.blue),
           ),
         ),
         Expanded(
           flex: 1,
           child: Text(
             widget.Bill.keys.first.tongTien.toString(),
-            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold,color: Colors.redAccent),
+            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold,color:widget.Bill.keys.first.trangThai==true?Colors.redAccent: Colors.blue),
           ),
         ),
       ],

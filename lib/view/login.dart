@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tscoffee/model/WebStorage.dart';
 
 import 'home.dart';
 
@@ -95,16 +96,20 @@ class Login extends StatelessWidget {
             ),
             ElevatedButton(
               onPressed: () {
-                (_textEditingControllerUser.text == 'test' &&
-                        _textEditingControllerPass.text == '123')
-                    ? Navigator.pushReplacement(
+                WebStorage.instance.sessionId = 'loginaccept';
+                if(_textEditingControllerUser.text == 'tscoffee' &&
+                        _textEditingControllerPass.text == 'tscoffee'){
+                Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
                             builder: (context) => Home(),
                             maintainState: false,
-                            barrierDismissible: true))
-                    : Navigator.pushReplacement(context,
+                            barrierDismissible: true));
+                            
+                }else{
+                Navigator.pushReplacement(context,
                         MaterialPageRoute(builder: (context) => Login()));
+                }
               },
               child: const Text(
                 "Login",

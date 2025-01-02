@@ -73,9 +73,9 @@ class _TobaccowidgetState extends State<Tobaccowidget> {
                 label: const Text('Thêm Thuốc'),
               ),
             ),
-            SingleChildScrollView(
-              child: SizedBox(
-                height: 244,
+            SizedBox(
+              height: 150,
+              child: SingleChildScrollView(
                 child: ListView.builder(
                     scrollDirection: Axis.vertical,
                     shrinkWrap: true,
@@ -96,7 +96,7 @@ class _TobaccowidgetState extends State<Tobaccowidget> {
                                 customer: widget.customer,
                                 callBackFunc: callBakFuncTobacco),
                             Positioned(
-                              right: 5,
+                              right: 1,
                               child: IconButton(
                                 icon: const Icon(Icons.delete_forever_outlined),
                                 onPressed: () {

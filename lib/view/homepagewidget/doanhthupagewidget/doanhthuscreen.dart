@@ -197,49 +197,137 @@ class _DoanhthuscreenState extends State<Doanhthuscreen> {
               Builder(builder: (context) {
                 return loadData == true
                     ? const Loading()
-                    : GridView.builder(
-                        gridDelegate:
-                            const SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: 3, mainAxisSpacing: 4),
-                        itemCount: widget.listBills.length,
-                        itemBuilder: (BuildContext ctx, int index) {
-                          return Card(
-                            shape: RoundedRectangleBorder(
-                              borderRadius:
-                                  BorderRadius.circular(2), // if you need this
-                              side: BorderSide(
-                                color: (widget.listBills[index].keys.first
-                                            .trangThai ==
-                                        true
-                                    ? Colors.red
-                                    : Colors.green),
-                                width: 1,
-                              ),
-                            ),
-                            color: widget.listBills[index].values.first,
-                            child: InkWell(
-                                onTap: () {
-                                  setColor(widget.listBills[index]);
-                                },
-                                onDoubleTap: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => AddCustomer(
-                                                customer: widget
-                                                    .listBills[index]
-                                                    .keys
-                                                    .first,
-                                                callBack: callBack,
-                                              ))).then((item) {
-                                    setState(() {
-                                      listBills;
-                                    });
-                                  });
-                                },
-                                child: Bills(Bill: widget.listBills[index])),
-                          );
-                        });
+                    : NotificationListener(
+                      child: SizeChangedLayoutNotifier(
+                        child: MediaQuery.of(context).size.width<700 ?GridView.builder(
+                            gridDelegate:
+                                const SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: 4, mainAxisSpacing: 4),
+                            itemCount: widget.listBills.length,
+                            itemBuilder: (BuildContext ctx, int index) {
+                              return Card(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius:
+                                      BorderRadius.circular(2), // if you need this
+                                  side: BorderSide(
+                                    color: (widget.listBills[index].keys.first
+                                                .trangThai ==
+                                            true
+                                        ? Colors.red
+                                        : Colors.blue),
+                                    width: 3,
+                                  ),
+                                ),
+                                color: widget.listBills[index].values.first,
+                                child: InkWell(
+                                    onTap: () {
+                                      setColor(widget.listBills[index]);
+                                    },
+                                    onDoubleTap: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) => AddCustomer(
+                                                    customer: widget
+                                                        .listBills[index]
+                                                        .keys
+                                                        .first,
+                                                    callBack: callBack,
+                                                  ))).then((item) {
+                                        setState(() {
+                                          listBills;
+                                        });
+                                      });
+                                    },
+                                    child: Bills(Bill: widget.listBills[index])),
+                              );
+                            }):MediaQuery.of(context).size.width<1400 ?GridView.builder(
+                            gridDelegate:
+                                const SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: 8, mainAxisSpacing: 4),
+                            itemCount: widget.listBills.length,
+                            itemBuilder: (BuildContext ctx, int index) {
+                              return Card(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius:
+                                      BorderRadius.circular(2), // if you need this
+                                  side: BorderSide(
+                                    color: (widget.listBills[index].keys.first
+                                                .trangThai ==
+                                            true
+                                        ? Colors.red
+                                        : Colors.blue),
+                                    width: 3,
+                                  ),
+                                ),
+                                color: widget.listBills[index].values.first,
+                                child: InkWell(
+                                    onTap: () {
+                                      setColor(widget.listBills[index]);
+                                    },
+                                    onDoubleTap: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) => AddCustomer(
+                                                    customer: widget
+                                                        .listBills[index]
+                                                        .keys
+                                                        .first,
+                                                    callBack: callBack,
+                                                  ))).then((item) {
+                                        setState(() {
+                                          listBills;
+                                        });
+                                      });
+                                    },
+                                    child: Bills(Bill: widget.listBills[index])),
+                              );
+                            }):GridView.builder(
+                            gridDelegate:
+                                const SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: 12, mainAxisSpacing: 4),
+                            itemCount: widget.listBills.length,
+                            itemBuilder: (BuildContext ctx, int index) {
+                              return Card(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius:
+                                      BorderRadius.circular(2), // if you need this
+                                  side: BorderSide(
+                                    color: (widget.listBills[index].keys.first
+                                                .trangThai ==
+                                            true
+                                        ? Colors.red
+                                        : Colors.blue),
+                                    width: 3,
+                                  ),
+                                ),
+                                color: widget.listBills[index].values.first,
+                                child: InkWell(
+                                    onTap: () {
+                                      setColor(widget.listBills[index]);
+                                    },
+                                    onDoubleTap: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) => AddCustomer(
+                                                    customer: widget
+                                                        .listBills[index]
+                                                        .keys
+                                                        .first,
+                                                    callBack: callBack,
+                                                  ))).then((item) {
+                                        setState(() {
+                                          listBills;
+                                        });
+                                      });
+                                    },
+                                    child: Bills(Bill: widget.listBills[index])),
+                              );
+                            }),
+                      ),
+                    );
               }),
             ]),
           ),

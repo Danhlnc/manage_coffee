@@ -24,15 +24,14 @@ class Drinklist extends StatefulWidget {
 class _DrinklistState extends State<Drinklist> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.only(left: 5, right: 5),
+    return SizedBox(
       width: MediaQuery.of(context).size.width,
       child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           mainAxisSize: MainAxisSize.max,
           children: [
             Expanded(
-                flex: 5,
+                flex: 2,
                 child: Text(widget.listNuocSelected.drinkmodel!.drinkName!)),
             Expanded(
                 flex: 3,
@@ -113,10 +112,10 @@ class _DrinklistState extends State<Drinklist> {
                 )),
             //
             const Expanded(
-                flex: 3,
-                child: SizedBox(
-                  width: 5,
-                )),
+                           flex: 2,
+                           child: SizedBox(width: 5,),
+                        )
+            
           ]),
     );
   }
