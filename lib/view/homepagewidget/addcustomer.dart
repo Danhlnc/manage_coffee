@@ -237,7 +237,7 @@ class _AddCustomerState extends State<AddCustomer> {
                                             mainAxisAlignment: MainAxisAlignment.center,
                                             children: [
                                               const Text(
-                                                  'Xác nhận thanh toán: '),
+                                                  'Xác nhận thanh toán'),
                                               Text(
                                                 ' ${widget.customer.tongTien!.toStringAsFixed(0)}',
                                                 style: const TextStyle(
@@ -278,8 +278,6 @@ class _AddCustomerState extends State<AddCustomer> {
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12)),
                     onPressed: () async {
-                      await CreateCustomer(false, false);
-      
                       Navigator.of(context).pop();
                     },
                     icon: const Icon(Icons.payment),

@@ -47,6 +47,7 @@ List<Billmodel> parsePost(String responseBody) {
   return listBillModel;
 }
 
+bool checkTT= false;
 List<Drinkmodel> drinkParsePost(String responseBody) {
   var list = json.decode(responseBody)['result'] as List<dynamic>;
   List<Drinkmodel> listBillModel =

@@ -29,25 +29,28 @@ class _BillsState extends State<Bills> {
         Expanded(
           flex: 1,
           child: Center(
-            child: Text(
+            child: Text("${widget.Bill.keys.first.createdOn!.day}""/"+"${widget.Bill.keys.first.createdOn!.month}"+" "
               // ignore: prefer_interpolation_to_compose_strings
               "${widget.Bill.keys.first.createdOn!.hour}:${widget.Bill.keys.first.createdOn!.minute < 10 ? "0" + widget.Bill.keys.first.createdOn!.minute.toString() : widget.Bill.keys.first.createdOn!.minute}",
-              style: const TextStyle(fontSize: 16),
+              style: const TextStyle(fontSize: 12),
+            ),
+          ),
+        ),
+        Expanded(
+          flex: 2,
+          child: Container(
+            padding: EdgeInsets.only(left: 4,right: 4),
+            child: Text(
+              widget.Bill.keys.first.bienSoXe.toString(),
+              style:  TextStyle(fontSize: 12, fontWeight: FontWeight.bold,color:widget.Bill.keys.first.trangThai==true?Colors.redAccent: Colors.blue),
             ),
           ),
         ),
         Expanded(
           flex: 1,
           child: Text(
-            widget.Bill.keys.first.bienSoXe.toString(),
-            style:  TextStyle(fontSize: 16, fontWeight: FontWeight.bold,color:widget.Bill.keys.first.trangThai==true?Colors.redAccent: Colors.blue),
-          ),
-        ),
-        Expanded(
-          flex: 1,
-          child: Text(
             widget.Bill.keys.first.tongTien.toString(),
-            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold,color:widget.Bill.keys.first.trangThai==true?Colors.redAccent: Colors.blue),
+            style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold,color:widget.Bill.keys.first.trangThai==true?Colors.redAccent: Colors.blue),
           ),
         ),
       ],

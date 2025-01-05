@@ -55,50 +55,34 @@ class _DoanhthuscreenState extends State<Doanhthuscreen> {
     return Column(
       mainAxisSize: MainAxisSize.max,
       children: [
+        
         Container(
-          margin: const EdgeInsets.only(top: 10),
-          color: Colors.blueAccent,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                child: const Text(
-                  'Tổng:   ',
-                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-                ),
-              ),
-              Builder(builder: (context) {
-                double total = 0;
-                for (var element in listBillsTotalDate) {
-                  total += double.parse(
-                      element.keys.first.tongTien!.toStringAsFixed(0));
-                }
-                return Text(
-                  total.toStringAsFixed(0),
-                  style: const TextStyle(
-                      fontSize: 24, fontWeight: FontWeight.bold),
-                );
-              })
-            ],
-          ),
-        ),
-        Container(
+          
           margin: const EdgeInsets.only(left: 20, right: 20),
           child: Row(
             children: [
-              DatetimeDoanhThu(callBack: callBack),
-              const SizedBox(
-                width: 10,
-              ),
+              Expanded(flex: 1,
+                child: DatetimeDoanhThu(callBack: callBack)),
+           
+             
               Expanded(
-                flex: 2,
+                flex: 1,
                 child: TextField(
                   obscureText: false,
                   onChanged: (value) {
                     if (value != "") {
+                       listBillsTotalDate = [...listBillsTotal];
+                    var listProDate = [...listBillsTotalDate];
+                    for (var action in listProDate) {
+                      if (action.keys.first.createdOn!.isBefore(dateTimeRange.end) &&
+                          action.keys.first.createdOn!.isAfter(dateTimeRange.start)) {
+                      } else {
+                        listBillsTotalDate.remove(action);
+                      }
+                    }
                      listBillsTotalSearch.clear();
-                        for (var action in widget.listBills) {
-                          if (action.keys.first.bienSoXe!.contains(value)) {
+                        for (var action in listBillsTotalDate) {
+                          if (action.keys.first.bienSoXe!.toUpperCase().contains(value.toUpperCase())) {
                             listBillsTotalSearch.add(action);
                           }
                         }
@@ -123,7 +107,45 @@ class _DoanhthuscreenState extends State<Doanhthuscreen> {
                         borderSide: BorderSide(color: Colors.teal)),
                   ),
                 ),
-              )
+              ),
+              Expanded(child: Row(
+                children: [
+                  
+                            const Text(' Chưa thanh toán'),AbsorbPointer(
+                              absorbing: !widget.customer.trangThai!,
+                              child: Checkbox(
+                                  value: checkTT,
+                                  onChanged: (value) {
+                                    if(checkTT==false)
+                                    {
+                                    listBillsTotalDate = [...listBillsTotal];
+                                    var listProDate = [...listBillsTotalDate];
+                                    for (var action in listProDate) {
+                                      if (action.keys.first.createdOn!.isBefore(dateTimeRange.end) &&
+                                          action.keys.first.createdOn!.isAfter(dateTimeRange.start) && action.keys.first.trangThai==true) {
+                                      } else {
+                                        listBillsTotalDate.remove(action);
+                                      }
+                                    }
+                                    checkTT=!checkTT;
+                                    }else{
+                                      listBillsTotalDate = [...listBillsTotal];
+                                    var listProDate = [...listBillsTotalDate];
+                                    for (var action in listProDate) {
+                                      if (action.keys.first.createdOn!.isBefore(dateTimeRange.end) &&
+                                          action.keys.first.createdOn!.isAfter(dateTimeRange.start)) {
+                                      } else {
+                                        listBillsTotalDate.remove(action);
+                                      }
+                                    }
+                                    checkTT=!checkTT;
+                                    }
+                                    
+                                    callBack("");
+                                  }),
+                            ),
+                ],
+              ))
             ],
           ),
         ),
@@ -138,9 +160,9 @@ class _DoanhthuscreenState extends State<Doanhthuscreen> {
                 child: Row(
                   children: [
                     const Text(
-                      '  TThu:   ',
+                      ' TThu: ',
                       style:
-                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                          TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                     ),
                     Builder(builder: (context) {
                       double total = 0;
@@ -153,7 +175,7 @@ class _DoanhthuscreenState extends State<Doanhthuscreen> {
                       return Text(
                         total.toStringAsFixed(0),
                         style: const TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.bold),
+                            fontSize: 16, fontWeight: FontWeight.bold),
                       );
                     })
                   ],
@@ -165,9 +187,9 @@ class _DoanhthuscreenState extends State<Doanhthuscreen> {
                 child: Row(
                   children: [
                     const Text(
-                      '  CThu:   ',
+                      ' CThu: ',
                       style:
-                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                          TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                     ),
                     Builder(builder: (context) {
                       double total = 0;
@@ -180,15 +202,73 @@ class _DoanhthuscreenState extends State<Doanhthuscreen> {
                       return Text(
                         total.toStringAsFixed(0),
                         style: const TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.bold),
+                            fontSize: 16, fontWeight: FontWeight.bold),
                       );
                     })
                   ],
                 ),
               )),
+              Expanded(child: Card(
+                color: Colors.amber,
+                                  child: Row(
+                                    children: [
+                                      const Text(
+                                        ' Chi: ',
+                                        style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                                      ),Builder(builder: (context) {
+                                                  
+                                                   return const Text("0" ,style: TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.bold)
+                                                   );
+                                                 }),
+                                    ],
+                                  ),
+                                ),)
             ],
           ),
         ),
+         Row(
+           children: [
+            Expanded(child: Card(
+               color: Colors.blue,
+              child: Row(
+                children: [ Text(
+               ' Tổng: ',
+               style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+             ),Builder(builder: (context) {
+                                double total = 0;
+                                for (var element in listBillsTotalDate) {
+                total += double.parse(
+                    element.keys.first.tongTien!.toStringAsFixed(0));
+                                }
+                                return Text(
+                total.toStringAsFixed(0), style: const TextStyle(
+                          fontSize: 16, fontWeight: FontWeight.bold)
+                
+                                );
+                              }),],
+              ),
+            )),
+                               Expanded(child: Card(
+               color: Colors.blue,
+                                child: Row(
+                                  children: [
+                                    const Text(
+                                      ' Chi: ',
+                                      style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                                    ),Builder(builder: (context) {
+                                                
+                                                 return const Text("0" ,style: TextStyle(
+                          fontSize: 16, fontWeight: FontWeight.bold)
+                                                 );
+                                               }),
+                                  ],
+                                ),
+                              ),)
+                              
+           ],
+         ),
+                
         Expanded(
           child: Container(
             margin: const EdgeInsets.all(20),
@@ -205,41 +285,53 @@ class _DoanhthuscreenState extends State<Doanhthuscreen> {
                                     crossAxisCount: 4, mainAxisSpacing: 4),
                             itemCount: widget.listBills.length,
                             itemBuilder: (BuildContext ctx, int index) {
-                              return Card(
-                                shape: RoundedRectangleBorder(
-                                  borderRadius:
-                                      BorderRadius.circular(2), // if you need this
-                                  side: BorderSide(
-                                    color: (widget.listBills[index].keys.first
-                                                .trangThai ==
-                                            true
-                                        ? Colors.red
-                                        : Colors.blue),
-                                    width: 3,
+                              return Container(
+
+                                
+                                margin: const EdgeInsets.all(1),
+                                child: Card(
+                                                       
+                                  elevation: 8,
+                                  shadowColor: (widget.listBills[index].keys.first
+                                                  .trangThai ==
+                                              true
+                                          ? Colors.red
+                                          : Colors.blue),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius:
+                                        BorderRadius.circular(10), // if you need this
+                                    side: BorderSide(
+                                      color: (widget.listBills[index].keys.first
+                                                  .trangThai ==
+                                              true
+                                          ? Colors.red
+                                          : Colors.blue),
+                                      width: 2,
+                                    ),
                                   ),
-                                ),
-                                color: widget.listBills[index].values.first,
-                                child: InkWell(
-                                    onTap: () {
-                                      setColor(widget.listBills[index]);
-                                    },
-                                    onDoubleTap: () {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) => AddCustomer(
-                                                    customer: widget
-                                                        .listBills[index]
-                                                        .keys
-                                                        .first,
-                                                    callBack: callBack,
-                                                  ))).then((item) {
-                                        setState(() {
-                                          listBills;
+                                  color: widget.listBills[index].values.first,
+                                  child: InkWell(
+                                      onTap: () {
+                                        setColor(widget.listBills[index]);
+                                      },
+                                      onDoubleTap: () {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) => AddCustomer(
+                                                      customer: widget
+                                                          .listBills[index]
+                                                          .keys
+                                                          .first,
+                                                      callBack: callBack,
+                                                    ))).then((item) {
+                                          setState(() {
+                                            listBills;
+                                          });
                                         });
-                                      });
-                                    },
-                                    child: Bills(Bill: widget.listBills[index])),
+                                      },
+                                      child: Bills(Bill: widget.listBills[index])),
+                                ),
                               );
                             }):MediaQuery.of(context).size.width<1400 ?GridView.builder(
                             gridDelegate:
@@ -247,83 +339,103 @@ class _DoanhthuscreenState extends State<Doanhthuscreen> {
                                     crossAxisCount: 8, mainAxisSpacing: 4),
                             itemCount: widget.listBills.length,
                             itemBuilder: (BuildContext ctx, int index) {
-                              return Card(
-                                shape: RoundedRectangleBorder(
-                                  borderRadius:
-                                      BorderRadius.circular(2), // if you need this
-                                  side: BorderSide(
-                                    color: (widget.listBills[index].keys.first
-                                                .trangThai ==
-                                            true
-                                        ? Colors.red
-                                        : Colors.blue),
-                                    width: 3,
+                              return Container(
+                                
+                                margin: const EdgeInsets.all(3),
+                                child: Card(
+                                  elevation: 8,
+                                  shadowColor: (widget.listBills[index].keys.first
+                                                  .trangThai ==
+                                              true
+                                          ? Colors.red
+                                          : Colors.blue),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius:
+                                        BorderRadius.circular(10), // if you need this
+                                    side: BorderSide(
+                                      color: (widget.listBills[index].keys.first
+                                                  .trangThai ==
+                                              true
+                                          ? Colors.red
+                                          : Colors.blue),
+                                      width: 2,
+                                    ),
                                   ),
-                                ),
-                                color: widget.listBills[index].values.first,
-                                child: InkWell(
-                                    onTap: () {
-                                      setColor(widget.listBills[index]);
-                                    },
-                                    onDoubleTap: () {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) => AddCustomer(
-                                                    customer: widget
-                                                        .listBills[index]
-                                                        .keys
-                                                        .first,
-                                                    callBack: callBack,
-                                                  ))).then((item) {
-                                        setState(() {
-                                          listBills;
+                                  color: widget.listBills[index].values.first,
+                                  child: InkWell(
+                                      onTap: () {
+                                        setColor(widget.listBills[index]);
+                                      },
+                                      onDoubleTap: () {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) => AddCustomer(
+                                                      customer: widget
+                                                          .listBills[index]
+                                                          .keys
+                                                          .first,
+                                                      callBack: callBack,
+                                                    ))).then((item) {
+                                          setState(() {
+                                            listBills;
+                                          });
                                         });
-                                      });
-                                    },
-                                    child: Bills(Bill: widget.listBills[index])),
+                                      },
+                                      child: Bills(Bill: widget.listBills[index])),
+                                ),
                               );
                             }):GridView.builder(
                             gridDelegate:
                                 const SliverGridDelegateWithFixedCrossAxisCount(
-                                    crossAxisCount: 12, mainAxisSpacing: 4),
+                                    crossAxisCount: 16, mainAxisSpacing: 4),
                             itemCount: widget.listBills.length,
                             itemBuilder: (BuildContext ctx, int index) {
-                              return Card(
-                                shape: RoundedRectangleBorder(
-                                  borderRadius:
-                                      BorderRadius.circular(2), // if you need this
-                                  side: BorderSide(
-                                    color: (widget.listBills[index].keys.first
+                              return Container(
+                                margin: const EdgeInsets.all(3),
+                               
+                                child: Card(
+                                   elevation: 8,
+  shadowColor: (widget.listBills[index].keys.first
                                                 .trangThai ==
                                             true
                                         ? Colors.red
                                         : Colors.blue),
-                                    width: 3,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius:
+                                        BorderRadius.circular(10), // if you need this
+                                    side: BorderSide(
+                                      color: (widget.listBills[index].keys.first
+                                                  .trangThai ==
+                                              true
+                                          ? Colors.red
+                                          : Colors.blue),
+                                      width: 2,
+                                    ),
                                   ),
-                                ),
-                                color: widget.listBills[index].values.first,
-                                child: InkWell(
-                                    onTap: () {
-                                      setColor(widget.listBills[index]);
-                                    },
-                                    onDoubleTap: () {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) => AddCustomer(
-                                                    customer: widget
-                                                        .listBills[index]
-                                                        .keys
-                                                        .first,
-                                                    callBack: callBack,
-                                                  ))).then((item) {
-                                        setState(() {
-                                          listBills;
+                                  color: widget.listBills[index].values.first,
+                                  child: InkWell(
+                                      onTap: () {
+                                        setColor(widget.listBills[index]);
+                                      },
+                                      onDoubleTap: () {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) => AddCustomer(
+                                                      customer: widget
+                                                          .listBills[index]
+                                                          .keys
+                                                          .first,
+                                                      callBack: callBack,
+                                                    ))).then((item) {
+                                          setState(() {
+                                            listBills;
+                                          });
                                         });
-                                      });
-                                    },
-                                    child: Bills(Bill: widget.listBills[index])),
+                                      },
+                                      child: Bills(Bill: widget.listBills[index])),
+                                ),
                               );
                             }),
                       ),

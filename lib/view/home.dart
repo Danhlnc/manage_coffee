@@ -125,21 +125,15 @@ class _HomeState extends State<Home> {
               label: 'Khách hàng',
             ),
             NavigationDestination(
-              icon: Badge(child: Icon(Icons.area_chart)),
+              icon: Icon(Icons.area_chart),
               label: 'Doanh thu',
             ),
             NavigationDestination(
-              icon: Badge(
-                label: Text('2'),
-                child: Icon(Icons.warehouse),
-              ),
+              icon: Icon(Icons.warehouse),
               label: 'Quản lí kho',
             ),
             NavigationDestination(
-              icon: Badge(
-                label: Text('2'),
-                child: Icon(Icons.person_sharp),
-              ),
+              icon: Icon(Icons.person_sharp),
               label: 'Thông tin',
             ),
           ],
