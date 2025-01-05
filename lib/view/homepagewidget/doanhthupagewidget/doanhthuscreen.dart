@@ -275,7 +275,7 @@ class _DoanhthuscreenState extends State<Doanhthuscreen> {
                 child: Row(
                   children: [ const Text(
                  ' Tổng: ',
-                 style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                 style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                ),Builder(builder: (context) {
                                   double total = 0;
                                   for (var element in listBillsTotalDate) {
