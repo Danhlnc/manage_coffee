@@ -65,7 +65,7 @@ class _KhachhangSceenState extends State<KhachhangSceen> {
       width: MediaQuery.of(context).size.width,
       height: MediaQuery.of(context).size.height,
       child: Container(
-        color: Colors.brown,
+        color: Colors.blueGrey,
         child: Column(
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.start,
@@ -89,7 +89,8 @@ class _KhachhangSceenState extends State<KhachhangSceen> {
                       style: TextStyle(
                         fontFamily: 'BungeeShade-Regular',
                         
-                        fontSize: 24
+                        fontSize: 24,
+                        color: Colors.white
                       ),
                     ),
                   ),
@@ -136,9 +137,9 @@ class _KhachhangSceenState extends State<KhachhangSceen> {
                             } callBack("");
                           }
                         },
-                        decoration: InputDecoration(
-    border: InputBorder.none,
-    hintText: 'Tìm kiếm',
+                        decoration: const InputDecoration(
+                      border: InputBorder.none,
+                      hintText: 'Tìm kiếm',
   ),
                       ),
                     ),
@@ -228,81 +229,10 @@ class _KhachhangSceenState extends State<KhachhangSceen> {
                         ? const Loading()
                         : NotificationListener(
                           child: SizeChangedLayoutNotifier(
-                            child:MediaQuery.of(context).size.width<700 ? Scaffold(
-                                resizeToAvoidBottomInset: true,
-                                body: Container(
-                                  child: GridView.builder(
-                                      gridDelegate:
-                                          const SliverGridDelegateWithFixedCrossAxisCount(
-                                              crossAxisCount: 3, mainAxisSpacing: 4),
-                                      itemCount: widget.listBillsGridView.length,
-                                      itemBuilder: (BuildContext ctx, int index) {
-                                        return InkWell(
-                                            onTap: () {
-                                              setColor(widget.listBillsGridView[index]);
-                                            },
-                                            onDoubleTap: () {
-                                              Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                      builder: (context) => AddCustomer(
-                                                          customer: widget
-                                                              .listBillsGridView[index]
-                                                              .keys
-                                                              .first,
-                                                          callBack: callBack))).then(
-                                                  (item) {
-                                                setState(() {
-                                                  widget.listBillsGridView = [
-                                                    ...listBills
-                                                  ];
-                                                              
-                                                  for (var item in listBillsTotal) {
-                                                    if (item.keys.first.trangThai ==
-                                                        false) {
-                                                      widget.listBillsGridView
-                                                          .remove(item);
-                                                    }
-                                                  }
-                                                });
-                                              });
-                                            },
-                                            child: Container(
-                                              
-                                    margin: const EdgeInsets.all(3),
-                                              child: Card(
-                                                           
-                                                elevation: 8,
-                                                shadowColor: Colors.red,
-                                                  shape: RoundedRectangleBorder(
-                                              
-                                                    borderRadius: BorderRadius.circular(
-                                                        10), // if you need this
-                                                    side: BorderSide(
-                                                      color: (widget
-                                                                  .listBillsGridView[
-                                                                      index]
-                                                                  .keys
-                                                                  .first
-                                                                  .trangThai ==
-                                                              true
-                                                          ? Colors.red
-                                                          : Colors.blue),
-                                                      width: 2,
-                                                    ),
-                                                  ),
-                                                  color: widget.listBillsGridView[index]
-                                                      .values.first,
-                                                  child: Bills(
-                                                      Bill: widget
-                                                          .listBillsGridView[index])),
-                                            ));
-                                      }),
-                                ),
-                              ):MediaQuery.of(context).size.width<1400 ?GridView.builder(
+                            child:MediaQuery.of(context).size.width<700 ?GridView.builder(
                                     gridDelegate:
                                         const SliverGridDelegateWithFixedCrossAxisCount(
-                                            crossAxisCount: 6, mainAxisSpacing: 4),
+                                            crossAxisCount: 3, mainAxisSpacing: 4),
                                     itemCount: widget.listBillsGridView.length,
                                     itemBuilder: (BuildContext ctx, int index) {
                                       return InkWell(
@@ -324,7 +254,7 @@ class _KhachhangSceenState extends State<KhachhangSceen> {
                                                 widget.listBillsGridView = [
                                                   ...listBills
                                                 ];
-                            
+                                                            
                                                 for (var item in listBillsTotal) {
                                                   if (item.keys.first.trangThai ==
                                                       false) {
@@ -336,13 +266,13 @@ class _KhachhangSceenState extends State<KhachhangSceen> {
                                             });
                                           },
                                           child: Container(
-                                            
-                                  margin: const EdgeInsets.all(3),
+                                          margin: const EdgeInsets.all(3),
                                             child: Card(
-                                              
+                                                         
                                               elevation: 8,
-                                              shadowColor: Colors.red,
+                                              shadowColor: Colors.black,
                                                 shape: RoundedRectangleBorder(
+                                            
                                                   borderRadius: BorderRadius.circular(
                                                       10), // if you need this
                                                   side: BorderSide(
@@ -364,8 +294,8 @@ class _KhachhangSceenState extends State<KhachhangSceen> {
                                                     Bill: widget
                                                         .listBillsGridView[index])),
                                           ));
-                                    }):
-                              GridView.builder(
+                                    })
+                              :MediaQuery.of(context).size.width<1400 ?GridView.builder(
                                     gridDelegate:
                                         const SliverGridDelegateWithFixedCrossAxisCount(
                                             crossAxisCount: 8, mainAxisSpacing: 4),
@@ -405,9 +335,75 @@ class _KhachhangSceenState extends State<KhachhangSceen> {
                                             
                                   margin: const EdgeInsets.all(3),
                                             child: Card(
+                                              
+                                              elevation: 8,
+                                              shadowColor: Colors.black,
+                                                shape: RoundedRectangleBorder(
+                                                  borderRadius: BorderRadius.circular(
+                                                      10), // if you need this
+                                                  side: BorderSide(
+                                                    color: (widget
+                                                                .listBillsGridView[
+                                                                    index]
+                                                                .keys
+                                                                .first
+                                                                .trangThai ==
+                                                            true
+                                                        ? Colors.red
+                                                        : Colors.blue),
+                                                    width: 2,
+                                                  ),
+                                                ),
+                                                color: widget.listBillsGridView[index]
+                                                    .values.first,
+                                                child: Bills(
+                                                    Bill: widget
+                                                        .listBillsGridView[index])),
+                                          ));
+                                    }):
+                              GridView.builder(
+                                    gridDelegate:
+                                        const SliverGridDelegateWithFixedCrossAxisCount(
+                                            crossAxisCount: 12, mainAxisSpacing: 4),
+                                    itemCount: widget.listBillsGridView.length,
+                                    itemBuilder: (BuildContext ctx, int index) {
+                                      return InkWell(
+                                          onTap: () {
+                                            setColor(widget.listBillsGridView[index]);
+                                          },
+                                          onDoubleTap: () {
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) => AddCustomer(
+                                                        customer: widget
+                                                            .listBillsGridView[index]
+                                                            .keys
+                                                            .first,
+                                                        callBack: callBack))).then(
+                                                (item) {
+                                              setState(() {
+                                                widget.listBillsGridView = [
+                                                  ...listBills
+                                                ];
+                            
+                                                for (var item in listBillsTotal) {
+                                                  if (item.keys.first.trangThai ==
+                                                      false) {
+                                                    widget.listBillsGridView
+                                                        .remove(item);
+                                                  }
+                                                }
+                                              });
+                                            });
+                                          },
+                                          child: Container(
+                                            
+                                  margin: const EdgeInsets.all(3),
+                                            child: Card(
                                                 
                                               elevation: 8,
-                                              shadowColor: Colors.red,
+                                              shadowColor: Colors.black,
                                                 shape: RoundedRectangleBorder(
                                                   borderRadius: BorderRadius.circular(
                                                       10), // if you need this

@@ -139,18 +139,14 @@ class _HomeState extends State<Home> {
           ],
         ),
         body: <Widget>[
-          Container(
-              padding: const EdgeInsets.only(top: 15),
-              child: KhachhangSceen(listBills: listBills, callBack: callBack)),
-          Container(
-              padding: const EdgeInsets.only(top: 15),
-              child: Doanhthuscreen(
-                  listBillsTotal: listBillsTotalDate, callBack: callBack)),
+          KhachhangSceen(listBills: listBills, callBack: callBack),
+          Doanhthuscreen(
+              listBillsTotal: listBillsTotalDate, callBack: callBack),
 
           /// Notifications page
-          const Padding(
-            padding: EdgeInsets.all(15.0),
-            child: Column(
+          Container(
+            color: Colors.blueGrey,
+            child: const Column(
               children: <Widget>[
                 Card(
                   child: ListTile(
@@ -161,8 +157,7 @@ class _HomeState extends State<Home> {
               ],
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.all(15.0),
+          Container( color: Colors.blueGrey,
             child: Column(
               children: <Widget>[
                 Card(

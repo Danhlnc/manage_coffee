@@ -287,7 +287,7 @@ class _AddCustomerState extends State<AddCustomer> {
               ),
             ),
             appBar: AppBar(
-              backgroundColor: Colors.yellow,
+              backgroundColor: Colors.blueGrey,
               title: const Text('Khách hàng'),
             ),
             body: SizedBox(
