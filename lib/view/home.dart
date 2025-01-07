@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 import 'package:tscoffee/apps/globalvariables.dart';
 import 'package:tscoffee/model/WebStorage.dart';
 import 'package:tscoffee/model/billmodel.dart';
+import 'package:tscoffee/model/providerModel.dart';
 import 'package:tscoffee/view/login.dart';
 import 'homepagewidget/addpagewidgets/khachhangSceen.dart';
 import 'homepagewidget/doanhthupagewidget/doanhthuscreen.dart';
@@ -58,10 +60,10 @@ class _HomeState extends State<Home> {
         var listPro = [...listBills];
         for (var action in listPro) {
           if (DateFormat('yyyy-MM-dd').format(
-                    DateTime.parse(action.keys.first.createdOn.toString())) !=
-                DateFormat('yyyy-MM-dd').format(date)) {
-              listBills.remove(action);
-            }
+                  DateTime.parse(action.keys.first.createdOn.toString())) !=
+              DateFormat('yyyy-MM-dd').format(date)) {
+            listBills.remove(action);
+          }
         }
 
         listBills.sort((b, a) => a.keys.first.modifyOn!
@@ -90,6 +92,10 @@ class _HomeState extends State<Home> {
         listAllThuoc = onValue;
         listAllThuocSearch = onValue;
         setState(() {});
+      });
+      fetchSpend().then((onValue) {
+        print(onValue);
+        context.watch<ProviderModel>().update(onValue);
       });
     } else {
       setState(() {});
@@ -157,23 +163,22 @@ class _HomeState extends State<Home> {
               ],
             ),
           ),
-          Container( color: Colors.blueGrey,
+          Container(
+            color: Colors.blueGrey,
             child: Column(
               children: <Widget>[
                 Card(
                   child: InkWell(
                     onTap: () {
-                      WebStorage.instance.sessionId="";
-                       Navigator.pushReplacement(context,
-                        MaterialPageRoute(builder: (context) => Login()));
+                      WebStorage.instance.sessionId = "";
+                      Navigator.pushReplacement(context,
+                          MaterialPageRoute(builder: (context) => Login()));
                     },
                     child: SizedBox(
-                      
-                      width: MediaQuery.of(context).size.width,
-                      child: const Center(child: Text('Đăng xuất'))),
-                    
+                        width: MediaQuery.of(context).size.width,
+                        child: const Center(child: Text('Đăng xuất'))),
                   ),
-                ),  
+                ),
               ],
             ),
           ),

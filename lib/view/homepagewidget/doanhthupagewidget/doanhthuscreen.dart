@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:tscoffee/model/providerModel.dart';
 import 'package:tscoffee/model/spendmodel.dart';
 
 import '../../../apps/globalvariables.dart';
@@ -12,6 +13,7 @@ import '../addpagewidgets/billlist.dart';
 import 'datetimeDoanhThu.dart';
 
 import 'package:http/http.dart' as http;
+
 // ignore: must_be_immutable
 class Doanhthuscreen extends StatefulWidget {
   List<Map<Billmodel, Color>> listBillsTotal;
@@ -51,7 +53,8 @@ class _DoanhthuscreenState extends State<Doanhthuscreen> {
       }
     }
   }
-Future  addSpend(Map<String, dynamic> item) async {
+
+  Future addSpend(Map<String, dynamic> item) async {
     final response = await http.post(
       Uri.parse('https://tscoffee-server-1.onrender.com/v1/boards/spends'),
       headers: <String, String>{
@@ -69,25 +72,22 @@ Future  addSpend(Map<String, dynamic> item) async {
       throw Exception('Failed to create album.');
     }
   }
+
   @override
   Widget build(BuildContext context) {
     if (widget.listBills.isEmpty) {
       widget.listBills = [...listBillsTotalDate];
     }
     return Container(
-          color: Colors.blueGrey,
+      color: Colors.blueGrey,
       child: Column(
         mainAxisSize: MainAxisSize.max,
         children: [
-          
           Container(
             margin: const EdgeInsets.only(left: 20, right: 20),
             child: Row(
               children: [
-                Expanded(flex: 2,
-                  child: DatetimeDoanhThu(callBack: callBack)),
-             
-               
+                Expanded(flex: 2, child: DatetimeDoanhThu(callBack: callBack)),
                 Expanded(
                   flex: 4,
                   child: Card(
@@ -95,70 +95,83 @@ Future  addSpend(Map<String, dynamic> item) async {
                       controller: searchController,
                       obscureText: false,
                       onChanged: (value) {
-                        if(checkTT){
+                        if (checkTT) {
                           if (value != "") {
-                        listBillsTotalDate = [...listBillsTotal];
-                        var listProDate = [...listBillsTotalDate];
-                        for (var action in listProDate) {
-                          if (action.keys.first.createdOn!.isBefore(dateTimeRange.end) &&
-                              action.keys.first.createdOn!.isAfter(dateTimeRange.start)&&action.keys.first.trangThai==true) {
-                          } else {
-                            listBillsTotalDate.remove(action);
-                          }
-                        }
-                         listBillsTotalSearch.clear();
+                            listBillsTotalDate = [...listBillsTotal];
+                            var listProDate = [...listBillsTotalDate];
+                            for (var action in listProDate) {
+                              if (action.keys.first.createdOn!
+                                      .isBefore(dateTimeRange.end) &&
+                                  action.keys.first.createdOn!
+                                      .isAfter(dateTimeRange.start) &&
+                                  action.keys.first.trangThai == true) {
+                              } else {
+                                listBillsTotalDate.remove(action);
+                              }
+                            }
+                            listBillsTotalSearch.clear();
                             for (var action in listBillsTotalDate) {
-                              if (action.keys.first.bienSoXe!.toUpperCase().contains(value.toUpperCase())) {
+                              if (action.keys.first.bienSoXe!
+                                  .toUpperCase()
+                                  .contains(value.toUpperCase())) {
                                 listBillsTotalSearch.add(action);
                               }
                             }
                             listBillsTotalDate = [...listBillsTotalSearch];
                             callBack("");
-                        } else {
-                          listBillsTotalDate = [...listBillsTotal];
-                          var listProDate = [...listBillsTotalDate];
-                          for (var action in listProDate) {
-                            if (action.keys.first.createdOn!.isBefore(dateTimeRange.end) &&
-                                action.keys.first.createdOn!.isAfter(dateTimeRange.start)&&action.keys.first.trangThai==true) {
-                            } else {
-                              listBillsTotalDate.remove(action);
-                            }
-                          }
-                          callBack("");
-                        }
-                        }else{
- if (value != "") {
-                        listBillsTotalDate = [...listBillsTotal];
-                        var listProDate = [...listBillsTotalDate];
-                        for (var action in listProDate) {
-                          if (action.keys.first.createdOn!.isBefore(dateTimeRange.end) &&
-                              action.keys.first.createdOn!.isAfter(dateTimeRange.start)) {
                           } else {
-                            listBillsTotalDate.remove(action);
+                            listBillsTotalDate = [...listBillsTotal];
+                            var listProDate = [...listBillsTotalDate];
+                            for (var action in listProDate) {
+                              if (action.keys.first.createdOn!
+                                      .isBefore(dateTimeRange.end) &&
+                                  action.keys.first.createdOn!
+                                      .isAfter(dateTimeRange.start) &&
+                                  action.keys.first.trangThai == true) {
+                              } else {
+                                listBillsTotalDate.remove(action);
+                              }
+                            }
+                            callBack("");
                           }
-                        }
-                         listBillsTotalSearch.clear();
+                        } else {
+                          if (value != "") {
+                            listBillsTotalDate = [...listBillsTotal];
+                            var listProDate = [...listBillsTotalDate];
+                            for (var action in listProDate) {
+                              if (action.keys.first.createdOn!
+                                      .isBefore(dateTimeRange.end) &&
+                                  action.keys.first.createdOn!
+                                      .isAfter(dateTimeRange.start)) {
+                              } else {
+                                listBillsTotalDate.remove(action);
+                              }
+                            }
+                            listBillsTotalSearch.clear();
                             for (var action in listBillsTotalDate) {
-                              if (action.keys.first.bienSoXe!.toUpperCase().contains(value.toUpperCase())) {
+                              if (action.keys.first.bienSoXe!
+                                  .toUpperCase()
+                                  .contains(value.toUpperCase())) {
                                 listBillsTotalSearch.add(action);
                               }
                             }
                             listBillsTotalDate = [...listBillsTotalSearch];
                             callBack("");
-                        } else {
-                          listBillsTotalDate = [...listBillsTotal];
-                          var listProDate = [...listBillsTotalDate];
-                          for (var action in listProDate) {
-                            if (action.keys.first.createdOn!.isBefore(dateTimeRange.end) &&
-                                action.keys.first.createdOn!.isAfter(dateTimeRange.start)) {
-                            } else {
-                              listBillsTotalDate.remove(action);
+                          } else {
+                            listBillsTotalDate = [...listBillsTotal];
+                            var listProDate = [...listBillsTotalDate];
+                            for (var action in listProDate) {
+                              if (action.keys.first.createdOn!
+                                      .isBefore(dateTimeRange.end) &&
+                                  action.keys.first.createdOn!
+                                      .isAfter(dateTimeRange.start)) {
+                              } else {
+                                listBillsTotalDate.remove(action);
+                              }
                             }
+                            callBack("");
                           }
-                          callBack("");
                         }
-                        }
-                       
                       },
                       decoration: const InputDecoration(
                         hintText: "Tìm kiếm",
@@ -169,72 +182,86 @@ Future  addSpend(Map<String, dynamic> item) async {
                   ),
                 ),
                 Expanded(
-                  flex: 4,
-                  child: Row(
-                  children: [
-                    
-                              const Text(' Chưa TT',
-                              style: TextStyle(color: Colors.white),),AbsorbPointer(
-                                absorbing: !widget.customer.trangThai!,
-                                child: Checkbox(
-                                    value: checkTT,
-                                    onChanged: (value) {
-                                      if(searchController.text!=""){
-                                      if(checkTT==false)
-                                      {
-                                        listBillsTotalDate = [...listBillsTotalSearch];
-                                        var listProDate = [...listBillsTotalDate];
-                                        for (var action in listProDate) {
-                                          if (action.keys.first.createdOn!.isBefore(dateTimeRange.end) &&
-                                              action.keys.first.createdOn!.isAfter(dateTimeRange.start) && action.keys.first.trangThai==true) {
-                                          } else {
-                                            listBillsTotalDate.remove(action);
-                                          }
-                                        }
-                                        checkTT=!checkTT;
-                                      }else{
-                                        listBillsTotalDate = [...listBillsTotalSearch];
-                                        var listProDate = [...listBillsTotalDate];
-                                        for (var action in listProDate) {
-                                          if (action.keys.first.createdOn!.isBefore(dateTimeRange.end) &&
-                                              action.keys.first.createdOn!.isAfter(dateTimeRange.start)) {
-                                          } else {
-                                            listBillsTotalDate.remove(action);
-                                          }
-                                        }
-                                        checkTT=!checkTT;
+                    flex: 4,
+                    child: Row(
+                      children: [
+                        const Text(
+                          ' Chưa TT',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        AbsorbPointer(
+                          absorbing: !widget.customer.trangThai!,
+                          child: Checkbox(
+                              value: checkTT,
+                              onChanged: (value) {
+                                if (searchController.text != "") {
+                                  if (checkTT == false) {
+                                    listBillsTotalDate = [
+                                      ...listBillsTotalSearch
+                                    ];
+                                    var listProDate = [...listBillsTotalDate];
+                                    for (var action in listProDate) {
+                                      if (action.keys.first.createdOn!
+                                              .isBefore(dateTimeRange.end) &&
+                                          action.keys.first.createdOn!
+                                              .isAfter(dateTimeRange.start) &&
+                                          action.keys.first.trangThai == true) {
+                                      } else {
+                                        listBillsTotalDate.remove(action);
                                       }
-                                      }else if(searchController.text==""){
-                                      if(checkTT==false)
-                                      {
-                                        listBillsTotalDate = [...listBillsTotal];
-                                        var listProDate = [...listBillsTotalDate];
-                                        for (var action in listProDate) {
-                                          if (action.keys.first.createdOn!.isBefore(dateTimeRange.end) &&
-                                              action.keys.first.createdOn!.isAfter(dateTimeRange.start) && action.keys.first.trangThai==true) {
-                                          } else {
-                                            listBillsTotalDate.remove(action);
-                                          }
-                                        }
-                                        checkTT=!checkTT;
-                                      }else{
-                                        listBillsTotalDate = [...listBillsTotal];
-                                        var listProDate = [...listBillsTotalDate];
-                                        for (var action in listProDate) {
-                                          if (action.keys.first.createdOn!.isBefore(dateTimeRange.end) &&
-                                              action.keys.first.createdOn!.isAfter(dateTimeRange.start)) {
-                                          } else {
-                                            listBillsTotalDate.remove(action);
-                                          }
-                                        }
-                                        checkTT=!checkTT;
+                                    }
+                                    checkTT = !checkTT;
+                                  } else {
+                                    listBillsTotalDate = [
+                                      ...listBillsTotalSearch
+                                    ];
+                                    var listProDate = [...listBillsTotalDate];
+                                    for (var action in listProDate) {
+                                      if (action.keys.first.createdOn!
+                                              .isBefore(dateTimeRange.end) &&
+                                          action.keys.first.createdOn!
+                                              .isAfter(dateTimeRange.start)) {
+                                      } else {
+                                        listBillsTotalDate.remove(action);
                                       }
+                                    }
+                                    checkTT = !checkTT;
+                                  }
+                                } else if (searchController.text == "") {
+                                  if (checkTT == false) {
+                                    listBillsTotalDate = [...listBillsTotal];
+                                    var listProDate = [...listBillsTotalDate];
+                                    for (var action in listProDate) {
+                                      if (action.keys.first.createdOn!
+                                              .isBefore(dateTimeRange.end) &&
+                                          action.keys.first.createdOn!
+                                              .isAfter(dateTimeRange.start) &&
+                                          action.keys.first.trangThai == true) {
+                                      } else {
+                                        listBillsTotalDate.remove(action);
                                       }
-                                      callBack("");
-                                    }),
-                              ),
-                  ],
-                ))
+                                    }
+                                    checkTT = !checkTT;
+                                  } else {
+                                    listBillsTotalDate = [...listBillsTotal];
+                                    var listProDate = [...listBillsTotalDate];
+                                    for (var action in listProDate) {
+                                      if (action.keys.first.createdOn!
+                                              .isBefore(dateTimeRange.end) &&
+                                          action.keys.first.createdOn!
+                                              .isAfter(dateTimeRange.start)) {
+                                      } else {
+                                        listBillsTotalDate.remove(action);
+                                      }
+                                    }
+                                    checkTT = !checkTT;
+                                  }
+                                }
+                                callBack("");
+                              }),
+                        ),
+                      ],
+                    ))
               ],
             ),
           ),
@@ -243,7 +270,6 @@ Future  addSpend(Map<String, dynamic> item) async {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                
                 Expanded(
                     child: Card(
                   color: Colors.redAccent,
@@ -251,15 +277,15 @@ Future  addSpend(Map<String, dynamic> item) async {
                     children: [
                       const Text(
                         ' CThu: ',
-                        style:
-                            TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                        style: TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.bold),
                       ),
                       Builder(builder: (context) {
                         double total = 0;
                         for (var element in listBillsTotalDate) {
                           if (element.keys.first.trangThai == true) {
-                            total += double.parse(
-                                element.keys.first.tongTien!.toStringAsFixed(0));
+                            total += double.parse(element.keys.first.tongTien!
+                                .toStringAsFixed(0));
                           }
                         }
                         return Text(
@@ -271,170 +297,255 @@ Future  addSpend(Map<String, dynamic> item) async {
                     ],
                   ),
                 )),
-                Expanded(child: InkWell(
-                  onTap: () async {
-                    await showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                       
-                        return Consumer<spendmodel>(builder: (context, spend, child){
-                          return FractionallySizedBox(widthFactor: 1,
-      heightFactor: 1,
-      child: AlertDialog(
-        title:SizedBox(
-          
-              width: 400,
-              height: 330,
-              child: Stack(children: [
-                Positioned(
-                  bottom: 0,
-                  right: 0,
-                  child:   ElevatedButton(child: const Text("Thêm chi tiêu"),onPressed: () async {
-                    TextEditingController tenChitieu = new TextEditingController();
-                    TextEditingController soTien = new TextEditingController();
-                    spendmodel model = spendmodel();
-                    await showDialog<double>(
-                      context: context,builder: (BuildContext context) {
-                                        return FractionallySizedBox(widthFactor: 0.5,
-      heightFactor: 0.5,
-                                          child: AlertDialog(
-                                            
-                                            title: SizedBox(
-                                                width: 300,
-                                                        height: 70,
-                                              child: Column(
-                                                mainAxisAlignment: MainAxisAlignment.center,
-                                                children: [
-                                                 Row(children: [
-                                                  Expanded(
-                                                    child: Card(
-                                                      child: TextField(
-                                                        
-                                                        controller: tenChitieu,
-                                                        onChanged: (value) {
-                                                        
-                                                      },
-                                                      decoration: const InputDecoration(
-                                                                                                      border: InputBorder.none,
-                                                                                                      hintText: 'Tên chi tiêu',
-                                                      ),),
-                                                    ),
-                                                  ),Expanded(
-                                                    child: Card(
-                                                      child: TextField(
-                                                          controller: soTien,
-                                                        onChanged: (value) {
-                                                        
-                                                      },
-                                                      decoration: const InputDecoration(
-                                                                                                      border: InputBorder.none,
-                                                                                                      hintText: 'Số tiền',
-                                                      ),),
-                                                    ),
-                                                  )
-                                                 ],)
-                                                ],
-                                              ),
-                                            ),
-                                            actions: [
-                                              ElevatedButton(
-                                                  onPressed: () =>
-                                                      Navigator.of(context).pop(
-                                                          double.tryParse(
-                                                              0.toString())),
-                                                  child: const Text('Hủy')),
-                                              ElevatedButton(
-                                                  onPressed: () => Navigator.of(
-                                                          context)
-                                                      .pop(double.tryParse(1
-                                                          .toString())), // returns val
-                                                  child: const Text('OK')),
-                                            ],
-                                          ),
-                                        );
-                                      }
-
-                    ).then((onValue){
-                      
-                      if(onValue==1){
-                        spend.name=tenChitieu.text;
-                        spend.count=int.parse(soTien.text) ;
-                        print(spend.name);
-                       
-                      }
-                    });
-                },)),Positioned(
-                  
-                  child: Card(child: Text("${spend.name}"+" "+ "${spend.count}" ),))
-              ],),
-        ),
-      )
-      );
-                        });
-                      });
-                  },
-                  child: Card(
-                    color: Colors.amber,
-                                      child: Row(
+                Expanded(
+                  child: InkWell(
+                    onTap: () async {
+                      await showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return Consumer<ProviderModel>(
+                                builder: (context, providerModel, child) {
+                              return FractionallySizedBox(
+                                  widthFactor: 1,
+                                  heightFactor: 1,
+                                  child: AlertDialog(
+                                    title: SizedBox(
+                                      width: 400,
+                                      height: 330,
+                                      child: Stack(
                                         children: [
-                                          const Text(
-                                            ' Chi: ',
-                                            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                                          ),Builder(builder: (context) {
-                                                      
-                                                       return const Text("0" ,style: TextStyle(
-                                fontSize: 16, fontWeight: FontWeight.bold)
-                                                       );
-                                                     }),
+                                          Positioned(
+                                              child: ListView.builder(
+                                            itemCount:
+                                                providerModel.listSpend!.length,
+                                            itemBuilder: (BuildContext context,
+                                                int index) {
+                                              return ListTile(
+                                                title: Row(
+                                                  mainAxisSize:
+                                                      MainAxisSize.max,
+                                                  children: [
+                                                    Expanded(
+                                                      flex: 4,
+                                                      child: Card(
+                                                        child: Text("    " +
+                                                            "${providerModel.listSpend![index].createdOn!.day}" +
+                                                            "/"
+                                                                "${providerModel.listSpend![index].createdOn!.month}" +
+                                                            " " +
+                                                            "${providerModel.listSpend![index].name}" +
+                                                            ": " +
+                                                            "${providerModel.listSpend![index].count}"),
+                                                      ),
+                                                    ),
+                                                    Expanded(
+                                                      flex: 1,
+                                                      child: IconButton(
+                                                        icon: const Icon(Icons
+                                                            .delete_forever_outlined),
+                                                        onPressed: () {
+                                                          providerModel
+                                                              .removeSpend(
+                                                                  index);
+                                                        },
+                                                      ),
+                                                    )
+                                                  ],
+                                                ),
+                                              );
+                                            },
+                                          )),
+                                          Positioned(
+                                              bottom: 0,
+                                              right: 0,
+                                              child: ElevatedButton(
+                                                child:
+                                                    const Text("Thêm chi tiêu"),
+                                                onPressed: () async {
+                                                  TextEditingController
+                                                      tenChitieu =
+                                                      new TextEditingController();
+                                                  TextEditingController soTien =
+                                                      new TextEditingController();
+                                                  spendmodel model =
+                                                      spendmodel();
+                                                  await showDialog<double>(
+                                                      context: context,
+                                                      builder: (BuildContext
+                                                          context) {
+                                                        return FractionallySizedBox(
+                                                          widthFactor: 0.5,
+                                                          heightFactor: 0.5,
+                                                          child: AlertDialog(
+                                                            title: SizedBox(
+                                                              width: 300,
+                                                              height: 70,
+                                                              child: Column(
+                                                                mainAxisAlignment:
+                                                                    MainAxisAlignment
+                                                                        .center,
+                                                                children: [
+                                                                  Row(
+                                                                    children: [
+                                                                      Expanded(
+                                                                        child:
+                                                                            Card(
+                                                                          child:
+                                                                              TextField(
+                                                                            controller:
+                                                                                tenChitieu,
+                                                                            onChanged:
+                                                                                (value) {},
+                                                                            decoration:
+                                                                                const InputDecoration(
+                                                                              border: InputBorder.none,
+                                                                              hintText: 'Tên chi tiêu',
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                      ),
+                                                                      Expanded(
+                                                                        child:
+                                                                            Card(
+                                                                          child:
+                                                                              TextField(
+                                                                            controller:
+                                                                                soTien,
+                                                                            onChanged:
+                                                                                (value) {},
+                                                                            decoration:
+                                                                                const InputDecoration(
+                                                                              border: InputBorder.none,
+                                                                              hintText: 'Số tiền',
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                      )
+                                                                    ],
+                                                                  )
+                                                                ],
+                                                              ),
+                                                            ),
+                                                            actions: [
+                                                              ElevatedButton(
+                                                                  onPressed: () => Navigator.of(
+                                                                          context)
+                                                                      .pop(double
+                                                                          .tryParse(0
+                                                                              .toString())),
+                                                                  child:
+                                                                      const Text(
+                                                                          'Hủy')),
+                                                              ElevatedButton(
+                                                                  onPressed: () => Navigator.of(
+                                                                          context)
+                                                                      .pop(double
+                                                                          .tryParse(1
+                                                                              .toString())), // returns val
+                                                                  child:
+                                                                      const Text(
+                                                                          'OK')),
+                                                            ],
+                                                          ),
+                                                        );
+                                                      }).then((onValue) {
+                                                    if (onValue == 1) {
+                                                      model.name =
+                                                          tenChitieu.text;
+                                                      model.count = int.parse(
+                                                          soTien.text);
+
+                                                      print(model);
+                                                      var item = model.toJson();
+                                                      item.remove("_id");
+                                                      print(item);
+                                                      addSpend(item)
+                                                          .then((onValue) {
+                                                        providerModel.listSpend!
+                                                            .add(model);
+                                                        providerModel.update(
+                                                            providerModel
+                                                                .listSpend);
+                                                      });
+                                                    }
+                                                  });
+                                                },
+                                              )),
                                         ],
                                       ),
                                     ),
-                ),)
+                                  ));
+                            });
+                          });
+                    },
+                    child: Card(
+                      color: Colors.amber,
+                      child: Row(
+                        children: [
+                          const Text(
+                            ' Chi: ',
+                            style: TextStyle(
+                                fontSize: 16, fontWeight: FontWeight.bold),
+                          ),
+                          Builder(builder: (context) {
+                            return const Text("0",
+                                style: TextStyle(
+                                    fontSize: 16, fontWeight: FontWeight.bold));
+                          }),
+                        ],
+                      ),
+                    ),
+                  ),
+                )
               ],
             ),
           ),
-           Row(
-             children: [
-              Expanded(child: Card(
-                 color: Colors.blue,
+          Row(
+            children: [
+              Expanded(
+                  child: Card(
+                color: Colors.blue,
                 child: Row(
-                  children: [ const Text(
-                 ' Tổng: ',
-                 style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-               ),Builder(builder: (context) {
-                                  double total = 0;
-                                  for (var element in listBillsTotalDate) {
-                  total += double.parse(
-                      element.keys.first.tongTien!.toStringAsFixed(0));
-                                  }
-                                  return Text(
-                  total.toStringAsFixed(0), style: const TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.bold)
-                  
-                                  );
-                                }),],
+                  children: [
+                    const Text(
+                      ' Tổng: ',
+                      style:
+                          TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                    ),
+                    Builder(builder: (context) {
+                      double total = 0;
+                      for (var element in listBillsTotalDate) {
+                        total += double.parse(
+                            element.keys.first.tongTien!.toStringAsFixed(0));
+                      }
+                      return Text(total.toStringAsFixed(0),
+                          style: const TextStyle(
+                              fontSize: 16, fontWeight: FontWeight.bold));
+                    }),
+                  ],
                 ),
               )),
-                                 Expanded(child: Card(
-                                                  color: Colors.blue,
-                                  child: Row(
-                                    children: [
-                                      const Text(
-                                        ' Còn lại: ',
-                                        style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                                      ),Builder(builder: (context) {
-                                                  
-                                                   return const Text("0" ,style: TextStyle(
-                                                             fontSize: 16, fontWeight: FontWeight.bold)
-                                                   );
-                                                 }),
-                                    ],
-                                  ),
-                                                                 ),)
-                                
-             ],
-           ),
-                  
+              Expanded(
+                child: Card(
+                  color: Colors.blue,
+                  child: Row(
+                    children: [
+                      const Text(
+                        ' Còn lại: ',
+                        style: TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.bold),
+                      ),
+                      Builder(builder: (context) {
+                        return const Text("0",
+                            style: TextStyle(
+                                fontSize: 16, fontWeight: FontWeight.bold));
+                      }),
+                    ],
+                  ),
+                ),
+              )
+            ],
+          ),
           Expanded(
             child: Container(
               child: Stack(children: [
@@ -443,168 +554,214 @@ Future  addSpend(Map<String, dynamic> item) async {
                   return loadData == true
                       ? const Loading()
                       : NotificationListener(
-                        child: SizeChangedLayoutNotifier(
-                          child: MediaQuery.of(context).size.width<700 ?GridView.builder(
-                              gridDelegate:
-                                  const SliverGridDelegateWithFixedCrossAxisCount(
-                                      crossAxisCount: 4, mainAxisSpacing: 4),
-                              itemCount: widget.listBills.length,
-                              itemBuilder: (BuildContext ctx, int index) {
-                                return Container(
-      
-                                  
-                                  margin: const EdgeInsets.all(1),
-                                  child: Card(
-                                                         
-                                    elevation: 8,
-                                    shadowColor: (widget.listBills[index].keys.first
-                                                    .trangThai ==
-                                                true
-                                            ? Colors.red
-                                            : Colors.blue),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius:
-                                          BorderRadius.circular(10), // if you need this
-                                      side: BorderSide(
-                                        color: (widget.listBills[index].keys.first
-                                                    .trangThai ==
-                                                true
-                                            ? Colors.red
-                                            : Colors.blue),
-                                        width: 2,
-                                      ),
-                                    ),
-                                    color: widget.listBills[index].values.first,
-                                    child: InkWell(
-                                        onTap: () {
-                                          setColor(widget.listBills[index]);
-                                        },
-                                        onDoubleTap: () {
-                                          Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) => AddCustomer(
-                                                        customer: widget
-                                                            .listBills[index]
-                                                            .keys
-                                                            .first,
-                                                        callBack: callBack,
-                                                      ))).then((item) {
-                                            setState(() {
-                                              listBills;
-                                            });
-                                          });
-                                        },
-                                        child: Bills(Bill: widget.listBills[index])),
-                                  ),
-                                );
-                              }):MediaQuery.of(context).size.width<1400 ?GridView.builder(
-                              gridDelegate:
-                                  const SliverGridDelegateWithFixedCrossAxisCount(
-                                      crossAxisCount: 8, mainAxisSpacing: 4),
-                              itemCount: widget.listBills.length,
-                              itemBuilder: (BuildContext ctx, int index) {
-                                return Container(
-                                  
-                                  margin: const EdgeInsets.all(3),
-                                  child: Card(
-                                    elevation: 8,
-                                    shadowColor: (widget.listBills[index].keys.first
-                                                    .trangThai ==
-                                                true
-                                            ? Colors.red
-                                            : Colors.blue),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius:
-                                          BorderRadius.circular(10), // if you need this
-                                      side: BorderSide(
-                                        color: (widget.listBills[index].keys.first
-                                                    .trangThai ==
-                                                true
-                                            ? Colors.red
-                                            : Colors.blue),
-                                        width: 2,
-                                      ),
-                                    ),
-                                    color: widget.listBills[index].values.first,
-                                    child: InkWell(
-                                        onTap: () {
-                                          setColor(widget.listBills[index]);
-                                        },
-                                        onDoubleTap: () {
-                                          Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) => AddCustomer(
-                                                        customer: widget
-                                                            .listBills[index]
-                                                            .keys
-                                                            .first,
-                                                        callBack: callBack,
-                                                      ))).then((item) {
-                                            setState(() {
-                                              listBills;
-                                            });
-                                          });
-                                        },
-                                        child: Bills(Bill: widget.listBills[index])),
-                                  ),
-                                );
-                              }):GridView.builder(
-                              gridDelegate:
-                                  const SliverGridDelegateWithFixedCrossAxisCount(
-                                      crossAxisCount: 16, mainAxisSpacing: 4),
-                              itemCount: widget.listBills.length,
-                              itemBuilder: (BuildContext ctx, int index) {
-                                return Container(
-                                  margin: const EdgeInsets.all(3),
-                                 
-                                  child: Card(
-                                     elevation: 8,
-        shadowColor: (widget.listBills[index].keys.first
-                                                  .trangThai ==
-                                              true
-                                          ? Colors.red
-                                          : Colors.blue),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius:
-                                          BorderRadius.circular(10), // if you need this
-                                      side: BorderSide(
-                                        color: (widget.listBills[index].keys.first
-                                                    .trangThai ==
-                                                true
-                                            ? Colors.red
-                                            : Colors.blue),
-                                        width: 2,
-                                      ),
-                                    ),
-                                    color: widget.listBills[index].values.first,
-                                    child: InkWell(
-                                        onTap: () {
-                                          setColor(widget.listBills[index]);
-                                        },
-                                        onDoubleTap: () {
-                                          Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) => AddCustomer(
-                                                        customer: widget
-                                                            .listBills[index]
-                                                            .keys
-                                                            .first,
-                                                        callBack: callBack,
-                                                      ))).then((item) {
-                                            setState(() {
-                                              listBills;
-                                            });
-                                          });
-                                        },
-                                        child: Bills(Bill: widget.listBills[index])),
-                                  ),
-                                );
-                              }),
-                        ),
-                      );
+                          child: SizeChangedLayoutNotifier(
+                            child: MediaQuery.of(context).size.width < 700
+                                ? GridView.builder(
+                                    gridDelegate:
+                                        const SliverGridDelegateWithFixedCrossAxisCount(
+                                            crossAxisCount: 4,
+                                            mainAxisSpacing: 4),
+                                    itemCount: widget.listBills.length,
+                                    itemBuilder: (BuildContext ctx, int index) {
+                                      return Container(
+                                        margin: const EdgeInsets.all(1),
+                                        child: Card(
+                                          elevation: 8,
+                                          shadowColor: (widget.listBills[index]
+                                                      .keys.first.trangThai ==
+                                                  true
+                                              ? Colors.red
+                                              : Colors.blue),
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.circular(
+                                                10), // if you need this
+                                            side: BorderSide(
+                                              color: (widget
+                                                          .listBills[index]
+                                                          .keys
+                                                          .first
+                                                          .trangThai ==
+                                                      true
+                                                  ? Colors.red
+                                                  : Colors.blue),
+                                              width: 2,
+                                            ),
+                                          ),
+                                          color: widget
+                                              .listBills[index].values.first,
+                                          child: InkWell(
+                                              onTap: () {
+                                                setColor(
+                                                    widget.listBills[index]);
+                                              },
+                                              onDoubleTap: () {
+                                                Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            AddCustomer(
+                                                              customer: widget
+                                                                  .listBills[
+                                                                      index]
+                                                                  .keys
+                                                                  .first,
+                                                              callBack:
+                                                                  callBack,
+                                                            ))).then((item) {
+                                                  setState(() {
+                                                    listBills;
+                                                  });
+                                                });
+                                              },
+                                              child: Bills(
+                                                  Bill:
+                                                      widget.listBills[index])),
+                                        ),
+                                      );
+                                    })
+                                : MediaQuery.of(context).size.width < 1400
+                                    ? GridView.builder(
+                                        gridDelegate:
+                                            const SliverGridDelegateWithFixedCrossAxisCount(
+                                                crossAxisCount: 8,
+                                                mainAxisSpacing: 4),
+                                        itemCount: widget.listBills.length,
+                                        itemBuilder:
+                                            (BuildContext ctx, int index) {
+                                          return Container(
+                                            margin: const EdgeInsets.all(3),
+                                            child: Card(
+                                              elevation: 8,
+                                              shadowColor: (widget
+                                                          .listBills[index]
+                                                          .keys
+                                                          .first
+                                                          .trangThai ==
+                                                      true
+                                                  ? Colors.red
+                                                  : Colors.blue),
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(
+                                                        10), // if you need this
+                                                side: BorderSide(
+                                                  color: (widget
+                                                              .listBills[index]
+                                                              .keys
+                                                              .first
+                                                              .trangThai ==
+                                                          true
+                                                      ? Colors.red
+                                                      : Colors.blue),
+                                                  width: 2,
+                                                ),
+                                              ),
+                                              color: widget.listBills[index]
+                                                  .values.first,
+                                              child: InkWell(
+                                                  onTap: () {
+                                                    setColor(widget
+                                                        .listBills[index]);
+                                                  },
+                                                  onDoubleTap: () {
+                                                    Navigator.push(
+                                                        context,
+                                                        MaterialPageRoute(
+                                                            builder:
+                                                                (context) =>
+                                                                    AddCustomer(
+                                                                      customer: widget
+                                                                          .listBills[
+                                                                              index]
+                                                                          .keys
+                                                                          .first,
+                                                                      callBack:
+                                                                          callBack,
+                                                                    ))).then(
+                                                        (item) {
+                                                      setState(() {
+                                                        listBills;
+                                                      });
+                                                    });
+                                                  },
+                                                  child: Bills(
+                                                      Bill: widget
+                                                          .listBills[index])),
+                                            ),
+                                          );
+                                        })
+                                    : GridView.builder(
+                                        gridDelegate:
+                                            const SliverGridDelegateWithFixedCrossAxisCount(
+                                                crossAxisCount: 16,
+                                                mainAxisSpacing: 4),
+                                        itemCount: widget.listBills.length,
+                                        itemBuilder:
+                                            (BuildContext ctx, int index) {
+                                          return Container(
+                                            margin: const EdgeInsets.all(3),
+                                            child: Card(
+                                              elevation: 8,
+                                              shadowColor: (widget
+                                                          .listBills[index]
+                                                          .keys
+                                                          .first
+                                                          .trangThai ==
+                                                      true
+                                                  ? Colors.red
+                                                  : Colors.blue),
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(
+                                                        10), // if you need this
+                                                side: BorderSide(
+                                                  color: (widget
+                                                              .listBills[index]
+                                                              .keys
+                                                              .first
+                                                              .trangThai ==
+                                                          true
+                                                      ? Colors.red
+                                                      : Colors.blue),
+                                                  width: 2,
+                                                ),
+                                              ),
+                                              color: widget.listBills[index]
+                                                  .values.first,
+                                              child: InkWell(
+                                                  onTap: () {
+                                                    setColor(widget
+                                                        .listBills[index]);
+                                                  },
+                                                  onDoubleTap: () {
+                                                    Navigator.push(
+                                                        context,
+                                                        MaterialPageRoute(
+                                                            builder:
+                                                                (context) =>
+                                                                    AddCustomer(
+                                                                      customer: widget
+                                                                          .listBills[
+                                                                              index]
+                                                                          .keys
+                                                                          .first,
+                                                                      callBack:
+                                                                          callBack,
+                                                                    ))).then(
+                                                        (item) {
+                                                      setState(() {
+                                                        listBills;
+                                                      });
+                                                    });
+                                                  },
+                                                  child: Bills(
+                                                      Bill: widget
+                                                          .listBills[index])),
+                                            ),
+                                          );
+                                        }),
+                          ),
+                        );
                 }),
               ]),
             ),

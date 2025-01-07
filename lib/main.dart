@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:provider/provider.dart';
 import 'package:tscoffee/model/WebStorage.dart';
+import 'package:tscoffee/model/providerModel.dart';
 import 'package:tscoffee/model/spendmodel.dart';
 import 'package:tscoffee/view/login.dart';
 import 'view/home.dart';
@@ -101,7 +102,7 @@ class _MyAppState extends State<MyApp> {
     });
     return MultiProvider(
         providers: [
-        ChangeNotifierProvider(create: (_) => spendmodel()),
+        ChangeNotifierProvider(create: (_) => ProviderModel()),
       ],
       child: MaterialApp(
           debugShowCheckedModeBanner: false,

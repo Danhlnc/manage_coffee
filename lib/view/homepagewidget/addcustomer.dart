@@ -30,7 +30,7 @@ class _AddCustomerState extends State<AddCustomer> {
     setState(() {});
   }
 
-  Future  addBill(Map<String, dynamic> item) async {
+  Future addBill(Map<String, dynamic> item) async {
     final response = await http.post(
       Uri.parse('https://tscoffee-server-1.onrender.com/v1/boards/bills'),
       headers: <String, String>{
@@ -111,37 +111,35 @@ class _AddCustomerState extends State<AddCustomer> {
         var details = {widget.customer: Colors.white};
         var test = widget.customer.toJson();
         test.remove('_id');
+
         //print(test);
         if (staTus) {
-         EasyLoading.show(status: 'loading...');
-         setState(() {
-            widget.loading=true;
+          EasyLoading.show(status: 'loading...');
+          setState(() {
+            widget.loading = true;
           });
-         addBill(test).then((onValue){
-            
+          addBill(test).then((onValue) {
             setState(() {
-            widget.loading=false;
-          });
+              widget.loading = false;
+            });
             EasyLoading.dismiss();
             Navigator.of(context).pop();
             widget.callBack("update");
-            });
+          });
         } else {
           EasyLoading.show(status: 'loading...');
           setState(() {
-            widget.loading=true;
+            widget.loading = true;
           });
-          updateBill(widget.customer.toJson()).then((onValue){
-            
+          updateBill(widget.customer.toJson()).then((onValue) {
             setState(() {
-            widget.loading=false;
-          });
-          
-            EasyLoading.dismiss();
-              Navigator.of(context).pop();
-            widget.callBack("update");
-            
+              widget.loading = false;
             });
+
+            EasyLoading.dismiss();
+            Navigator.of(context).pop();
+            widget.callBack("update");
+          });
         }
       }
     } catch (e) {
@@ -234,14 +232,15 @@ class _AddCustomerState extends State<AddCustomer> {
                                       builder: (BuildContext context) {
                                         return AlertDialog(
                                           title: Column(
-                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
                                             children: [
-                                              const Text(
-                                                  'Xác nhận thanh toán'),
+                                              const Text('Xác nhận thanh toán'),
                                               Text(
                                                 ' ${widget.customer.tongTien!.toStringAsFixed(0)}',
                                                 style: const TextStyle(
-                                                    fontWeight: FontWeight.bold,color: Colors.redAccent),
+                                                    fontWeight: FontWeight.bold,
+                                                    color: Colors.redAccent),
                                               ),
                                             ],
                                           ),
@@ -301,7 +300,8 @@ class _AddCustomerState extends State<AddCustomer> {
                       width: MediaQuery.of(context).size.width,
                       height: 50,
                       child: Card(
-                        margin: const EdgeInsets.only(left: 5, right: 5, top: 5),
+                        margin:
+                            const EdgeInsets.only(left: 5, right: 5, top: 5),
                         child: AbsorbPointer(
                           absorbing: !widget.customer.trangThai!,
                           child: Row(
@@ -328,8 +328,11 @@ class _AddCustomerState extends State<AddCustomer> {
                               ),
                               Expanded(
                                 child: Text(
-                                    'Tổng tiền: ${widget.customer.tongTien!.toStringAsFixed(0)}', style: const TextStyle(
-                                                    fontWeight: FontWeight.bold,color: Colors.redAccent),),
+                                  'Tổng tiền: ${widget.customer.tongTien!.toStringAsFixed(0)}',
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.redAccent),
+                                ),
                               ),
                             ],
                           ),
@@ -482,23 +485,25 @@ class _AddCustomerState extends State<AddCustomer> {
                     AbsorbPointer(
                         absorbing: !widget.customer.trangThai!,
                         child: SizedBox(
-                          
                           child: Row(
                             children: [
                               Expanded(
                                 flex: 1,
                                 child: Drinkswidget(
-                                    customer: widget.customer, callBackFunc: callBack),
-                              ),Expanded(
+                                    customer: widget.customer,
+                                    callBackFunc: callBack),
+                              ),
+                              Expanded(
                                 flex: 1,
                                 child: Tobaccowidget(
-                                customer: widget.customer, callBackFunc: callBack),
+                                    customer: widget.customer,
+                                    callBackFunc: callBack),
                               ),
                             ],
                           ),
                         )),
                     //thuốc
-                  
+
                     //cơm giặt đồ
                     SizedBox(
                       width: MediaQuery.of(context).size.width,
@@ -531,7 +536,6 @@ class _AddCustomerState extends State<AddCustomer> {
                                           controller: comGia
                                             ..text = widget.customer.comGia!
                                                 .toStringAsFixed(0),
-                                          
                                           autofocus: false,
                                           obscureText: false,
                                           decoration: const InputDecoration(
@@ -552,7 +556,8 @@ class _AddCustomerState extends State<AddCustomer> {
                                           },
                                         ),
                                       ),
-                                    )), Expanded(
+                                    )),
+                                Expanded(
                                     flex: 1,
                                     child: Container(
                                         margin: const EdgeInsets.only(left: 5),
@@ -569,7 +574,6 @@ class _AddCustomerState extends State<AddCustomer> {
                                             ..text = widget.customer.giaGiatDo!
                                                 .toStringAsFixed(0),
                                           autofocus: false,
-      
                                           obscureText: false,
                                           decoration: const InputDecoration(
                                             border: OutlineInputBorder(),

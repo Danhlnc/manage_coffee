@@ -1,61 +1,94 @@
 import 'package:flutter/material.dart';
 
 class spendmodel extends ChangeNotifier {
-  String? _sId ="";
-  String? _name ="";
-  int? _count =0;
-  DateTime? _createdOn =DateTime.now();
-  String? _createdBy ="";
-  DateTime? _modifyOn =DateTime.now();
-  String? _modifyBy ="";
+  String? _sId = "";
+  String? _name = "";
+  int? _count = 0;
+  DateTime? _createdOn = DateTime.now();
+  String? _createdBy = "";
+  DateTime? _modifyOn = DateTime.now();
+  String? _modifyBy = "";
 
-  spendmodel(
-      { String? sId,
-  String? name,
-  int? count,
-  DateTime? createdOn,
-  String? createdBy,
-  DateTime? modifyOn,
-  String? modifyBy,}) {
+  spendmodel({
+    String? sId,
+    String? name,
+    int? count,
+    DateTime? createdOn,
+    String? createdBy,
+    DateTime? modifyOn,
+    String? modifyBy,
+  }) {
     if (sId != null) {
       _sId = sId;
-    }if (name != null) {
+    }
+    if (name != null) {
       _name = name;
-    }if (count != null) {
+    }
+    if (count != null) {
       _count = count;
-    }if (createdOn != null) {
+    }
+    if (createdOn != null) {
       _createdOn = createdOn;
-    }if (createdBy != null) {
+    }
+    if (createdBy != null) {
       _createdBy = createdBy;
-    }if (modifyOn != null) {
+    }
+    if (modifyOn != null) {
       _modifyOn = modifyOn;
-    }if (modifyBy != null) {
+    }
+    if (modifyBy != null) {
       _modifyBy = modifyBy;
     }
-    
-    }
-String? get sId => _sId;
-  set sId(String? sId) {_sId = sId;
-  notifyListeners();} 
+  }
+  String? get sId => _sId;
+  set sId(String? sId) {
+    _sId = sId;
+    notifyListeners();
+  }
+
   String? get name => _name;
-  set name(String? name) { _name = name; notifyListeners();}
+  set name(String? name) {
+    _name = name;
+    notifyListeners();
+  }
+
   int? get count => _count;
-  set count(int? count)  {_count = count; notifyListeners();}
+  set count(int? count) {
+    _count = count;
+    notifyListeners();
+  }
+
   DateTime? get createdOn => _createdOn;
-  set createdOn(DateTime? createdOn) { _createdOn = createdOn; notifyListeners();}
+  set createdOn(DateTime? createdOn) {
+    _createdOn = createdOn;
+    notifyListeners();
+  }
+
   String? get createdBy => _createdBy;
-  set createdBy(String? screatedById) {_createdBy = createdBy; notifyListeners();}
+  set createdBy(String? screatedById) {
+    _createdBy = createdBy;
+    notifyListeners();
+  }
+
   DateTime? get modifyOn => _modifyOn;
-  set modifyOn(DateTime? modifyOn) { _modifyOn = modifyOn; notifyListeners();}
+  set modifyOn(DateTime? modifyOn) {
+    _modifyOn = modifyOn;
+    notifyListeners();
+  }
+
   String? get modifyBy => _modifyBy;
-  set modifyBy(String? modifyBy) {_modifyBy = modifyBy; notifyListeners();} 
+  set modifyBy(String? modifyBy) {
+    _modifyBy = modifyBy;
+    notifyListeners();
+  }
+
   spendmodel.fromJson(Map<String, dynamic> json) {
     _sId = json['_id'];
     _name = json['name'];
-    _count = json['count'];
-    _createdOn = json['createdOn'];
+    _count = int.parse(json['count'].toString());
+    _createdOn = DateTime.parse(json['createdOn'].toString());
     _createdBy = json['createdBy'];
-    _modifyOn = json['modifyOn'];
+    _modifyOn = DateTime.parse(json['modifyOn'].toString());
     _modifyBy = json['modifyBy'];
   }
 
@@ -64,9 +97,9 @@ String? get sId => _sId;
     data['_id'] = this._sId;
     data['name'] = this._name;
     data['count'] = this._count;
-    data['createdOn'] = this._createdOn;
+    data['createdOn'] = this._createdOn.toString();
     data['createdBy'] = this._createdBy;
-    data['modifyOn'] = this._modifyOn;
+    data['modifyOn'] = this._modifyOn.toString();
     data['modifyBy'] = this._modifyBy;
     return data;
   }
