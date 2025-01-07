@@ -78,7 +78,7 @@ List<Taboccomodel> taboccoParsePost(String responseBody) {
 }
 
 Future<List<Billmodel>> fetch() async {
-  final url = Uri.parse('https://tscoffee-server.onrender.com/v1/boards/bills');
+  final url = Uri.parse('https://tscoffee-server-1.onrender.com/v1/boards/bills');
   final response = await http.get(url, headers: {
     "Access-Control-Allow-Origin": "*",
     'Content-Type': 'application/json',
@@ -90,7 +90,7 @@ Future<List<Billmodel>> fetch() async {
 
 Future<List<spendmodel>> fetchSpend() async {
   final url =
-      Uri.parse('https://tscoffee-server.onrender.com/v1/boards/spends');
+      Uri.parse('https://tscoffee-server-1.onrender.com/v1/boards/spends');
   final response = await http.get(url, headers: {
     "Access-Control-Allow-Origin": "*",
     'Content-Type': 'application/json',
@@ -102,7 +102,7 @@ Future<List<spendmodel>> fetchSpend() async {
 
 Future<List<Drinkmodel>> fetchDrinks() async {
   final url =
-      Uri.parse('https://tscoffee-server.onrender.com/v1/boards/drinks');
+      Uri.parse('https://tscoffee-server-1.onrender.com/v1/boards/drinks');
   final response = await http.get(url, headers: {
     "Access-Control-Allow-Origin": "*",
     'Content-Type': 'application/json',
@@ -114,7 +114,7 @@ Future<List<Drinkmodel>> fetchDrinks() async {
 
 Future<List<Taboccomodel>> fetchTabocco() async {
   final url =
-      Uri.parse('https://tscoffee-server.onrender.com/v1/boards/taboccos');
+      Uri.parse('https://tscoffee-server-1.onrender.com/v1/boards/taboccos');
   final response = await http.get(url, headers: {
     "Access-Control-Allow-Origin": "*",
     'Content-Type': 'application/json',

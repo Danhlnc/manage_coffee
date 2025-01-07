@@ -73,6 +73,25 @@ class _DoanhthuscreenState extends State<Doanhthuscreen> {
     }
   }
 
+  Future deleteSpend(Map<String, dynamic> item) async {
+    final response = await http.delete(
+      Uri.parse('https://tscoffee-server-1.onrender.com/v1/boards/spends'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(item),
+    );
+    if (response.statusCode == 200) {
+      // If the server did return a 201 CREATED response,
+      // then parse the JSON.
+      date = DateTime.now();
+    } else {
+      // If the server did not return a 201 CREATED response,
+      // then throw an exception.
+      throw Exception('Failed to create album.');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     if (widget.listBills.isEmpty) {
@@ -316,8 +335,8 @@ class _DoanhthuscreenState extends State<Doanhthuscreen> {
                                         children: [
                                           Positioned(
                                               child: ListView.builder(
-                                            itemCount:
-                                                providerModel.listSpend!.length,
+                                            itemCount: providerModel
+                                                .listSpendTemp!.length,
                                             itemBuilder: (BuildContext context,
                                                 int index) {
                                               return ListTile(
@@ -329,13 +348,13 @@ class _DoanhthuscreenState extends State<Doanhthuscreen> {
                                                       flex: 4,
                                                       child: Card(
                                                         child: Text("    " +
-                                                            "${providerModel.listSpend![index].createdOn!.day}" +
+                                                            "${providerModel.listSpendTemp![index].createdOn!.day}" +
                                                             "/"
-                                                                "${providerModel.listSpend![index].createdOn!.month}" +
+                                                                "${providerModel.listSpendTemp![index].createdOn!.month}" +
                                                             " " +
-                                                            "${providerModel.listSpend![index].name}" +
+                                                            "${providerModel.listSpendTemp![index].name}" +
                                                             ": " +
-                                                            "${providerModel.listSpend![index].count}"),
+                                                            "${providerModel.listSpendTemp![index].count}"),
                                                       ),
                                                     ),
                                                     Expanded(
@@ -344,9 +363,16 @@ class _DoanhthuscreenState extends State<Doanhthuscreen> {
                                                         icon: const Icon(Icons
                                                             .delete_forever_outlined),
                                                         onPressed: () {
-                                                          providerModel
-                                                              .removeSpend(
-                                                                  index);
+                                                          deleteSpend(
+                                                                  providerModel
+                                                                      .listSpend![
+                                                                          index]
+                                                                      .toJson())
+                                                              .then((onValue) {
+                                                            providerModel
+                                                                .removeSpend(
+                                                                    index);
+                                                          });
                                                         },
                                                       ),
                                                     )
@@ -455,10 +481,8 @@ class _DoanhthuscreenState extends State<Doanhthuscreen> {
                                                       model.count = int.parse(
                                                           soTien.text);
 
-                                                      print(model);
                                                       var item = model.toJson();
                                                       item.remove("_id");
-                                                      print(item);
                                                       addSpend(item)
                                                           .then((onValue) {
                                                         providerModel.listSpend!
@@ -488,9 +512,15 @@ class _DoanhthuscreenState extends State<Doanhthuscreen> {
                                 fontSize: 16, fontWeight: FontWeight.bold),
                           ),
                           Builder(builder: (context) {
-                            return const Text("0",
-                                style: TextStyle(
-                                    fontSize: 16, fontWeight: FontWeight.bold));
+                            return Consumer<ProviderModel>(
+                              builder:
+                                  (BuildContext context, value, Widget? child) {
+                                return Text("${value.countTotal}",
+                                    style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold));
+                              },
+                            );
                           }),
                         ],
                       ),
@@ -536,9 +566,30 @@ class _DoanhthuscreenState extends State<Doanhthuscreen> {
                             fontSize: 16, fontWeight: FontWeight.bold),
                       ),
                       Builder(builder: (context) {
-                        return const Text("0",
-                            style: TextStyle(
-                                fontSize: 16, fontWeight: FontWeight.bold));
+                        return Consumer<ProviderModel>(
+                          builder:
+                              (BuildContext context, value, Widget? child) {
+                            double totalCThu = 0;
+                            for (var element in listBillsTotalDate) {
+                              if (element.keys.first.trangThai == true) {
+                                totalCThu += double.parse(element
+                                    .keys.first.tongTien!
+                                    .toStringAsFixed(0));
+                              }
+                            }
+                            double total = 0;
+                            for (var element in listBillsTotalDate) {
+                              total += double.parse(element.keys.first.tongTien!
+                                  .toStringAsFixed(0));
+                            }
+                            double totalClai = total -
+                                totalCThu -
+                                double.parse(value.countTotal.toString());
+                            return Text("${totalClai}",
+                                style: TextStyle(
+                                    fontSize: 16, fontWeight: FontWeight.bold));
+                          },
+                        );
                       }),
                     ],
                   ),

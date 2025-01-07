@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 import 'package:tscoffee/apps/globalvariables.dart';
+
+import '../../../model/providerModel.dart';
 
 class DatetimeDoanhThu extends StatefulWidget {
   Function callBack;
@@ -24,15 +27,26 @@ class _DatetimeDoanhThuState extends State<DatetimeDoanhThu> {
                 context: context,
                 firstDate: DateTime(2000),
                 lastDate: DateTime(2100)))!;
-                dateTimeRange.start.day != DateTime.now().day
+            dateTimeRange.start.day != DateTime.now().day
                 ? setState(() {
                     listBillsTotalDate = [...listBillsTotal];
                     var listProDate = [...listBillsTotalDate];
                     dateTimeRange = DateTimeRange(
-    start: DateTime.parse(DateFormat('yyyy-MM-dd HH:mm').format(DateTime(
-        dateTimeRange.start.year, dateTimeRange.start.month, dateTimeRange.start.day,7))),
-    end: DateTime.parse(DateFormat('yyyy-MM-dd HH:mm').format(DateTime(
-        dateTimeRange.end.year, dateTimeRange.end.month, dateTimeRange.end.day,7))));
+                        start: DateTime.parse(DateFormat('yyyy-MM-dd HH:mm')
+                            .format(DateTime(
+                                dateTimeRange.start.year,
+                                dateTimeRange.start.month,
+                                dateTimeRange.start.day,
+                                7))),
+                        end: DateTime.parse(DateFormat('yyyy-MM-dd HH:mm')
+                            .format(DateTime(
+                                dateTimeRange.end.year,
+                                dateTimeRange.end.month,
+                                dateTimeRange.end.day,
+                                7))));
+
+                    context.read<ProviderModel>().updateListTemp(dateTimeRange);
+                    context.read<ProviderModel>().getTotalCount();
                     for (var action in listProDate) {
                       if (action.keys.first.createdOn!
                               .isBefore(dateTimeRange.end) &&
@@ -45,15 +59,27 @@ class _DatetimeDoanhThuState extends State<DatetimeDoanhThu> {
                     widget.callBack("");
                   })
                 : setState(() {
-                    dateTimeRange = DateTime.now().hour<7? DateTimeRange(
-    start: DateTime.parse(DateFormat('yyyy-MM-dd HH:mm').format(DateTime(
-        DateTime.now().year, DateTime.now().month, DateTime.now().day-1,7))),
-    end: DateTime.parse(DateFormat('yyyy-MM-dd HH:mm').format(DateTime(
-        DateTime.now().year, DateTime.now().month, DateTime.now().day,7)))):DateTimeRange(
-    start: DateTime.parse(DateFormat('yyyy-MM-dd HH:mm').format(DateTime(
-        DateTime.now().year, DateTime.now().month, DateTime.now().day,7))),
-    end: DateTime.parse(DateFormat('yyyy-MM-dd HH:mm').format(DateTime(
-        DateTime.now().year, DateTime.now().month, DateTime.now().day+1,7))));
+                    dateTimeRange = DateTime.now().hour < 7
+                        ? DateTimeRange(
+                            start: DateTime.parse(DateFormat('yyyy-MM-dd HH:mm')
+                                .format(DateTime(
+                                    DateTime.now().year,
+                                    DateTime.now().month,
+                                    DateTime.now().day - 1,
+                                    7))),
+                            end: DateTime.parse(DateFormat('yyyy-MM-dd HH:mm')
+                                .format(DateTime(
+                                    DateTime.now().year,
+                                    DateTime.now().month,
+                                    DateTime.now().day,
+                                    7))))
+                        : DateTimeRange(
+                            start:
+                                DateTime.parse(DateFormat('yyyy-MM-dd HH:mm').format(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, 7))),
+                            end: DateTime.parse(DateFormat('yyyy-MM-dd HH:mm').format(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day + 1, 7))));
+
+                    context.read<ProviderModel>().updateListTemp(dateTimeRange);
+                    context.read<ProviderModel>().getTotalCount();
                     listBillsTotalDate = [...listBillsTotal];
                     var listProDate = [...listBillsTotalDate];
                     for (var action in listProDate) {

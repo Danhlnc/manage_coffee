@@ -94,8 +94,9 @@ class _HomeState extends State<Home> {
         setState(() {});
       });
       fetchSpend().then((onValue) {
-        print(onValue);
-        context.watch<ProviderModel>().update(onValue);
+        context.read<ProviderModel>().update(onValue);
+        context.read<ProviderModel>().updateListTemp(dateTimeRange);
+        context.read<ProviderModel>().getTotalCount();
       });
     } else {
       setState(() {});
