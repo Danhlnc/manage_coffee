@@ -1,9 +1,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <script src="https://www.gstatic.com/firebasejs/7.14.4/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/7.14.4/firebase-analytics.js"></script>
-<script src="https://www.gstatic.com/firebasejs/7.14.4/firebase-messaging.js"></script>
   <!--
     If you are serving your web app in a path other than the root, change the
     href value below to reflect the base path you are serving from.
@@ -24,7 +21,7 @@
   <meta name="description" content="A new Flutter project.">
 
   <!-- iOS meta tags & icons -->
-  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   <meta name="apple-mobile-web-app-title" content="tscoffee">
   <link rel="apple-touch-icon" href="icons/Icon-192.png">
@@ -37,17 +34,5 @@
 </head>
 <body>
   <script src="flutter_bootstrap.js" async></script>
-  <script src="./firebase-messaging-sw.js"></script>
-  <script src="myjs.js"></script>
-  <script src="main.dart.js" type="application/javascript"></script>
-  <script src="flutter_bootstrap.js" async>
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', function () {
-        navigator.serviceWorker.register('firebase-messaging-sw.js', {
-          scope: '/firebase-cloud-messaging-push-scope',
-        });
-      });
-    }
-  </script>
 </body>
 </html>

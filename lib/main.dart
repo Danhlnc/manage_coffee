@@ -1,7 +1,9 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:provider/provider.dart';
 import 'package:tscoffee/model/WebStorage.dart';
+import 'package:tscoffee/model/spendmodel.dart';
 import 'package:tscoffee/view/login.dart';
 import 'view/home.dart';
 
@@ -97,21 +99,26 @@ class _MyAppState extends State<MyApp> {
       print('Message also contained a notification: ${message.notification}');
     }
     });
-    return MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'TSCoffee',
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-          visualDensity: VisualDensity.adaptivePlatformDensity,
-          pageTransitionsTheme: const PageTransitionsTheme(
-            builders: <TargetPlatform, PageTransitionsBuilder>{
-              // Set the predictive back transitions for Android.
-              TargetPlatform.android: PredictiveBackPageTransitionsBuilder(),
-            },
+    return MultiProvider(
+        providers: [
+        ChangeNotifierProvider(create: (_) => spendmodel()),
+      ],
+      child: MaterialApp(
+          debugShowCheckedModeBanner: false,
+          title: 'TSCoffee',
+          theme: ThemeData(
+            primarySwatch: Colors.blue,
+            visualDensity: VisualDensity.adaptivePlatformDensity,
+            pageTransitionsTheme: const PageTransitionsTheme(
+              builders: <TargetPlatform, PageTransitionsBuilder>{
+                // Set the predictive back transitions for Android.
+                TargetPlatform.android: PredictiveBackPageTransitionsBuilder(),
+              },
+            ),
           ),
-        ),
-        home: const HomePage(),
-        builder: EasyLoading.init(),);
+          home: const HomePage(),
+          builder: EasyLoading.init(),),
+    );
         
   }
 }

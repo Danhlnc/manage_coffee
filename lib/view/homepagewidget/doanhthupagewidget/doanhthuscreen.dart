@@ -1,4 +1,8 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:tscoffee/model/spendmodel.dart';
 
 import '../../../apps/globalvariables.dart';
 import '../../../model/billmodel.dart';
@@ -7,6 +11,7 @@ import '../addcustomer.dart';
 import '../addpagewidgets/billlist.dart';
 import 'datetimeDoanhThu.dart';
 
+import 'package:http/http.dart' as http;
 // ignore: must_be_immutable
 class Doanhthuscreen extends StatefulWidget {
   List<Map<Billmodel, Color>> listBillsTotal;
@@ -46,7 +51,24 @@ class _DoanhthuscreenState extends State<Doanhthuscreen> {
       }
     }
   }
-
+Future  addSpend(Map<String, dynamic> item) async {
+    final response = await http.post(
+      Uri.parse('https://tscoffee-server-1.onrender.com/v1/boards/spends'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(item),
+    );
+    if (response.statusCode == 200) {
+      // If the server did return a 201 CREATED response,
+      // then parse the JSON.
+      date = DateTime.now();
+    } else {
+      // If the server did not return a 201 CREATED response,
+      // then throw an exception.
+      throw Exception('Failed to create album.');
+    }
+  }
   @override
   Widget build(BuildContext context) {
     if (widget.listBills.isEmpty) {
@@ -249,22 +271,125 @@ class _DoanhthuscreenState extends State<Doanhthuscreen> {
                     ],
                   ),
                 )),
-                Expanded(child: Card(
-                  color: Colors.amber,
-                                    child: Row(
-                                      children: [
-                                        const Text(
-                                          ' Chi: ',
-                                          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                                        ),Builder(builder: (context) {
-                                                    
-                                                     return const Text("0" ,style: TextStyle(
-                              fontSize: 16, fontWeight: FontWeight.bold)
-                                                     );
-                                                   }),
-                                      ],
+                Expanded(child: InkWell(
+                  onTap: () async {
+                    await showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                       
+                        return Consumer<spendmodel>(builder: (context, spend, child){
+                          return FractionallySizedBox(widthFactor: 1,
+      heightFactor: 1,
+      child: AlertDialog(
+        title:SizedBox(
+          
+              width: 400,
+              height: 330,
+              child: Stack(children: [
+                Positioned(
+                  bottom: 0,
+                  right: 0,
+                  child:   ElevatedButton(child: const Text("Thêm chi tiêu"),onPressed: () async {
+                    TextEditingController tenChitieu = new TextEditingController();
+                    TextEditingController soTien = new TextEditingController();
+                    spendmodel model = spendmodel();
+                    await showDialog<double>(
+                      context: context,builder: (BuildContext context) {
+                                        return FractionallySizedBox(widthFactor: 0.5,
+      heightFactor: 0.5,
+                                          child: AlertDialog(
+                                            
+                                            title: SizedBox(
+                                                width: 300,
+                                                        height: 70,
+                                              child: Column(
+                                                mainAxisAlignment: MainAxisAlignment.center,
+                                                children: [
+                                                 Row(children: [
+                                                  Expanded(
+                                                    child: Card(
+                                                      child: TextField(
+                                                        
+                                                        controller: tenChitieu,
+                                                        onChanged: (value) {
+                                                        
+                                                      },
+                                                      decoration: const InputDecoration(
+                                                                                                      border: InputBorder.none,
+                                                                                                      hintText: 'Tên chi tiêu',
+                                                      ),),
+                                                    ),
+                                                  ),Expanded(
+                                                    child: Card(
+                                                      child: TextField(
+                                                          controller: soTien,
+                                                        onChanged: (value) {
+                                                        
+                                                      },
+                                                      decoration: const InputDecoration(
+                                                                                                      border: InputBorder.none,
+                                                                                                      hintText: 'Số tiền',
+                                                      ),),
+                                                    ),
+                                                  )
+                                                 ],)
+                                                ],
+                                              ),
+                                            ),
+                                            actions: [
+                                              ElevatedButton(
+                                                  onPressed: () =>
+                                                      Navigator.of(context).pop(
+                                                          double.tryParse(
+                                                              0.toString())),
+                                                  child: const Text('Hủy')),
+                                              ElevatedButton(
+                                                  onPressed: () => Navigator.of(
+                                                          context)
+                                                      .pop(double.tryParse(1
+                                                          .toString())), // returns val
+                                                  child: const Text('OK')),
+                                            ],
+                                          ),
+                                        );
+                                      }
+
+                    ).then((onValue){
+                      
+                      if(onValue==1){
+                        spend.name=tenChitieu.text;
+                        spend.count=int.parse(soTien.text) ;
+                        print(spend.name);
+                       
+                      }
+                    });
+                },)),Positioned(
+                  
+                  child: Card(child: Text("${spend.name}"+" "+ "${spend.count}" ),))
+              ],),
+        ),
+      )
+      );
+                        });
+                      });
+                  },
+                  child: Card(
+                    color: Colors.amber,
+                                      child: Row(
+                                        children: [
+                                          const Text(
+                                            ' Chi: ',
+                                            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                                          ),Builder(builder: (context) {
+                                                      
+                                                       return const Text("0" ,style: TextStyle(
+                                fontSize: 16, fontWeight: FontWeight.bold)
+                                                       );
+                                                     }),
+                                        ],
+                                      ),
                                     ),
-                                  ),)
+                ),)
               ],
             ),
           ),
@@ -291,7 +416,7 @@ class _DoanhthuscreenState extends State<Doanhthuscreen> {
                 ),
               )),
                                  Expanded(child: Card(
-                 color: Colors.blue,
+                                                  color: Colors.blue,
                                   child: Row(
                                     children: [
                                       const Text(
@@ -300,12 +425,12 @@ class _DoanhthuscreenState extends State<Doanhthuscreen> {
                                       ),Builder(builder: (context) {
                                                   
                                                    return const Text("0" ,style: TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.bold)
+                                                             fontSize: 16, fontWeight: FontWeight.bold)
                                                    );
                                                  }),
                                     ],
                                   ),
-                                ),)
+                                                                 ),)
                                 
              ],
            ),

@@ -29,7 +29,7 @@ class _BillsState extends State<Bills> {
         Expanded(
           flex: 1,
           child: Center(
-            child: Text("${widget.Bill.keys.first.createdOn!.day}""/""${widget.Bill.keys.first.createdOn!.month}"+" "
+            child: Text("${widget.Bill.keys.first.createdOn!.day}""/""${widget.Bill.keys.first.createdOn!.month}"" "
               // ignore: prefer_interpolation_to_compose_strings
               "${widget.Bill.keys.first.createdOn!.hour}:${widget.Bill.keys.first.createdOn!.minute < 10 ? "0" + widget.Bill.keys.first.createdOn!.minute.toString() : widget.Bill.keys.first.createdOn!.minute}",
               style: const TextStyle(fontSize: 12),
