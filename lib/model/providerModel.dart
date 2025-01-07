@@ -24,14 +24,12 @@ class ProviderModel extends ChangeNotifier {
     _listSpendTemp.forEach((element) {
       this._countTotal += element.count!;
     });
-    print(_countTotal);
     notifyListeners();
   }
 
   updateListTemp(DateTimeRange date) {
     this._listSpendTemp = [...this._listSpend];
     this._listSpend!.forEach((element) {
-      print(element);
       if (element.createdOn!.isAfter(date.start) &&
           element.createdOn!.isBefore(date.end)) {
       } else {
