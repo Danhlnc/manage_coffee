@@ -32,7 +32,9 @@ class _DrinklistdialogState extends State<Drinklistdialog> {
                   if (value != "") {
                     widget.listSearch.clear();
                     for (var action in listAllNuocSearch) {
-                      if (action.drinkName!.toUpperCase().contains(value.toUpperCase())) {
+                      if (action.drinkName!
+                          .toUpperCase()
+                          .contains(value.toUpperCase())) {
                         widget.listSearch.add(action);
                       }
                     }

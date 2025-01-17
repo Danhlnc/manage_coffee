@@ -53,20 +53,22 @@ class _DrinkswidgetState extends State<Drinkswidget> {
                         listAllNuocSearch = [...listAllNuoc];
                         return Drinklistdialog(
                             listNuoc: widget.customer.listNuoc);
-                      });
-                  setState(() {
-                    widget.customer.tongTien = widget.customer.sac! +
-                        (widget.customer.muonSac == true ? 3000 : 0) +
-                        (widget.customer.nguNgay == true ? 15000 : 0) +
-                        (widget.customer.nguDem == true ? 30000 : 0) +
-                        (widget.customer.tam == true ? 5000 : 0) +
-                        getTotalDrinkPrice(listNuoc) +
-                        getTotalTaboccoPrice(listThuoc) +
-                        double.parse(widget.customer.comGia.toString()) +
-                        double.parse(widget.customer.giaGiatDo.toString()) +
-                        double.parse(widget.customer.giaTu.toString());
-                    widget.callBackFunc("");
-                    widget.customer.listNuoc;
+                      }).then((value) {
+                    print(widget.customer.listNuoc);
+                    setState(() {
+                      widget.customer.tongTien = widget.customer.sac! +
+                          (widget.customer.muonSac == true ? 3000 : 0) +
+                          (widget.customer.nguNgay == true ? 15000 : 0) +
+                          (widget.customer.nguDem == true ? 30000 : 0) +
+                          (widget.customer.tam == true ? 5000 : 0) +
+                          getTotalDrinkPrice(widget.customer.listNuoc) +
+                          getTotalTaboccoPrice(widget.customer.listThuoc) +
+                          double.parse(widget.customer.comGia.toString()) +
+                          double.parse(widget.customer.giaGiatDo.toString()) +
+                          double.parse(widget.customer.giaTu.toString());
+                      widget.callBackFunc("");
+                      widget.customer.listNuoc;
+                    });
                   });
                 },
                 icon: const Icon(Icons.add),
@@ -89,8 +91,9 @@ class _DrinkswidgetState extends State<Drinkswidget> {
                                 (widget.customer.nguNgay == true ? 15000 : 0) +
                                 (widget.customer.nguDem == true ? 30000 : 0) +
                                 (widget.customer.tam == true ? 5000 : 0) +
-                                getTotalDrinkPrice(listNuoc) +
-                                getTotalTaboccoPrice(listThuoc) +
+                                getTotalDrinkPrice(widget.customer.listNuoc) +
+                                getTotalTaboccoPrice(
+                                    widget.customer.listThuoc) +
                                 double.parse(
                                     widget.customer.comGia.toString()) +
                                 double.parse(
@@ -129,8 +132,10 @@ class _DrinkswidgetState extends State<Drinkswidget> {
                                         (widget.customer.tam == true
                                             ? 5000
                                             : 0) +
-                                        getTotalDrinkPrice(listNuoc) +
-                                        getTotalTaboccoPrice(listThuoc) +
+                                        getTotalDrinkPrice(
+                                            widget.customer.listNuoc) +
+                                        getTotalTaboccoPrice(
+                                            widget.customer.listThuoc) +
                                         double.parse(
                                             widget.customer.comGia.toString()) +
                                         double.parse(widget.customer.giaGiatDo

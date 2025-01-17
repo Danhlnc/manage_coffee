@@ -15,32 +15,32 @@ class ProviderModel extends ChangeNotifier {
       _listSpendTemp = listSpendTemp!;
 
   update(listSpend) {
-    this._listSpend = listSpend;
+    _listSpend = listSpend;
     notifyListeners();
   }
 
   getTotalCount() {
-    this._countTotal = 0;
-    _listSpendTemp.forEach((element) {
-      this._countTotal += element.count!;
-    });
+    _countTotal = 0;
+    for (var element in _listSpendTemp) {
+      _countTotal += element.count!;
+    }
     notifyListeners();
   }
 
   updateListTemp(DateTimeRange date) {
-    this._listSpendTemp = [...this._listSpend];
-    this._listSpend!.forEach((element) {
+    _listSpendTemp = [..._listSpend];
+    for (var element in _listSpend) {
       if (element.createdOn!.isAfter(date.start) &&
           element.createdOn!.isBefore(date.end)) {
       } else {
         _listSpendTemp.remove(element);
       }
-    });
+    }
     notifyListeners();
   }
 
   removeSpend(index) {
-    this._listSpend.removeAt(index);
+    _listSpend.removeAt(index);
     notifyListeners();
   }
 }

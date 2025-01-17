@@ -355,11 +355,11 @@ class _DoanhthuscreenState extends State<Doanhthuscreen> {
                                                       Expanded(
                                                         flex: 4,
                                                         child: Card(
-                                                          child: Text("    " +
-                                                              "${providerModel.listSpendTemp![index].createdOn!.day}" +
-                                                              "/"
-                                                                  "${providerModel.listSpendTemp![index].createdOn!.month}" +
-                                                              " " +
+                                                          child: Text("    "
+                                                                  "${providerModel.listSpendTemp![index].createdOn!.day}"
+                                                                  "/"
+                                                                  "${providerModel.listSpendTemp![index].createdOn!.month}"
+                                                                  " " +
                                                               "${providerModel.listSpendTemp![index].name}" +
                                                               ": " +
                                                               "${providerModel.listSpendTemp![index].count}"),
@@ -418,10 +418,10 @@ class _DoanhthuscreenState extends State<Doanhthuscreen> {
                                                   onPressed: () async {
                                                     TextEditingController
                                                         tenChitieu =
-                                                        new TextEditingController();
+                                                        TextEditingController();
                                                     TextEditingController
                                                         soTien =
-                                                        new TextEditingController();
+                                                        TextEditingController();
                                                     spendmodel model =
                                                         spendmodel();
                                                     await showDialog<double>(
@@ -560,7 +560,7 @@ class _DoanhthuscreenState extends State<Doanhthuscreen> {
                                 builder: (BuildContext context, value,
                                     Widget? child) {
                                   return Text("${value.countTotal}",
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                           fontSize: 16,
                                           fontWeight: FontWeight.bold));
                                 },
@@ -630,8 +630,8 @@ class _DoanhthuscreenState extends State<Doanhthuscreen> {
                               double totalClai = total -
                                   totalCThu -
                                   double.parse(value.countTotal.toString());
-                              return Text("${totalClai}",
-                                  style: TextStyle(
+                              return Text("$totalClai",
+                                  style: const TextStyle(
                                       fontSize: 16,
                                       fontWeight: FontWeight.bold));
                             },

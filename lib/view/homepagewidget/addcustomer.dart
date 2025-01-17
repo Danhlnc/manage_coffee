@@ -86,8 +86,8 @@ class _AddCustomerState extends State<AddCustomer> {
             (widget.customer.nguNgay == true ? 15000 : 0) +
             (widget.customer.nguDem == true ? 30000 : 0) +
             (widget.customer.tam == true ? 5000 : 0) +
-            getTotalDrinkPrice(listNuoc) +
-            getTotalTaboccoPrice(listThuoc) +
+            getTotalDrinkPrice(widget.customer.listNuoc) +
+            getTotalTaboccoPrice(widget.customer.listThuoc) +
             (comGia.text != '' ? double.parse(comGia.text) : 0) +
             (giaGiatDo.text != '' ? double.parse(giaGiatDo.text) : 0) +
             double.parse(widget.customer.giaTu.toString());
@@ -160,8 +160,8 @@ class _AddCustomerState extends State<AddCustomer> {
         (widget.customer.nguNgay == true ? 15000 : 0) +
         (widget.customer.nguDem == true ? 30000 : 0) +
         (widget.customer.tam == true ? 5000 : 0) +
-        getTotalDrinkPrice(listNuoc) +
-        getTotalTaboccoPrice(listThuoc) +
+        getTotalDrinkPrice(widget.customer.listNuoc) +
+        getTotalTaboccoPrice(widget.customer.listThuoc) +
         (comGia.text != '' ? double.parse(comGia.text) : 0) +
         (giaGiatDo.text != '' ? double.parse(giaGiatDo.text) : 0) +
         double.parse(widget.customer.giaTu.toString());

@@ -3,8 +3,6 @@ import 'package:tscoffee/model/billmodel.dart';
 import 'package:tscoffee/model/drinkbillmodel.dart';
 import 'package:tscoffee/model/taboccobillmodel.dart';
 
-import '../../../../apps/globalvariables.dart';
-
 // ignore: must_be_immutable
 class Drinklist extends StatefulWidget {
   Drinkbillmodel listNuocSelected;
@@ -60,8 +58,10 @@ class _DrinklistState extends State<Drinklist> {
                                         ? 30000
                                         : 0) +
                                     (widget.customer.tam == true ? 5000 : 0) +
-                                    getTotalDrinkPrice(listNuoc) +
-                                    getTotalTaboccoPrice(listThuoc) +
+                                    getTotalDrinkPrice(
+                                        widget.customer.listNuoc) +
+                                    getTotalTaboccoPrice(
+                                        widget.customer.listThuoc) +
                                     double.parse(
                                         widget.customer.comGia.toString()) +
                                     double.parse(
@@ -96,8 +96,9 @@ class _DrinklistState extends State<Drinklist> {
                                       : 0) +
                                   (widget.customer.nguDem == true ? 30000 : 0) +
                                   (widget.customer.tam == true ? 5000 : 0) +
-                                  getTotalDrinkPrice(listNuoc) +
-                                  getTotalTaboccoPrice(listThuoc) +
+                                  getTotalDrinkPrice(widget.customer.listNuoc) +
+                                  getTotalTaboccoPrice(
+                                      widget.customer.listThuoc) +
                                   double.parse(
                                       widget.customer.comGia.toString()) +
                                   double.parse(
@@ -112,10 +113,11 @@ class _DrinklistState extends State<Drinklist> {
                 )),
             //
             const Expanded(
-                           flex: 2,
-                           child: SizedBox(width: 5,),
-                        )
-            
+              flex: 2,
+              child: SizedBox(
+                width: 5,
+              ),
+            )
           ]),
     );
   }

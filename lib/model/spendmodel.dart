@@ -93,14 +93,14 @@ class spendmodel extends ChangeNotifier {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['_id'] = this._sId;
-    data['name'] = this._name;
-    data['count'] = this._count;
-    data['createdOn'] = this._createdOn.toString();
-    data['createdBy'] = this._createdBy;
-    data['modifyOn'] = this._modifyOn.toString();
-    data['modifyBy'] = this._modifyBy;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['_id'] = _sId;
+    data['name'] = _name;
+    data['count'] = _count;
+    data['createdOn'] = _createdOn.toString();
+    data['createdBy'] = _createdBy;
+    data['modifyOn'] = _modifyOn.toString();
+    data['modifyBy'] = _modifyBy;
     return data;
   }
 }
