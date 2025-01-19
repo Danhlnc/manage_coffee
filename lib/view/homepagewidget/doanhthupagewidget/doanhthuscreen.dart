@@ -365,45 +365,45 @@ class _DoanhthuscreenState extends State<Doanhthuscreen> {
                                                               "${providerModel.listSpendTemp![index].count}"),
                                                         ),
                                                       ),
-                                                      Expanded(
-                                                        flex: 1,
-                                                        child: IconButton(
-                                                          icon: const Icon(Icons
-                                                              .delete_forever_outlined),
-                                                          onPressed: () {
-                                                            EasyLoading.show(
-                                                                status:
-                                                                    'loading...');
-                                                            setState(() {
-                                                              widget.loading =
-                                                                  true;
-                                                            });
-                                                            deleteSpend(providerModel
-                                                                    .listSpend![
-                                                                        index]
-                                                                    .toJson())
-                                                                .then(
-                                                                    (onValue) {
-                                                              providerModel
-                                                                  .removeSpend(
-                                                                      index);
+                                                      // Expanded(
+                                                      //   flex: 1,
+                                                      //   child: IconButton(
+                                                      //     icon: const Icon(Icons
+                                                      //         .delete_forever_outlined),
+                                                      //     onPressed: () {
+                                                      //       EasyLoading.show(
+                                                      //           status:
+                                                      //               'loading...');
+                                                      //       setState(() {
+                                                      //         widget.loading =
+                                                      //             true;
+                                                      //       });
+                                                      //       deleteSpend(providerModel
+                                                      //               .listSpend![
+                                                      //                   index]
+                                                      //               .toJson())
+                                                      //           .then(
+                                                      //               (onValue) {
+                                                      //         providerModel
+                                                      //             .removeSpend(
+                                                      //                 index);
 
-                                                              providerModel
-                                                                  .updateListTemp(
-                                                                      dateTimeRange);
-                                                              providerModel
-                                                                  .getTotalCount();
-                                                              setState(() {
-                                                                widget.loading =
-                                                                    false;
+                                                      //         providerModel
+                                                      //             .updateListTemp(
+                                                      //                 dateTimeRange);
+                                                      //         providerModel
+                                                      //             .getTotalCount();
+                                                      //         setState(() {
+                                                      //           widget.loading =
+                                                      //               false;
 
-                                                                EasyLoading
-                                                                    .dismiss();
-                                                              });
-                                                            });
-                                                          },
-                                                        ),
-                                                      )
+                                                      //           EasyLoading
+                                                      //               .dismiss();
+                                                      //         });
+                                                      //       });
+                                                      //     },
+                                                      //   ),
+                                                      // )
                                                     ],
                                                   ),
                                                 );
