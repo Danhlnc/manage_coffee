@@ -48,10 +48,13 @@ List<Taboccomodel> listAllThuoc = [];
 List<Drinkmodel> listAllNuocSearch = [];
 List<Taboccomodel> listAllThuocSearch = [];
 bool loadData = true;
+
+bool checkDoiSac = true;
 List<Billmodel> parsePost(String responseBody) {
   var list = json.decode(responseBody)['result'] as List<dynamic>;
   List<Billmodel> listBillModel =
       list.map((value) => Billmodel.fromJson(value)).toList();
+
   return listBillModel;
 }
 
@@ -78,7 +81,8 @@ List<Taboccomodel> taboccoParsePost(String responseBody) {
 }
 
 Future<List<Billmodel>> fetch() async {
-  final url = Uri.parse('https://tscoffee-server-1.onrender.com/v1/boards/bills');
+  final url =
+      Uri.parse('https://tscoffee-server-1.onrender.com/v1/boards/bills');
   final response = await http.get(url, headers: {
     "Access-Control-Allow-Origin": "*",
     'Content-Type': 'application/json',

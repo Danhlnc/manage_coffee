@@ -47,7 +47,6 @@ class _HomeState extends State<Home> {
         listBillsTotal.clear();
         listBills.clear();
         list.clear();
-
         list = onValue;
         for (var item in list) {
           Map<Billmodel, Color> newmap = {item: Colors.white};

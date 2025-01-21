@@ -33,8 +33,12 @@ class Doanhthuscreen extends StatefulWidget {
 
 class _DoanhthuscreenState extends State<Doanhthuscreen> {
   callBack(String status) {
-    widget.callBack(status);
-    setState(() {});
+    if (status == "reload") {
+      setState(() {});
+    } else {
+      widget.callBack(status);
+      setState(() {});
+    }
   }
 
   final TextEditingController searchController = TextEditingController();
@@ -213,79 +217,42 @@ class _DoanhthuscreenState extends State<Doanhthuscreen> {
                             ' Chưa TT',
                             style: TextStyle(color: Colors.white),
                           ),
-                          // AbsorbPointer(
-                          //   absorbing: !widget.customer.trangThai!,
-                          //   child: Checkbox(
-                          //       value: checkTT,
-                          //       onChanged: (value) {
-                          //         if (searchController.text != "") {
-                          //           if (checkTT == false) {
-                          //             listBillsTotalDate = [
-                          //               ...listBillsTotalSearch
-                          //             ];
-                          //             var listProDate = [...listBillsTotalDate];
-                          //             for (var action in listProDate) {
-                          //               if (action.keys.first.createdOn!
-                          //                       .isBefore(dateTimeRange.end) &&
-                          //                   action.keys.first.createdOn!
-                          //                       .isAfter(dateTimeRange.start) &&
-                          //                   action.keys.first.trangThai ==
-                          //                       true) {
-                          //               } else {
-                          //                 listBillsTotalDate.remove(action);
-                          //               }
-                          //             }
-                          //             checkTT = !checkTT;
-                          //           } else {
-                          //             listBillsTotalDate = [
-                          //               ...listBillsTotalSearch
-                          //             ];
-                          //             var listProDate = [...listBillsTotalDate];
-                          //             for (var action in listProDate) {
-                          //               if (action.keys.first.createdOn!
-                          //                       .isBefore(dateTimeRange.end) &&
-                          //                   action.keys.first.createdOn!
-                          //                       .isAfter(dateTimeRange.start)) {
-                          //               } else {
-                          //                 listBillsTotalDate.remove(action);
-                          //               }
-                          //             }
-                          //             checkTT = !checkTT;
-                          //           }
-                          //         } else if (searchController.text == "") {
-                          //           if (checkTT == false) {
-                          //             listBillsTotalDate = [...listBillsTotal];
-                          //             var listProDate = [...listBillsTotalDate];
-                          //             for (var action in listProDate) {
-                          //               if (action.keys.first.createdOn!
-                          //                       .isBefore(dateTimeRange.end) &&
-                          //                   action.keys.first.createdOn!
-                          //                       .isAfter(dateTimeRange.start) &&
-                          //                   action.keys.first.trangThai ==
-                          //                       true) {
-                          //               } else {
-                          //                 listBillsTotalDate.remove(action);
-                          //               }
-                          //             }
-                          //             checkTT = !checkTT;
-                          //           } else {
-                          //             listBillsTotalDate = [...listBillsTotal];
-                          //             var listProDate = [...listBillsTotalDate];
-                          //             for (var action in listProDate) {
-                          //               if (action.keys.first.createdOn!
-                          //                       .isBefore(dateTimeRange.end) &&
-                          //                   action.keys.first.createdOn!
-                          //                       .isAfter(dateTimeRange.start)) {
-                          //               } else {
-                          //                 listBillsTotalDate.remove(action);
-                          //               }
-                          //             }
-                          //             checkTT = !checkTT;
-                          //           }
-                          //         }
-                          //         callBack("");
-                          //       }),
-                          // ),
+                          AbsorbPointer(
+                            absorbing: !widget.customer.trangThai!,
+                            child: Checkbox(
+                                value: checkTT,
+                                onChanged: (value) {
+                                  if (searchController.text == "" &&
+                                      checkTT == true) {
+                                    listBillsTotalDate = [...listBillsTotal];
+                                    var listProDate = [...listBillsTotalDate];
+                                    for (var action in listProDate) {
+                                      if (action.keys.first.createdOn!
+                                              .isBefore(dateTimeRange.end) &&
+                                          action.keys.first.createdOn!
+                                              .isAfter(dateTimeRange.start)) {
+                                      } else {
+                                        listBillsTotalDate.remove(action);
+                                      }
+                                    }
+                                    widget.listBills = [...listBillsTotalDate];
+                                  } else if (listBillsTotalDate.length != 0 &&
+                                      checkTT == false) {
+                                    widget.listBills = [...listBillsTotalDate];
+                                    listBillsTotalDate.forEach((value) {
+                                      if (value.keys.first.trangThai == false) {
+                                        widget.listBills.remove(value);
+                                      }
+                                    });
+                                  } else if (listBillsTotalDate.length != 0 &&
+                                      checkTT == true) {
+                                    widget.listBills = [...listBillsTotalDate];
+                                  }
+
+                                  checkTT = !checkTT;
+                                  setState(() {});
+                                }),
+                          ),
                         ],
                       ))
                 ],
@@ -356,12 +323,12 @@ class _DoanhthuscreenState extends State<Doanhthuscreen> {
                                                         flex: 4,
                                                         child: Card(
                                                           child: Text("    "
-                                                                  "${providerModel.listSpendTemp![index].createdOn!.day}"
-                                                                  "/"
-                                                                  "${providerModel.listSpendTemp![index].createdOn!.month}"
-                                                                  " "
-                                                                  "${providerModel.listSpendTemp![index].name}"
-                                                                  ": " +
+                                                              "${providerModel.listSpendTemp![index].createdOn!.day}"
+                                                              "/"
+                                                              "${providerModel.listSpendTemp![index].createdOn!.month}"
+                                                              " "
+                                                              "${providerModel.listSpendTemp![index].name}"
+                                                              ": "
                                                               "${providerModel.listSpendTemp![index].count}"),
                                                         ),
                                                       ),

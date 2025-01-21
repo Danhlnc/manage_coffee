@@ -10,7 +10,7 @@ class Datetime extends StatefulWidget {
 }
 
 DatePickerDialog selectedDate =
-    DatePickerDialog(firstDate: DateTime.now(), lastDate: DateTime.now());
+    DatePickerDialog(firstDate: date, lastDate: date);
 
 class _DatetimeState extends State<Datetime> {
   @override

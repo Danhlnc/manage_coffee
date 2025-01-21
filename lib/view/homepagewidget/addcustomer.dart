@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -69,6 +70,7 @@ class _AddCustomerState extends State<AddCustomer> {
     }
   }
 
+  //#region create customer
   CreateCustomer(bool trangThai, bool staTus) async {
     try {
       if (widget.customer.bienSoXe == "") {
@@ -80,24 +82,12 @@ class _AddCustomerState extends State<AddCustomer> {
               );
             });
       } else {
-        double tongTien = 0;
-        tongTien = widget.customer.sac! +
-            (widget.customer.muonSac == true ? 3000 : 0) +
-            (widget.customer.nguNgay == true ? 15000 : 0) +
-            (widget.customer.nguDem == true ? 30000 : 0) +
-            (widget.customer.tam == true ? 5000 : 0) +
-            getTotalDrinkPrice(widget.customer.listNuoc) +
-            getTotalTaboccoPrice(widget.customer.listThuoc) +
-            (comGia.text != '' ? double.parse(comGia.text) : 0) +
-            (giaGiatDo.text != '' ? double.parse(giaGiatDo.text) : 0) +
-            double.parse(widget.customer.giaTu.toString());
         widget.customer.bienSoXe = bienSoXe.text;
         widget.customer.comGia =
             (comGia.text != '' ? double.parse(comGia.text) : 0);
         widget.customer.giaGiatDo =
             (comGia.text != '' ? double.parse(giaGiatDo.text) : 0);
         widget.customer.ghiChu = ghiChu.text;
-        widget.customer.tongTien = tongTien;
         widget.customer.trangThai = trangThai;
         widget.customer.createdBy = '';
         widget.customer.modifyOn = DateTime.utc(
@@ -111,8 +101,6 @@ class _AddCustomerState extends State<AddCustomer> {
         var details = {widget.customer: Colors.white};
         var test = widget.customer.toJson();
         test.remove('_id');
-
-        //print(test);
         if (staTus) {
           EasyLoading.show(status: 'loading...');
           setState(() {
@@ -132,18 +120,22 @@ class _AddCustomerState extends State<AddCustomer> {
             widget.loading = true;
           });
           updateBill(widget.customer.toJson()).then((onValue) {
+            listBillsTotal.forEach((element) {
+              if (element.keys.first.sId == widget.customer.sId) {
+                element.keys.first.trangThai = widget.customer.trangThai;
+              }
+            });
             setState(() {
               widget.loading = false;
             });
 
             EasyLoading.dismiss();
             Navigator.of(context).pop();
-            widget.callBack("update");
+            callBack("reload");
           });
         }
       }
     } catch (e) {
-      print(e);
       await showDialog(
           context: context,
           builder: (context) {
@@ -154,11 +146,17 @@ class _AddCustomerState extends State<AddCustomer> {
     }
   }
 
+  //#endregion
   getTongTien() {
-    widget.customer.tongTien = widget.customer.sac! +
+    int count = widget.customer.sac!.toInt() == 8000
+        ? widget.customer.soLuongSac8k!
+        : widget.customer.soLuongSac12k!;
+    widget.customer.tongTien = (widget.customer.sac!) * count +
         (widget.customer.muonSac == true ? 3000 : 0) +
-        (widget.customer.nguNgay == true ? 15000 : 0) +
-        (widget.customer.nguDem == true ? 30000 : 0) +
+        (widget.customer.nguNgay == true ? 15000 : 0) *
+            widget.customer.soLuongNguNgay! +
+        ((widget.customer.nguDem == true ? 30000 : 0) *
+            widget.customer.soLuongNguDem!) +
         (widget.customer.tam == true ? 5000 : 0) +
         getTotalDrinkPrice(widget.customer.listNuoc) +
         getTotalTaboccoPrice(widget.customer.listThuoc) +
@@ -178,6 +176,7 @@ class _AddCustomerState extends State<AddCustomer> {
   TextEditingController comGia = TextEditingController();
   TextEditingController giaGiatDo = TextEditingController();
   String giaTu = '';
+
   @override
   Widget build(BuildContext context) {
     return AbsorbPointer(
@@ -355,57 +354,180 @@ class _AddCustomerState extends State<AddCustomer> {
                             Row(
                               children: <Widget>[
                                 const Text("  Sạc:"),
-                                AbsorbPointer(
-                                  absorbing: !widget.customer.trangThai!,
-                                  child: RadioMenuButton(
-                                    value: 8000,
-                                    groupValue: widget.customer.sac,
-                                    onChanged: (value) {
-                                      setState(() {
-                                        widget.customer.sac =
-                                            (value.toString() != '0'
-                                                ? double.parse(value.toString())
-                                                : 0);
-                                        getTongTien();
-                                      });
-                                    },
-                                    child: const Text('>70%'),
+                                Expanded(
+                                  flex: 1,
+                                  child: AbsorbPointer(
+                                    absorbing: !widget.customer.trangThai!,
+                                    child: RadioMenuButton(
+                                      value: 8000,
+                                      groupValue: widget.customer.sac,
+                                      onChanged: (value) {
+                                        setState(() {
+                                          widget.customer.sac = (value
+                                                      .toString() !=
+                                                  '0'
+                                              ? double.parse(value.toString())
+                                              : 0);
+
+                                          widget.customer.soLuongSac12k = 0;
+                                          getTongTien();
+                                        });
+                                      },
+                                      child: const Text('>70%'),
+                                    ),
                                   ),
                                 ),
-                                AbsorbPointer(
-                                  absorbing: !widget.customer.trangThai!,
-                                  child: RadioMenuButton(
-                                    value: 12000,
-                                    groupValue: widget.customer.sac,
-                                    onChanged: (value) {
-                                      setState(() {
-                                        widget.customer.sac =
-                                            (value.toString() != '0'
-                                                ? double.parse(value.toString())
-                                                : 0);
-                                        getTongTien();
-                                      });
-                                    },
-                                    child: const Text('<70%'),
+                                Expanded(
+                                    flex: 2,
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Expanded(
+                                            flex: 1,
+                                            child: IconButton(
+                                              padding: EdgeInsets.zero,
+                                              icon: const Icon(
+                                                  Icons.remove_circle_outlined),
+                                              onPressed: () {
+                                                if (widget.customer
+                                                        .soLuongSac8k! >
+                                                    0) {
+                                                  widget.customer.soLuongSac8k =
+                                                      (widget.customer
+                                                              .soLuongSac8k! -
+                                                          1);
+                                                }
+                                                getTongTien();
+                                                setState(() {});
+                                              },
+                                            )),
+                                        Expanded(
+                                            flex: 1,
+                                            child: Center(
+                                                child: Container(
+                                                    padding: EdgeInsets.zero,
+                                                    child: Text(widget
+                                                        .customer.soLuongSac8k
+                                                        .toString())))),
+                                        Expanded(
+                                            flex: 1,
+                                            child: IconButton(
+                                              padding: EdgeInsets.zero,
+                                              icon: const Icon(
+                                                  Icons.add_circle_outlined),
+                                              onPressed: () {
+                                                widget.customer.soLuongSac8k =
+                                                    (widget.customer
+                                                            .soLuongSac8k! +
+                                                        1);
+
+                                                getTongTien();
+                                                setState(() {});
+                                              },
+                                            )),
+                                      ],
+                                    )),
+                                //
+                                Expanded(
+                                  flex: 3,
+                                  child: AbsorbPointer(
+                                    absorbing: !widget.customer.trangThai!,
+                                    child: RadioMenuButton(
+                                      value: 0,
+                                      groupValue: widget.customer.sac,
+                                      onChanged: (value) {
+                                        setState(() {
+                                          widget.customer.sac = (value
+                                                      .toString() !=
+                                                  '0'
+                                              ? double.parse(value.toString())
+                                              : 0);
+                                          getTongTien();
+                                        });
+                                      },
+                                      child: const Text('Không'),
+                                    ),
                                   ),
                                 ),
-                                AbsorbPointer(
-                                  absorbing: !widget.customer.trangThai!,
-                                  child: RadioMenuButton(
-                                    value: 0,
-                                    groupValue: widget.customer.sac,
-                                    onChanged: (value) {
-                                      setState(() {
-                                        widget.customer.sac =
-                                            (value.toString() != '0'
-                                                ? double.parse(value.toString())
-                                                : 0);
-                                        getTongTien();
-                                      });
-                                    },
-                                    child: const Text('Không'),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                Expanded(
+                                  flex: 1,
+                                  child: AbsorbPointer(
+                                    absorbing: !widget.customer.trangThai!,
+                                    child: RadioMenuButton(
+                                      value: 12000,
+                                      groupValue: widget.customer.sac,
+                                      onChanged: (value) {
+                                        setState(() {
+                                          widget.customer.sac = (value
+                                                      .toString() !=
+                                                  '0'
+                                              ? double.parse(value.toString())
+                                              : 0);
+                                          widget.customer.soLuongSac8k = 0;
+                                          getTongTien();
+                                        });
+                                      },
+                                      child: const Text('<70%'),
+                                    ),
                                   ),
                                 ),
+                                Expanded(
+                                    flex: 2,
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Expanded(
+                                            flex: 1,
+                                            child: IconButton(
+                                              padding: EdgeInsets.zero,
+                                              icon: const Icon(
+                                                  Icons.remove_circle_outlined),
+                                              onPressed: () {
+                                                if (widget.customer
+                                                        .soLuongSac12k! >
+                                                    0) {
+                                                  widget.customer
+                                                      .soLuongSac12k = (widget
+                                                          .customer
+                                                          .soLuongSac12k! -
+                                                      1);
+                                                }
+                                                getTongTien();
+                                                setState(() {});
+                                              },
+                                            )),
+                                        Expanded(
+                                            flex: 1,
+                                            child: Center(
+                                                child: Container(
+                                                    padding: EdgeInsets.zero,
+                                                    child: Text(widget
+                                                        .customer.soLuongSac12k
+                                                        .toString())))),
+                                        Expanded(
+                                            flex: 1,
+                                            child: IconButton(
+                                              padding: EdgeInsets.zero,
+                                              icon: const Icon(
+                                                  Icons.add_circle_outlined),
+                                              onPressed: () {
+                                                widget.customer.soLuongSac12k =
+                                                    (widget.customer
+                                                            .soLuongSac12k! +
+                                                        1);
+                                                getTongTien();
+                                                setState(() {});
+                                              },
+                                            )),
+                                      ],
+                                    )),
+                                const Expanded(flex: 3, child: Text(""))
                               ],
                             ),
                             Row(
@@ -421,7 +543,19 @@ class _AddCustomerState extends State<AddCustomer> {
                                         });
                                       }),
                                 ),
-                                const Text('Mượn sạc')
+                                const Text('Mượn sạc'),
+                                AbsorbPointer(
+                                  absorbing: !widget.customer.trangThai!,
+                                  child: Checkbox(
+                                      value: widget.customer.doiSac,
+                                      onChanged: (value) {
+                                        setState(() {
+                                          widget.customer.doiSac = value;
+                                          getTongTien();
+                                        });
+                                      }),
+                                ),
+                                const Text('Đợi sạc')
                               ],
                             )
                           ],
@@ -439,44 +573,164 @@ class _AddCustomerState extends State<AddCustomer> {
                             width: 1,
                           ),
                         ),
-                        child: Row(
+                        child: Column(
                           children: [
-                            AbsorbPointer(
-                              absorbing: !widget.customer.trangThai!,
-                              child: Checkbox(
-                                  value: widget.customer.nguNgay,
-                                  onChanged: (value) {
-                                    setState(() {
-                                      widget.customer.nguNgay = value;
-                                      getTongTien();
-                                    });
-                                  }),
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: AbsorbPointer(
+                                    absorbing: !widget.customer.trangThai!,
+                                    child: Checkbox(
+                                        value: widget.customer.nguNgay,
+                                        onChanged: (value) {
+                                          setState(() {
+                                            widget.customer.nguNgay = value;
+                                            getTongTien();
+                                          });
+                                        }),
+                                  ),
+                                ),
+                                const Expanded(child: Text('Ngủ ngày')),
+                                Expanded(
+                                    flex: 1,
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Expanded(
+                                            flex: 1,
+                                            child: IconButton(
+                                              padding: EdgeInsets.zero,
+                                              icon: const Icon(
+                                                  Icons.remove_circle_outlined),
+                                              onPressed: () {
+                                                if (widget.customer
+                                                        .soLuongNguNgay! >
+                                                    0) {
+                                                  widget.customer
+                                                      .soLuongNguNgay = (widget
+                                                          .customer
+                                                          .soLuongNguNgay! -
+                                                      1);
+                                                }
+                                                getTongTien();
+                                                setState(() {});
+                                              },
+                                            )),
+                                        Expanded(
+                                            flex: 1,
+                                            child: Center(
+                                                child: Container(
+                                                    padding: EdgeInsets.zero,
+                                                    child: Text(widget
+                                                        .customer.soLuongNguNgay
+                                                        .toString())))),
+                                        Expanded(
+                                            flex: 1,
+                                            child: IconButton(
+                                              padding: EdgeInsets.zero,
+                                              icon: const Icon(
+                                                  Icons.add_circle_outlined),
+                                              onPressed: () {
+                                                widget.customer.soLuongNguNgay =
+                                                    (widget.customer
+                                                            .soLuongNguNgay! +
+                                                        1);
+                                                getTongTien();
+                                                setState(() {});
+                                              },
+                                            )),
+                                      ],
+                                    )),
+                                Expanded(
+                                  child: AbsorbPointer(
+                                    absorbing: !widget.customer.trangThai!,
+                                    child: Checkbox(
+                                        value: widget.customer.tam,
+                                        onChanged: (value) {
+                                          setState(() {
+                                            widget.customer.tam = value;
+                                            getTongTien();
+                                          });
+                                        }),
+                                  ),
+                                ),
+                                const Expanded(child: Text('Tắm'))
+                              ],
                             ),
-                            const Text('Ngủ ngày'),
-                            AbsorbPointer(
-                              absorbing: !widget.customer.trangThai!,
-                              child: Checkbox(
-                                  value: widget.customer.nguDem,
-                                  onChanged: (value) {
-                                    setState(() {
-                                      widget.customer.nguDem = value;
-                                      getTongTien();
-                                    });
-                                  }),
-                            ),
-                            const Text('Ngủ đêm'),
-                            AbsorbPointer(
-                              absorbing: !widget.customer.trangThai!,
-                              child: Checkbox(
-                                  value: widget.customer.tam,
-                                  onChanged: (value) {
-                                    setState(() {
-                                      widget.customer.tam = value;
-                                      getTongTien();
-                                    });
-                                  }),
-                            ),
-                            const Text('Tắm')
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: AbsorbPointer(
+                                    absorbing: !widget.customer.trangThai!,
+                                    child: Checkbox(
+                                        value: widget.customer.nguDem,
+                                        onChanged: (value) {
+                                          setState(() {
+                                            widget.customer.nguDem = value;
+                                            getTongTien();
+                                          });
+                                        }),
+                                  ),
+                                ),
+                                const Expanded(child: Text('Ngủ đêm')),
+                                Expanded(
+                                    flex: 1,
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Expanded(
+                                            flex: 1,
+                                            child: IconButton(
+                                              padding: EdgeInsets.zero,
+                                              icon: const Icon(
+                                                  Icons.remove_circle_outlined),
+                                              onPressed: () {
+                                                if (widget.customer
+                                                        .soLuongNguDem! >
+                                                    0) {
+                                                  widget.customer
+                                                      .soLuongNguDem = (widget
+                                                          .customer
+                                                          .soLuongNguDem! -
+                                                      1);
+                                                }
+                                                getTongTien();
+                                                setState(() {});
+                                              },
+                                            )),
+                                        Expanded(
+                                            flex: 1,
+                                            child: Center(
+                                                child: Container(
+                                                    padding: EdgeInsets.zero,
+                                                    child: Text(widget
+                                                        .customer.soLuongNguDem
+                                                        .toString())))),
+                                        Expanded(
+                                            flex: 1,
+                                            child: IconButton(
+                                              padding: EdgeInsets.zero,
+                                              icon: const Icon(
+                                                  Icons.add_circle_outlined),
+                                              onPressed: () {
+                                                widget.customer.soLuongNguDem =
+                                                    (widget.customer
+                                                            .soLuongNguDem! +
+                                                        1);
+                                                getTongTien();
+                                                setState(() {});
+                                              },
+                                            )),
+                                      ],
+                                    )),
+                                const Expanded(
+                                  flex: 2,
+                                  child: SizedBox(),
+                                ),
+                              ],
+                            )
                           ],
                         ),
                       ),
@@ -546,10 +800,7 @@ class _AddCustomerState extends State<AddCustomer> {
                                               try {
                                                 widget.customer.comGia =
                                                     double.parse(value);
-                                                //print(widget.customer.comGia);
-                                              } catch (e) {
-                                                //print(e);
-                                              }
+                                              } catch (e) {}
                                               getTongTien();
                                             });
                                           },
@@ -583,9 +834,7 @@ class _AddCustomerState extends State<AddCustomer> {
                                               try {
                                                 widget.customer.giaGiatDo =
                                                     double.parse(value);
-                                              } catch (e) {
-                                                //print(e);
-                                              }
+                                              } catch (e) {}
                                               getTongTien();
                                             });
                                           },
@@ -671,15 +920,13 @@ class _AddCustomerState extends State<AddCustomer> {
                           child: TextField(
                             controller: ghiChu..text = widget.customer.ghiChu!,
                             obscureText: false,
-                            minLines: 3,
-                            maxLines: 3,
+                            minLines: 1,
+                            maxLines: 1,
                             onChanged: (value) {
                               setState(() {
                                 try {
                                   widget.customer.ghiChu = value;
-                                } catch (e) {
-                                  //print(e);
-                                }
+                                } catch (e) {}
                                 getTongTien();
                               });
                             },

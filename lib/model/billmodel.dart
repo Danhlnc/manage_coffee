@@ -5,7 +5,12 @@ class Billmodel {
   String? _sId = "";
   String? _bienSoXe = "";
   double? _sac = 0;
+  int? _soLuongSac8k = 0;
+  int? _soLuongSac12k = 0;
+  int? _soLuongNguNgay = 0;
+  int? _soLuongNguDem = 0;
   bool? _muonSac = false;
+  bool? _doiSac = false;
   bool? _nguNgay = false;
   bool? _nguDem = false;
   bool? _tam = false;
@@ -26,7 +31,12 @@ class Billmodel {
       {String? sId,
       String? bienSoXe,
       double? sac,
+      int? soLuongSac8k,
+      int? soLuongSac12k,
+      int? soLuongNguNgay,
+      int? soLuongNguDem,
       bool? muonSac,
+      bool? doiSac,
       bool? nguNgay,
       bool? nguDem,
       bool? tam,
@@ -51,8 +61,23 @@ class Billmodel {
     if (sac != null) {
       _sac = sac;
     }
+    if (soLuongSac8k != null) {
+      _soLuongSac8k = soLuongSac8k;
+    }
+    if (soLuongSac12k != null) {
+      _soLuongSac12k = soLuongSac12k;
+    }
+    if (soLuongNguNgay != null) {
+      _soLuongNguNgay = soLuongNguNgay;
+    }
+    if (soLuongNguDem != null) {
+      _soLuongNguDem = soLuongNguDem;
+    }
     if (muonSac != null) {
       _muonSac = muonSac;
+    }
+    if (doiSac != null) {
+      _doiSac = doiSac;
     }
     if (nguNgay != null) {
       _nguNgay = nguNgay;
@@ -107,8 +132,18 @@ class Billmodel {
   set bienSoXe(String? bienSoXe) => _bienSoXe = bienSoXe;
   double? get sac => _sac;
   set sac(double? sac) => _sac = sac;
+  int? get soLuongSac8k => _soLuongSac8k;
+  set soLuongSac8k(int? soLuongSac8k) => _soLuongSac8k = soLuongSac8k;
+  int? get soLuongSac12k => _soLuongSac12k;
+  set soLuongSac12k(int? soLuongSac12k) => _soLuongSac12k = soLuongSac12k;
+  int? get soLuongNguNgay => _soLuongNguNgay;
+  set soLuongNguNgay(int? soLuongNguNgay) => _soLuongNguNgay = soLuongNguNgay;
+  int? get soLuongNguDem => _soLuongNguDem;
+  set soLuongNguDem(int? soLuongNguDem) => _soLuongNguDem = soLuongNguDem;
   bool? get muonSac => _muonSac;
   set muonSac(bool? muonSac) => _muonSac = muonSac;
+  bool? get doiSac => _doiSac;
+  set doiSac(bool? doiSac) => _doiSac = doiSac;
   bool? get nguNgay => _nguNgay;
   set nguNgay(bool? nguNgay) => _nguNgay = nguNgay;
   bool? get nguDem => _nguDem;
@@ -144,7 +179,20 @@ class Billmodel {
     _sId = json['_id'];
     _bienSoXe = json['bienSoXe'];
     _sac = double.parse(json['sac'].toString());
+    _soLuongSac8k = json['soLuongSac8k'] != null
+        ? int.parse(json['soLuongSac8k'].toString())
+        : 0;
+    _soLuongSac12k = json['soLuongSac8k'] != null
+        ? int.parse(json['soLuongSac12k'].toString())
+        : 0;
+    _soLuongNguNgay = json['soLuongSac8k'] != null
+        ? int.parse(json['soLuongNguNgay'].toString())
+        : 0;
+    _soLuongNguDem = json['soLuongSac8k'] != null
+        ? int.parse(json['soLuongNguDem'].toString())
+        : 0;
     _muonSac = json['muonSac'];
+    _doiSac = json['doiSac'] == null ? false : json['doiSac'];
     _nguNgay = json['nguNgay'];
     _nguDem = json['nguDem'];
     _tam = json['tam'];
@@ -177,13 +225,18 @@ class Billmodel {
     data['_id'] = _sId;
     data['bienSoXe'] = _bienSoXe;
     data['sac'] = _sac;
+    data['soLuongSac8k'] = _soLuongSac8k;
+    data['soLuongSac12k'] = _soLuongSac12k;
+    data['soLuongNguNgay'] = _soLuongNguNgay;
+    data['soLuongNguDem'] = _soLuongNguDem;
     data['muonSac'] = _muonSac;
+    data['doiSac'] = _doiSac;
     data['nguNgay'] = _nguNgay;
     data['nguDem'] = _nguDem;
     data['tam'] = _tam;
     data['listNuoc'] = _listNuoc.map((v) => v.toJson()).toList();
-      data['listThuoc'] = _listThuoc.map((v) => v.toJson()).toList();
-      data['comGia'] = _comGia;
+    data['listThuoc'] = _listThuoc.map((v) => v.toJson()).toList();
+    data['comGia'] = _comGia;
     data['giaGiatDo'] = _giaGiatDo;
     data['giaTu'] = _giaTu;
     data['ghiChu'] = _ghiChu;
