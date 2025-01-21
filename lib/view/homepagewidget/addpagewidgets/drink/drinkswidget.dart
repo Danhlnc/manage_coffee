@@ -54,7 +54,6 @@ class _DrinkswidgetState extends State<Drinkswidget> {
                         return Drinklistdialog(
                             listNuoc: widget.customer.listNuoc);
                       }).then((value) {
-                    print(widget.customer.listNuoc);
                     setState(() {
                       widget.customer.tongTien = widget.customer.sac! +
                           (widget.customer.muonSac == true ? 3000 : 0) +
@@ -66,8 +65,9 @@ class _DrinkswidgetState extends State<Drinkswidget> {
                           double.parse(widget.customer.comGia.toString()) +
                           double.parse(widget.customer.giaGiatDo.toString()) +
                           double.parse(widget.customer.giaTu.toString());
-                      widget.callBackFunc("");
                       widget.customer.listNuoc;
+
+                      widget.callBackFunc("");
                     });
                   });
                 },
