@@ -503,7 +503,6 @@ class _AddCustomerState extends State<AddCustomer> {
                           ),
                         )),
                     //thuốc
-
                     //cơm giặt đồ
                     SizedBox(
                       width: MediaQuery.of(context).size.width,

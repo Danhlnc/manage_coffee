@@ -100,6 +100,7 @@ class _DrinklistdialogState extends State<Drinklistdialog> {
                               listNuoc = widget.listNuoc;
                             }
                           }
+                          setState(() {});
                           Navigator.of(context).pop();
                         },
                         child: Text(
