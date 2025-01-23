@@ -11,8 +11,8 @@ class Billmodel {
   int? _soLuongNguDem = 0;
   bool? _muonSac = false;
   bool? _doiSac = false;
-  bool? _nguNgay = false;
-  bool? _nguDem = false;
+  bool? _nguNgay = true;
+  bool? _nguDem = true;
   bool? _tam = false;
   List<Drinkbillmodel> _listNuoc = [];
   List<Taboccobillmodel> _listThuoc = [];
@@ -192,7 +192,7 @@ class Billmodel {
         ? int.parse(json['soLuongNguDem'].toString())
         : 0;
     _muonSac = json['muonSac'];
-    _doiSac = json['doiSac'] == null ? false : json['doiSac'];
+    _doiSac = json['doiSac'] ?? false;
     _nguNgay = json['nguNgay'];
     _nguDem = json['nguDem'];
     _tam = json['tam'];

@@ -112,7 +112,7 @@ class _AddCustomerState extends State<AddCustomer> {
             });
             EasyLoading.dismiss();
             Navigator.of(context).pop();
-            widget.callBack("update");
+            callBack("reload");
           });
         } else {
           EasyLoading.show(status: 'loading...');
@@ -120,11 +120,11 @@ class _AddCustomerState extends State<AddCustomer> {
             widget.loading = true;
           });
           updateBill(widget.customer.toJson()).then((onValue) {
-            listBillsTotal.forEach((element) {
+            for (var element in listBillsTotal) {
               if (element.keys.first.sId == widget.customer.sId) {
                 element.keys.first.trangThai = widget.customer.trangThai;
               }
-            });
+            }
             setState(() {
               widget.loading = false;
             });
@@ -148,15 +148,11 @@ class _AddCustomerState extends State<AddCustomer> {
 
   //#endregion
   getTongTien() {
-    int count = widget.customer.sac!.toInt() == 8000
-        ? widget.customer.soLuongSac8k!
-        : widget.customer.soLuongSac12k!;
-    widget.customer.tongTien = (widget.customer.sac!) * count +
+    widget.customer.tongTien = widget.customer.soLuongSac8k! * 8000 +
+        widget.customer.soLuongSac12k! * 12000 +
         (widget.customer.muonSac == true ? 3000 : 0) +
-        (widget.customer.nguNgay == true ? 15000 : 0) *
-            widget.customer.soLuongNguNgay! +
-        ((widget.customer.nguDem == true ? 30000 : 0) *
-            widget.customer.soLuongNguDem!) +
+        15000 * widget.customer.soLuongNguNgay! +
+        (30000 * widget.customer.soLuongNguDem!) +
         (widget.customer.tam == true ? 5000 : 0) +
         getTotalDrinkPrice(widget.customer.listNuoc) +
         getTotalTaboccoPrice(widget.customer.listThuoc) +
@@ -354,28 +350,9 @@ class _AddCustomerState extends State<AddCustomer> {
                             Row(
                               children: <Widget>[
                                 const Text("  Sạc:"),
-                                Expanded(
+                                const Expanded(
                                   flex: 1,
-                                  child: AbsorbPointer(
-                                    absorbing: !widget.customer.trangThai!,
-                                    child: RadioMenuButton(
-                                      value: 8000,
-                                      groupValue: widget.customer.sac,
-                                      onChanged: (value) {
-                                        setState(() {
-                                          widget.customer.sac = (value
-                                                      .toString() !=
-                                                  '0'
-                                              ? double.parse(value.toString())
-                                              : 0);
-
-                                          widget.customer.soLuongSac12k = 0;
-                                          getTongTien();
-                                        });
-                                      },
-                                      child: const Text('>70%'),
-                                    ),
-                                  ),
+                                  child: Center(child: Text('>70%')),
                                 ),
                                 Expanded(
                                     flex: 2,
@@ -428,52 +405,12 @@ class _AddCustomerState extends State<AddCustomer> {
                                             )),
                                       ],
                                     )),
-                                //
-                                Expanded(
-                                  flex: 3,
-                                  child: AbsorbPointer(
-                                    absorbing: !widget.customer.trangThai!,
-                                    child: RadioMenuButton(
-                                      value: 0,
-                                      groupValue: widget.customer.sac,
-                                      onChanged: (value) {
-                                        setState(() {
-                                          widget.customer.sac = (value
-                                                      .toString() !=
-                                                  '0'
-                                              ? double.parse(value.toString())
-                                              : 0);
-                                          getTongTien();
-                                        });
-                                      },
-                                      child: const Text('Không'),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            Row(
-                              children: [
+                                //,
                                 Expanded(
                                   flex: 1,
                                   child: AbsorbPointer(
                                     absorbing: !widget.customer.trangThai!,
-                                    child: RadioMenuButton(
-                                      value: 12000,
-                                      groupValue: widget.customer.sac,
-                                      onChanged: (value) {
-                                        setState(() {
-                                          widget.customer.sac = (value
-                                                      .toString() !=
-                                                  '0'
-                                              ? double.parse(value.toString())
-                                              : 0);
-                                          widget.customer.soLuongSac8k = 0;
-                                          getTongTien();
-                                        });
-                                      },
-                                      child: const Text('<70%'),
-                                    ),
+                                    child: const Center(child: Text('<70%')),
                                   ),
                                 ),
                                 Expanded(
@@ -530,6 +467,9 @@ class _AddCustomerState extends State<AddCustomer> {
                                 const Expanded(flex: 3, child: Text(""))
                               ],
                             ),
+                            const Row(
+                              children: [],
+                            ),
                             Row(
                               children: [
                                 AbsorbPointer(
@@ -549,8 +489,8 @@ class _AddCustomerState extends State<AddCustomer> {
                                   child: Checkbox(
                                       value: widget.customer.doiSac,
                                       onChanged: (value) {
+                                        widget.customer.doiSac = value;
                                         setState(() {
-                                          widget.customer.doiSac = value;
                                           getTongTien();
                                         });
                                       }),
@@ -577,20 +517,8 @@ class _AddCustomerState extends State<AddCustomer> {
                           children: [
                             Row(
                               children: [
-                                Expanded(
-                                  child: AbsorbPointer(
-                                    absorbing: !widget.customer.trangThai!,
-                                    child: Checkbox(
-                                        value: widget.customer.nguNgay,
-                                        onChanged: (value) {
-                                          setState(() {
-                                            widget.customer.nguNgay = value;
-                                            getTongTien();
-                                          });
-                                        }),
-                                  ),
-                                ),
-                                const Expanded(child: Text('Ngủ ngày')),
+                                const Expanded(
+                                    child: Center(child: Text('Ngủ ngày'))),
                                 Expanded(
                                     flex: 1,
                                     child: Row(
@@ -660,20 +588,8 @@ class _AddCustomerState extends State<AddCustomer> {
                             ),
                             Row(
                               children: [
-                                Expanded(
-                                  child: AbsorbPointer(
-                                    absorbing: !widget.customer.trangThai!,
-                                    child: Checkbox(
-                                        value: widget.customer.nguDem,
-                                        onChanged: (value) {
-                                          setState(() {
-                                            widget.customer.nguDem = value;
-                                            getTongTien();
-                                          });
-                                        }),
-                                  ),
-                                ),
-                                const Expanded(child: Text('Ngủ đêm')),
+                                const Expanded(
+                                    child: Center(child: Text('Ngủ đêm'))),
                                 Expanded(
                                     flex: 1,
                                     child: Row(
@@ -920,8 +836,8 @@ class _AddCustomerState extends State<AddCustomer> {
                           child: TextField(
                             controller: ghiChu..text = widget.customer.ghiChu!,
                             obscureText: false,
-                            minLines: 1,
-                            maxLines: 1,
+                            minLines: 2,
+                            maxLines: 2,
                             onChanged: (value) {
                               setState(() {
                                 try {

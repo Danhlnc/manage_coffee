@@ -64,15 +64,8 @@ class _KhachhangSceenState extends State<KhachhangSceen> {
     super.initState();
   }
 
-  bool checkDoiSac = true;
-  void handleTimeout() {
-    checkDoiSac = !checkDoiSac;
-    setState(() {});
-  }
-
   @override
   Widget build(BuildContext context) {
-    Timer(const Duration(seconds: 5), handleTimeout);
     return SizedBox(
       width: MediaQuery.of(context).size.width,
       height: MediaQuery.of(context).size.height,
@@ -310,17 +303,7 @@ class _KhachhangSceenState extends State<KhachhangSceen> {
                                                                   .first
                                                                   .trangThai ==
                                                               true
-                                                          ? (widget
-                                                                          .listBillsGridView[
-                                                                              index]
-                                                                          .keys
-                                                                          .first
-                                                                          .doiSac ==
-                                                                      true &&
-                                                                  checkDoiSac ==
-                                                                      true
-                                                              ? Colors.red
-                                                              : Colors.white)
+                                                          ? Colors.white
                                                           : Colors.blue),
                                                       width: 2,
                                                     ),
@@ -401,13 +384,7 @@ class _KhachhangSceenState extends State<KhachhangSceen> {
                                                                       .first
                                                                       .trangThai ==
                                                                   true
-                                                              ? (widget.listBillsGridView[index].keys.first.doiSac ==
-                                                                          true &&
-                                                                      checkDoiSac ==
-                                                                          true
-                                                                  ? Colors.red
-                                                                  : Colors
-                                                                      .white)
+                                                              ? Colors.white
                                                               : Colors.blue),
                                                           width: 2,
                                                         ),
@@ -488,13 +465,7 @@ class _KhachhangSceenState extends State<KhachhangSceen> {
                                                                       .first
                                                                       .trangThai ==
                                                                   true
-                                                              ? (widget.listBillsGridView[index].keys.first.doiSac ==
-                                                                          true &&
-                                                                      checkDoiSac ==
-                                                                          true
-                                                                  ? Colors.red
-                                                                  : Colors
-                                                                      .white)
+                                                              ? Colors.white
                                                               : Colors.blue),
                                                           width: 2,
                                                         ),

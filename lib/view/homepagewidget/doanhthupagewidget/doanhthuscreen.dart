@@ -236,15 +236,32 @@ class _DoanhthuscreenState extends State<Doanhthuscreen> {
                                       }
                                     }
                                     widget.listBills = [...listBillsTotalDate];
-                                  } else if (listBillsTotalDate.length != 0 &&
+                                  }
+                                  if (searchController.text != "" &&
+                                      checkTT == true) {
+                                    listBillsTotalDate = [...listBillsTotal];
+                                    var listProDate = [...listBillsTotalDate];
+                                    for (var action in listProDate) {
+                                      if (action.keys.first.createdOn!
+                                              .isBefore(dateTimeRange.end) &&
+                                          action.keys.first.createdOn!
+                                              .isAfter(dateTimeRange.start) &&
+                                          action.keys.first.bienSoXe ==
+                                              searchController.text) {
+                                      } else {
+                                        listBillsTotalDate.remove(action);
+                                      }
+                                    }
+                                    widget.listBills = [...listBillsTotalDate];
+                                  } else if (listBillsTotalDate.isNotEmpty &&
                                       checkTT == false) {
                                     widget.listBills = [...listBillsTotalDate];
-                                    listBillsTotalDate.forEach((value) {
+                                    for (var value in listBillsTotalDate) {
                                       if (value.keys.first.trangThai == false) {
                                         widget.listBills.remove(value);
                                       }
-                                    });
-                                  } else if (listBillsTotalDate.length != 0 &&
+                                    }
+                                  } else if (listBillsTotalDate.isNotEmpty &&
                                       checkTT == true) {
                                     widget.listBills = [...listBillsTotalDate];
                                   }
@@ -645,14 +662,7 @@ class _DoanhthuscreenState extends State<Doanhthuscreen> {
                                                   BorderRadius.circular(
                                                       10), // if you need this
                                               side: BorderSide(
-                                                color: (widget
-                                                            .listBills[index]
-                                                            .keys
-                                                            .first
-                                                            .trangThai ==
-                                                        true
-                                                    ? Colors.red
-                                                    : Colors.blue),
+                                                color: Colors.white,
                                                 width: 2,
                                               ),
                                             ),
@@ -714,15 +724,7 @@ class _DoanhthuscreenState extends State<Doanhthuscreen> {
                                                       BorderRadius.circular(
                                                           10), // if you need this
                                                   side: BorderSide(
-                                                    color: (widget
-                                                                .listBills[
-                                                                    index]
-                                                                .keys
-                                                                .first
-                                                                .trangThai ==
-                                                            true
-                                                        ? Colors.red
-                                                        : Colors.blue),
+                                                    color: Colors.white,
                                                     width: 2,
                                                   ),
                                                 ),
@@ -784,15 +786,7 @@ class _DoanhthuscreenState extends State<Doanhthuscreen> {
                                                       BorderRadius.circular(
                                                           10), // if you need this
                                                   side: BorderSide(
-                                                    color: (widget
-                                                                .listBills[
-                                                                    index]
-                                                                .keys
-                                                                .first
-                                                                .trangThai ==
-                                                            true
-                                                        ? Colors.red
-                                                        : Colors.blue),
+                                                    color: Colors.white,
                                                     width: 2,
                                                   ),
                                                 ),

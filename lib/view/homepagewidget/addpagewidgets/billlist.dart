@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:tscoffee/apps/globalvariables.dart';
 
 import '../../../model/billmodel.dart';
 import '../../home.dart';
@@ -20,6 +23,20 @@ class Bills extends StatefulWidget {
 }
 
 class _BillsState extends State<Bills> {
+  void handleTimeout() {
+    checkDoiSac = !checkDoiSac;
+    if (this.mounted) {
+      setState(() {
+        // Your state change code goes here
+      });
+    }
+  }
+
+  @override
+  void initState() {
+    Timer(const Duration(seconds: 2), handleTimeout);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -50,8 +67,15 @@ class _BillsState extends State<Bills> {
                   fontSize: 12,
                   fontWeight: FontWeight.bold,
                   color: widget.Bill.keys.first.trangThai == true
-                      ? Colors.redAccent
-                      : Colors.blue),
+                      ? (widget.Bill.keys.first.ghiChu != ""
+                          ? widget.Bill.keys.first.doiSac == true &&
+                                  checkDoiSac == true
+                              ? Colors.green
+                              : Colors.purple
+                          : Colors.red)
+                      : widget.Bill.keys.first.ghiChu != ""
+                          ? Colors.green
+                          : Colors.blue),
             ),
           ),
         ),
@@ -63,8 +87,15 @@ class _BillsState extends State<Bills> {
                 fontSize: 12,
                 fontWeight: FontWeight.bold,
                 color: widget.Bill.keys.first.trangThai == true
-                    ? Colors.redAccent
-                    : Colors.blue),
+                    ? (widget.Bill.keys.first.ghiChu != ""
+                        ? widget.Bill.keys.first.doiSac == true &&
+                                checkDoiSac == true
+                            ? Colors.green
+                            : Colors.purple
+                        : Colors.red)
+                    : widget.Bill.keys.first.ghiChu != ""
+                        ? Colors.green
+                        : Colors.blue),
           ),
         ),
       ],
