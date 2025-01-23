@@ -39,6 +39,13 @@ class _KhachhangSceenState extends State<KhachhangSceen> {
     }
   }
 
+  void handleTimeout() {}
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
   TextEditingController searchController = TextEditingController();
   void setColor(Map<Billmodel, Color> bill) {
     for (var i = 0; i < widget.listBills.length; i++) {
@@ -59,13 +66,8 @@ class _KhachhangSceenState extends State<KhachhangSceen> {
   }
 
   @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
+    if (mounted) {}
     return SizedBox(
       width: MediaQuery.of(context).size.width,
       height: MediaQuery.of(context).size.height,
@@ -303,9 +305,19 @@ class _KhachhangSceenState extends State<KhachhangSceen> {
                                                                   .first
                                                                   .trangThai ==
                                                               true
-                                                          ? Colors.white
+                                                          ? widget
+                                                                          .listBillsGridView[
+                                                                              index]
+                                                                          .keys
+                                                                          .first
+                                                                          .doiSac ==
+                                                                      true &&
+                                                                  checkDoiSac ==
+                                                                      true
+                                                              ? Colors.yellow
+                                                              : Colors.white
                                                           : Colors.blue),
-                                                      width: 2,
+                                                      width: 6,
                                                     ),
                                                   ),
                                                   color: widget
@@ -384,9 +396,15 @@ class _KhachhangSceenState extends State<KhachhangSceen> {
                                                                       .first
                                                                       .trangThai ==
                                                                   true
-                                                              ? Colors.white
+                                                              ? widget.listBillsGridView[index].keys.first.doiSac ==
+                                                                          true &&
+                                                                      checkDoiSac ==
+                                                                          true
+                                                                  ? Colors
+                                                                      .yellow
+                                                                  : Colors.white
                                                               : Colors.blue),
-                                                          width: 2,
+                                                          width: 6,
                                                         ),
                                                       ),
                                                       color: widget
@@ -465,9 +483,15 @@ class _KhachhangSceenState extends State<KhachhangSceen> {
                                                                       .first
                                                                       .trangThai ==
                                                                   true
-                                                              ? Colors.white
+                                                              ? widget.listBillsGridView[index].keys.first.doiSac ==
+                                                                          true &&
+                                                                      checkDoiSac ==
+                                                                          true
+                                                                  ? Colors
+                                                                      .yellow
+                                                                  : Colors.white
                                                               : Colors.blue),
-                                                          width: 2,
+                                                          width: 6,
                                                         ),
                                                       ),
                                                       color: widget

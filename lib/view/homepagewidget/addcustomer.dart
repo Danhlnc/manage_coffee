@@ -112,7 +112,7 @@ class _AddCustomerState extends State<AddCustomer> {
             });
             EasyLoading.dismiss();
             Navigator.of(context).pop();
-            callBack("reload");
+            widget.callBack("update");
           });
         } else {
           EasyLoading.show(status: 'loading...');

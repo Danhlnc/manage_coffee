@@ -20,6 +20,7 @@ int daysBetween(DateTime from, DateTime to) {
   return (to.difference(from).inDays);
 }
 
+bool checkDoiSac = true;
 DateTime date = DateTime.now();
 WebStorage webStorage = WebStorage();
 DateTimeRange dateTimeRange = DateTime.now().hour < 7
@@ -48,8 +49,6 @@ List<Taboccomodel> listAllThuoc = [];
 List<Drinkmodel> listAllNuocSearch = [];
 List<Taboccomodel> listAllThuocSearch = [];
 bool loadData = true;
-
-bool checkDoiSac = true;
 List<Billmodel> parsePost(String responseBody) {
   var list = json.decode(responseBody)['result'] as List<dynamic>;
   List<Billmodel> listBillModel =

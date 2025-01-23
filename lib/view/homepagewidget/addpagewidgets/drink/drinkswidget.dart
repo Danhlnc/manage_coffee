@@ -55,10 +55,12 @@ class _DrinkswidgetState extends State<Drinkswidget> {
                             listNuoc: widget.customer.listNuoc);
                       }).then((value) {
                     setState(() {
-                      widget.customer.tongTien = widget.customer.sac! +
+                      widget.customer.tongTien = widget.customer.soLuongSac8k! *
+                              8000 +
+                          widget.customer.soLuongSac12k! * 12000 +
                           (widget.customer.muonSac == true ? 3000 : 0) +
-                          (widget.customer.nguNgay == true ? 15000 : 0) +
-                          (widget.customer.nguDem == true ? 30000 : 0) +
+                          15000 * widget.customer.soLuongNguNgay! +
+                          (30000 * widget.customer.soLuongNguDem!) +
                           (widget.customer.tam == true ? 5000 : 0) +
                           getTotalDrinkPrice(widget.customer.listNuoc) +
                           getTotalTaboccoPrice(widget.customer.listThuoc) +
@@ -86,10 +88,13 @@ class _DrinkswidgetState extends State<Drinkswidget> {
                       return InkWell(
                         onTap: () {
                           setState(() {
-                            widget.customer.tongTien = widget.customer.sac! +
+                            widget.customer.tongTien = widget
+                                        .customer.soLuongSac8k! *
+                                    8000 +
+                                widget.customer.soLuongSac12k! * 12000 +
                                 (widget.customer.muonSac == true ? 3000 : 0) +
-                                (widget.customer.nguNgay == true ? 15000 : 0) +
-                                (widget.customer.nguDem == true ? 30000 : 0) +
+                                15000 * widget.customer.soLuongNguNgay! +
+                                (30000 * widget.customer.soLuongNguDem!) +
                                 (widget.customer.tam == true ? 5000 : 0) +
                                 getTotalDrinkPrice(widget.customer.listNuoc) +
                                 getTotalTaboccoPrice(
@@ -119,16 +124,16 @@ class _DrinkswidgetState extends State<Drinkswidget> {
                                         widget.customer.listNuoc[index]);
                                     widget.customer.listNuoc.length;
                                     widget.customer.tongTien = widget
-                                            .customer.sac! +
+                                                .customer.soLuongSac8k! *
+                                            8000 +
+                                        widget.customer.soLuongSac12k! * 12000 +
                                         (widget.customer.muonSac == true
                                             ? 3000
                                             : 0) +
-                                        (widget.customer.nguNgay == true
-                                            ? 15000
-                                            : 0) +
-                                        (widget.customer.nguDem == true
-                                            ? 30000
-                                            : 0) +
+                                        15000 *
+                                            widget.customer.soLuongNguNgay! +
+                                        (30000 *
+                                            widget.customer.soLuongNguDem!) +
                                         (widget.customer.tam == true
                                             ? 5000
                                             : 0) +

@@ -56,16 +56,18 @@ class _TobaccowidgetState extends State<Tobaccowidget> {
                         );
                       });
                   setState(() {
-                    widget.customer.tongTien = widget.customer.sac! +
-                        (widget.customer.muonSac == true ? 3000 : 0) +
-                        (widget.customer.nguNgay == true ? 15000 : 0) +
-                        (widget.customer.nguDem == true ? 30000 : 0) +
-                        (widget.customer.tam == true ? 5000 : 0) +
-                        getTotalDrinkPrice(listNuoc) +
-                        getTotalTaboccoPrice(listThuoc) +
-                        double.parse(widget.customer.comGia.toString()) +
-                        double.parse(widget.customer.giaGiatDo.toString()) +
-                        double.parse(widget.customer.giaTu.toString());
+                    widget.customer.tongTien =
+                        widget.customer.soLuongSac8k! * 8000 +
+                            widget.customer.soLuongSac12k! * 12000 +
+                            (widget.customer.muonSac == true ? 3000 : 0) +
+                            15000 * widget.customer.soLuongNguNgay! +
+                            (30000 * widget.customer.soLuongNguDem!) +
+                            (widget.customer.tam == true ? 5000 : 0) +
+                            getTotalDrinkPrice(widget.customer.listNuoc) +
+                            getTotalTaboccoPrice(widget.customer.listThuoc) +
+                            double.parse(widget.customer.comGia.toString()) +
+                            double.parse(widget.customer.giaGiatDo.toString()) +
+                            double.parse(widget.customer.giaTu.toString());
                     widget.callBackFunc("");
                   });
                 },
@@ -105,22 +107,23 @@ class _TobaccowidgetState extends State<Tobaccowidget> {
                                         widget.customer.listThuoc[index]);
                                     widget.customer.listThuoc.length;
                                     widget.customer.tongTien = widget
-                                        .customer.tongTien = widget
-                                            .customer.sac! +
+                                                .customer.soLuongSac8k! *
+                                            8000 +
+                                        widget.customer.soLuongSac12k! * 12000 +
                                         (widget.customer.muonSac == true
                                             ? 3000
                                             : 0) +
-                                        (widget.customer.nguNgay == true
-                                            ? 15000
-                                            : 0) +
-                                        (widget.customer.nguDem == true
-                                            ? 30000
-                                            : 0) +
+                                        15000 *
+                                            widget.customer.soLuongNguNgay! +
+                                        (30000 *
+                                            widget.customer.soLuongNguDem!) +
                                         (widget.customer.tam == true
                                             ? 5000
                                             : 0) +
-                                        getTotalDrinkPrice(listNuoc) +
-                                        getTotalTaboccoPrice(listThuoc) +
+                                        getTotalDrinkPrice(
+                                            widget.customer.listNuoc) +
+                                        getTotalTaboccoPrice(
+                                            widget.customer.listThuoc) +
                                         double.parse(
                                             widget.customer.comGia.toString()) +
                                         double.parse(widget.customer.giaGiatDo

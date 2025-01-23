@@ -661,7 +661,7 @@ class _DoanhthuscreenState extends State<Doanhthuscreen> {
                                               borderRadius:
                                                   BorderRadius.circular(
                                                       10), // if you need this
-                                              side: BorderSide(
+                                              side: const BorderSide(
                                                 color: Colors.white,
                                                 width: 2,
                                               ),
@@ -723,7 +723,7 @@ class _DoanhthuscreenState extends State<Doanhthuscreen> {
                                                   borderRadius:
                                                       BorderRadius.circular(
                                                           10), // if you need this
-                                                  side: BorderSide(
+                                                  side: const BorderSide(
                                                     color: Colors.white,
                                                     width: 2,
                                                   ),
@@ -785,7 +785,7 @@ class _DoanhthuscreenState extends State<Doanhthuscreen> {
                                                   borderRadius:
                                                       BorderRadius.circular(
                                                           10), // if you need this
-                                                  side: BorderSide(
+                                                  side: const BorderSide(
                                                     color: Colors.white,
                                                     width: 2,
                                                   ),
