@@ -43,33 +43,27 @@ class _DrinklistState extends State<Drinklist> {
                           icon: const Icon(Icons.remove_circle_outlined),
                           onPressed: () {
                             if (widget.listNuocSelected.soLuongBan! > 1) {
-                              setState(() {
-                                widget.listNuocSelected.soLuongBan =
-                                    widget.listNuocSelected.soLuongBan! - 1;
-                                widget.customer.tongTien = widget
-                                        .customer.sac! +
-                                    (widget.customer.muonSac == true
-                                        ? 3000
-                                        : 0) +
-                                    (widget.customer.nguNgay == true
-                                        ? 15000
-                                        : 0) +
-                                    (widget.customer.nguDem == true
-                                        ? 30000
-                                        : 0) +
-                                    (widget.customer.tam == true ? 5000 : 0) +
-                                    getTotalDrinkPrice(
-                                        widget.customer.listNuoc) +
-                                    getTotalTaboccoPrice(
-                                        widget.customer.listThuoc) +
-                                    double.parse(
-                                        widget.customer.comGia.toString()) +
-                                    double.parse(
-                                        widget.customer.giaGiatDo.toString()) +
-                                    double.parse(
-                                        widget.customer.giaTu.toString());
-                                widget.callBackFunc("");
-                              });
+                              widget.listNuocSelected.soLuongBan =
+                                  widget.listNuocSelected.soLuongBan! - 1;
+                              widget.customer.tongTien = widget
+                                          .customer.soLuongSac8k! *
+                                      8000 +
+                                  widget.customer.soLuongSac12k! * 12000 +
+                                  (widget.customer.muonSac == true ? 3000 : 0) +
+                                  15000 * widget.customer.soLuongNguNgay! +
+                                  (30000 * widget.customer.soLuongNguDem!) +
+                                  (widget.customer.tam == true ? 5000 : 0) +
+                                  getTotalDrinkPrice(widget.customer.listNuoc) +
+                                  getTotalTaboccoPrice(
+                                      widget.customer.listThuoc) +
+                                  double.parse(
+                                      widget.customer.comGia.toString()) +
+                                  double.parse(
+                                      widget.customer.giaGiatDo.toString()) +
+                                  double.parse(
+                                      widget.customer.giaTu.toString());
+                              widget.callBackFunc("");
+                              setState(() {});
                             }
                           },
                         )),
@@ -86,27 +80,27 @@ class _DrinklistState extends State<Drinklist> {
                           padding: EdgeInsets.zero,
                           icon: const Icon(Icons.add_circle_outlined),
                           onPressed: () {
-                            setState(() {
-                              widget.listNuocSelected.soLuongBan =
-                                  widget.listNuocSelected.soLuongBan! + 1;
-                              widget.customer.tongTien = widget.customer.sac! +
-                                  (widget.customer.muonSac == true ? 3000 : 0) +
-                                  (widget.customer.nguNgay == true
-                                      ? 15000
-                                      : 0) +
-                                  (widget.customer.nguDem == true ? 30000 : 0) +
-                                  (widget.customer.tam == true ? 5000 : 0) +
-                                  getTotalDrinkPrice(widget.customer.listNuoc) +
-                                  getTotalTaboccoPrice(
-                                      widget.customer.listThuoc) +
-                                  double.parse(
-                                      widget.customer.comGia.toString()) +
-                                  double.parse(
-                                      widget.customer.giaGiatDo.toString()) +
-                                  double.parse(
-                                      widget.customer.giaTu.toString());
-                              widget.callBackFunc("");
-                            });
+                            widget.listNuocSelected.soLuongBan =
+                                widget.listNuocSelected.soLuongBan! + 1;
+                            widget.customer.tongTien = widget
+                                        .customer.soLuongSac8k! *
+                                    8000 +
+                                widget.customer.soLuongSac12k! * 12000 +
+                                (widget.customer.muonSac == true ? 3000 : 0) +
+                                15000 * widget.customer.soLuongNguNgay! +
+                                (30000 * widget.customer.soLuongNguDem!) +
+                                (widget.customer.tam == true ? 5000 : 0) +
+                                getTotalDrinkPrice(widget.customer.listNuoc) +
+                                getTotalTaboccoPrice(
+                                    widget.customer.listThuoc) +
+                                double.parse(
+                                    widget.customer.comGia.toString()) +
+                                double.parse(
+                                    widget.customer.giaGiatDo.toString()) +
+                                double.parse(widget.customer.giaTu.toString());
+
+                            widget.callBackFunc("");
+                            setState(() {});
                           },
                         )),
                   ],

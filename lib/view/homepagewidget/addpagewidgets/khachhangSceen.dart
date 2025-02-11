@@ -39,8 +39,6 @@ class _KhachhangSceenState extends State<KhachhangSceen> {
     }
   }
 
-  void handleTimeout() {}
-
   @override
   void initState() {
     super.initState();
@@ -67,7 +65,6 @@ class _KhachhangSceenState extends State<KhachhangSceen> {
 
   @override
   Widget build(BuildContext context) {
-    if (mounted) {}
     return SizedBox(
       width: MediaQuery.of(context).size.width,
       height: MediaQuery.of(context).size.height,
