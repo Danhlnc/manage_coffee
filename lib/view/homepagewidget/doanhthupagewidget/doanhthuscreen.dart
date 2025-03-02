@@ -123,82 +123,44 @@ class _DoanhthuscreenState extends State<Doanhthuscreen> {
                         controller: searchController,
                         obscureText: false,
                         onChanged: (value) {
-                          if (checkTT) {
-                            if (value != "") {
-                              listBillsTotalDate = [...listBillsTotal];
-                              var listProDate = [...listBillsTotalDate];
-                              for (var action in listProDate) {
-                                if (action.keys.first.createdOn!
-                                        .isBefore(dateTimeRange.end) &&
-                                    action.keys.first.createdOn!
-                                        .isAfter(dateTimeRange.start) &&
-                                    action.keys.first.trangThai == true) {
-                                } else {
-                                  listBillsTotalDate.remove(action);
-                                }
+                          if (value != "") {
+                            listBillsTotalDate = [...listBillsTotal];
+                            var listProDate = [...listBillsTotalDate];
+                            for (var action in listProDate) {
+                              if (action.keys.first.createdOn!
+                                      .isBefore(dateTimeRange.end) &&
+                                  action.keys.first.createdOn!
+                                      .isAfter(dateTimeRange.start)) {
+                              } else {
+                                listBillsTotalDate.remove(action);
                               }
-                              listBillsTotalSearch.clear();
-                              for (var action in listBillsTotalDate) {
-                                if (action.keys.first.bienSoXe!
-                                    .toUpperCase()
-                                    .contains(value.toUpperCase())) {
-                                  listBillsTotalSearch.add(action);
-                                }
-                              }
-                              listBillsTotalDate = [...listBillsTotalSearch];
-                              callBack("");
-                            } else {
-                              listBillsTotalDate = [...listBillsTotal];
-                              var listProDate = [...listBillsTotalDate];
-                              for (var action in listProDate) {
-                                if (action.keys.first.createdOn!
-                                        .isBefore(dateTimeRange.end) &&
-                                    action.keys.first.createdOn!
-                                        .isAfter(dateTimeRange.start) &&
-                                    action.keys.first.trangThai == true) {
-                                } else {
-                                  listBillsTotalDate.remove(action);
-                                }
-                              }
-                              callBack("");
                             }
+                            listBillsTotalSearch.clear();
+                            for (var action in listBillsTotalDate) {
+                              if (action.keys.first.bienSoXe!
+                                  .toUpperCase()
+                                  .contains(value.toUpperCase())) {
+                                listBillsTotalSearch.add(action);
+                              }
+                            }
+                            listBillsTotalDate = [...listBillsTotalSearch];
+                            callBack("");
+                            ;
                           } else {
-                            if (value != "") {
-                              listBillsTotalDate = [...listBillsTotal];
-                              var listProDate = [...listBillsTotalDate];
-                              for (var action in listProDate) {
-                                if (action.keys.first.createdOn!
-                                        .isBefore(dateTimeRange.end) &&
-                                    action.keys.first.createdOn!
-                                        .isAfter(dateTimeRange.start)) {
-                                } else {
-                                  listBillsTotalDate.remove(action);
-                                }
+                            listBillsTotalDate = [...listBillsTotal];
+                            var listProDate = [...listBillsTotalDate];
+                            for (var action in listProDate) {
+                              if (action.keys.first.createdOn!
+                                      .isBefore(dateTimeRange.end) &&
+                                  action.keys.first.createdOn!
+                                      .isAfter(dateTimeRange.start)) {
+                              } else {
+                                listBillsTotalDate.remove(action);
                               }
-                              listBillsTotalSearch.clear();
-                              for (var action in listBillsTotalDate) {
-                                if (action.keys.first.bienSoXe!
-                                    .toUpperCase()
-                                    .contains(value.toUpperCase())) {
-                                  listBillsTotalSearch.add(action);
-                                }
-                              }
-                              listBillsTotalDate = [...listBillsTotalSearch];
-                              callBack("");
-                            } else {
-                              listBillsTotalDate = [...listBillsTotal];
-                              var listProDate = [...listBillsTotalDate];
-                              for (var action in listProDate) {
-                                if (action.keys.first.createdOn!
-                                        .isBefore(dateTimeRange.end) &&
-                                    action.keys.first.createdOn!
-                                        .isAfter(dateTimeRange.start)) {
-                                } else {
-                                  listBillsTotalDate.remove(action);
-                                }
-                              }
-                              callBack("");
                             }
+                            checkTT = false;
+                            callBack("");
+                            ;
                           }
                         },
                         decoration: const InputDecoration(
@@ -223,6 +185,21 @@ class _DoanhthuscreenState extends State<Doanhthuscreen> {
                                 value: checkTT,
                                 onChanged: (value) {
                                   if (searchController.text == "" &&
+                                      checkTT == false) {
+                                    listBillsTotalDate = [...listBillsTotal];
+                                    var listProDate = [...listBillsTotalDate];
+                                    for (var action in listProDate) {
+                                      if (action.keys.first.createdOn!
+                                              .isBefore(dateTimeRange.end) &&
+                                          action.keys.first.createdOn!
+                                              .isAfter(dateTimeRange.start) &&
+                                          action.keys.first.trangThai == true) {
+                                      } else {
+                                        listBillsTotalDate.remove(action);
+                                      }
+                                    }
+                                    widget.listBills = [...listBillsTotalDate];
+                                  } else if (searchController.text == "" &&
                                       checkTT == true) {
                                     listBillsTotalDate = [...listBillsTotal];
                                     var listProDate = [...listBillsTotalDate];
@@ -236,8 +213,26 @@ class _DoanhthuscreenState extends State<Doanhthuscreen> {
                                       }
                                     }
                                     widget.listBills = [...listBillsTotalDate];
-                                  }
-                                  if (searchController.text != "" &&
+                                  } else if (searchController.text != "" &&
+                                      checkTT == false) {
+                                    listBillsTotalDate = [...listBillsTotal];
+                                    var listProDate = [...listBillsTotalDate];
+                                    for (var action in listProDate) {
+                                      if (action.keys.first.createdOn!
+                                              .isBefore(dateTimeRange.end) &&
+                                          action.keys.first.createdOn!
+                                              .isAfter(dateTimeRange.start) &&
+                                          action.keys.first.trangThai == true &&
+                                          action.keys.first.bienSoXe!
+                                              .toUpperCase()
+                                              .contains(searchController.text
+                                                  .toUpperCase())) {
+                                      } else {
+                                        listBillsTotalDate.remove(action);
+                                      }
+                                    }
+                                    widget.listBills = [...listBillsTotalDate];
+                                  } else if (searchController.text != "" &&
                                       checkTT == true) {
                                     listBillsTotalDate = [...listBillsTotal];
                                     var listProDate = [...listBillsTotalDate];
@@ -246,23 +241,14 @@ class _DoanhthuscreenState extends State<Doanhthuscreen> {
                                               .isBefore(dateTimeRange.end) &&
                                           action.keys.first.createdOn!
                                               .isAfter(dateTimeRange.start) &&
-                                          action.keys.first.bienSoXe ==
-                                              searchController.text) {
+                                          action.keys.first.bienSoXe!
+                                              .toUpperCase()
+                                              .contains(searchController.text
+                                                  .toUpperCase())) {
                                       } else {
                                         listBillsTotalDate.remove(action);
                                       }
                                     }
-                                    widget.listBills = [...listBillsTotalDate];
-                                  } else if (listBillsTotalDate.isNotEmpty &&
-                                      checkTT == false) {
-                                    widget.listBills = [...listBillsTotalDate];
-                                    for (var value in listBillsTotalDate) {
-                                      if (value.keys.first.trangThai == false) {
-                                        widget.listBills.remove(value);
-                                      }
-                                    }
-                                  } else if (listBillsTotalDate.isNotEmpty &&
-                                      checkTT == true) {
                                     widget.listBills = [...listBillsTotalDate];
                                   }
 

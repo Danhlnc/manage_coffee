@@ -5,6 +5,11 @@ class Billmodel {
   String? _sId = "";
   String? _bienSoXe = "";
   double? _sac = 0;
+  int? _combo1 = 0;
+  int? _combo2 = 0;
+  int? _soLuongMuonSac = 0;
+  int? _soLuongTam = 0;
+  int? _soLuongSacNhanh = 0;
   int? _soLuongSac8k = 0;
   int? _soLuongSac12k = 0;
   int? _soLuongNguNgay = 0;
@@ -31,6 +36,11 @@ class Billmodel {
       {String? sId,
       String? bienSoXe,
       double? sac,
+      int? combo1 = 0,
+      int? combo2 = 0,
+      int? soLuongMuonSac = 0,
+      int? soLuongTam = 0,
+      int? soLuongSacNhanh,
       int? soLuongSac8k,
       int? soLuongSac12k,
       int? soLuongNguNgay,
@@ -60,6 +70,21 @@ class Billmodel {
     }
     if (sac != null) {
       _sac = sac;
+    }
+    if (combo1 != null) {
+      _combo1 = combo1;
+    }
+    if (combo2 != null) {
+      _combo2 = combo2;
+    }
+    if (soLuongSacNhanh != null) {
+      _soLuongSacNhanh = soLuongSacNhanh;
+    }
+    if (soLuongMuonSac != null) {
+      _soLuongMuonSac = soLuongMuonSac;
+    }
+    if (soLuongTam != null) {
+      _soLuongTam = soLuongTam;
     }
     if (soLuongSac8k != null) {
       _soLuongSac8k = soLuongSac8k;
@@ -132,6 +157,22 @@ class Billmodel {
   set bienSoXe(String? bienSoXe) => _bienSoXe = bienSoXe;
   double? get sac => _sac;
   set sac(double? sac) => _sac = sac;
+
+  int? get combo1 => _combo1;
+  set combo1(int? combo1) => _combo1 = combo1;
+
+  int? get combo2 => _combo2;
+  set combo2(int? combo2) => _combo2 = combo2;
+
+  int? get soLuongMuonSac => _soLuongMuonSac;
+  set soLuongMuonSac(int? soLuongMuonSac) => _soLuongMuonSac = soLuongMuonSac;
+
+  int? get soLuongTam => _soLuongTam;
+  set soLuongTam(int? soLuongTam) => _soLuongTam = soLuongTam;
+
+  int? get soLuongSacNhanh => _soLuongSacNhanh;
+  set soLuongSacNhanh(int? soLuongSacNhanh) =>
+      _soLuongSacNhanh = soLuongSacNhanh;
   int? get soLuongSac8k => _soLuongSac8k;
   set soLuongSac8k(int? soLuongSac8k) => _soLuongSac8k = soLuongSac8k;
   int? get soLuongSac12k => _soLuongSac12k;
@@ -179,16 +220,28 @@ class Billmodel {
     _sId = json['_id'];
     _bienSoXe = json['bienSoXe'];
     _sac = double.parse(json['sac'].toString());
+    _combo1 = json['combo1'] != null ? int.parse(json['combo1'].toString()) : 0;
+    _combo2 = json['combo2'] != null ? int.parse(json['combo2'].toString()) : 0;
+    _soLuongMuonSac = json['soLuongMuonSac'] != null
+        ? int.parse(json['soLuongMuonSac'].toString())
+        : 0;
+    _soLuongTam = json['soLuongTam'] != null
+        ? int.parse(json['soLuongTam'].toString())
+        : 0;
+
+    _soLuongSacNhanh = json['soLuongSacNhanh'] != null
+        ? int.parse(json['soLuongSacNhanh'].toString())
+        : 0;
     _soLuongSac8k = json['soLuongSac8k'] != null
         ? int.parse(json['soLuongSac8k'].toString())
         : 0;
-    _soLuongSac12k = json['soLuongSac8k'] != null
+    _soLuongSac12k = json['soLuongSac12k'] != null
         ? int.parse(json['soLuongSac12k'].toString())
         : 0;
-    _soLuongNguNgay = json['soLuongSac8k'] != null
+    _soLuongNguNgay = json['soLuongNguNgay'] != null
         ? int.parse(json['soLuongNguNgay'].toString())
         : 0;
-    _soLuongNguDem = json['soLuongSac8k'] != null
+    _soLuongNguDem = json['soLuongNguDem'] != null
         ? int.parse(json['soLuongNguDem'].toString())
         : 0;
     _muonSac = json['muonSac'];
@@ -225,6 +278,16 @@ class Billmodel {
     data['_id'] = _sId;
     data['bienSoXe'] = _bienSoXe;
     data['sac'] = _sac;
+
+    data['combo1'] = _combo1;
+
+    data['soLuongSac8k'] = _combo2;
+
+    data['soLuongMuonSac'] = _soLuongMuonSac;
+
+    data['soLuongTam'] = _soLuongTam;
+
+    data['soLuongSacNhanh'] = _soLuongSacNhanh;
     data['soLuongSac8k'] = _soLuongSac8k;
     data['soLuongSac12k'] = _soLuongSac12k;
     data['soLuongNguNgay'] = _soLuongNguNgay;
