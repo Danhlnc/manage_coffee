@@ -150,7 +150,7 @@ class _AddCustomerState extends State<AddCustomer> {
   getTongTien() {
     widget.customer.tongTien = widget.customer.soLuongSac8k! * 10000 +
         widget.customer.soLuongSac12k! * 15000 +
-        widget.customer.soLuongMuonSac! * 5000 +
+        widget.customer.soLuongMuonSac! * 3000 +
         widget.customer.soLuongSacNhanh! * 30000 +
         15000 * widget.customer.soLuongNguNgay! +
         (30000 * widget.customer.soLuongNguDem!) +

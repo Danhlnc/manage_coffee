@@ -57,12 +57,13 @@ class _TobaccowidgetState extends State<Tobaccowidget> {
                       });
                   setState(() {
                     widget.customer.tongTien =
-                        widget.customer.soLuongSac8k! * 8000 +
-                            widget.customer.soLuongSac12k! * 12000 +
-                            (widget.customer.muonSac == true ? 3000 : 0) +
+                        widget.customer.soLuongSac8k! * 10000 +
+                            widget.customer.soLuongSac12k! * 15000 +
+                            widget.customer.soLuongMuonSac! * 3000 +
+                            widget.customer.soLuongSacNhanh! * 30000 +
                             15000 * widget.customer.soLuongNguNgay! +
                             (30000 * widget.customer.soLuongNguDem!) +
-                            (widget.customer.tam == true ? 5000 : 0) +
+                            widget.customer.soLuongTam! * 5000 +
                             getTotalDrinkPrice(widget.customer.listNuoc) +
                             getTotalTaboccoPrice(widget.customer.listThuoc) +
                             double.parse(widget.customer.comGia.toString()) +
@@ -108,18 +109,16 @@ class _TobaccowidgetState extends State<Tobaccowidget> {
                                     widget.customer.listThuoc.length;
                                     widget.customer.tongTien = widget
                                                 .customer.soLuongSac8k! *
-                                            8000 +
-                                        widget.customer.soLuongSac12k! * 12000 +
-                                        (widget.customer.muonSac == true
-                                            ? 3000
-                                            : 0) +
+                                            10000 +
+                                        widget.customer.soLuongSac12k! * 15000 +
+                                        widget.customer.soLuongMuonSac! * 3000 +
+                                        widget.customer.soLuongSacNhanh! *
+                                            30000 +
                                         15000 *
                                             widget.customer.soLuongNguNgay! +
                                         (30000 *
                                             widget.customer.soLuongNguDem!) +
-                                        (widget.customer.tam == true
-                                            ? 5000
-                                            : 0) +
+                                        widget.customer.soLuongTam! * 5000 +
                                         getTotalDrinkPrice(
                                             widget.customer.listNuoc) +
                                         getTotalTaboccoPrice(

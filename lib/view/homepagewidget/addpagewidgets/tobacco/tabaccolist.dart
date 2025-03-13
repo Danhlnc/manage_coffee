@@ -5,7 +5,6 @@ import 'package:tscoffee/model/taboccobillmodel.dart';
 import '../../../../apps/globalvariables.dart';
 import '../../../../model/billmodel.dart';
 
-
 // ignore: must_be_immutable
 class Tabaccolist extends StatefulWidget {
   Function callBackFunc;
@@ -50,17 +49,14 @@ class _TabaccolistState extends State<Tabaccolist> {
                                 widget.listThuocSelected.soLuongBan =
                                     widget.listThuocSelected.soLuongBan! - 1;
                                 widget.customer.tongTien = widget
-                                        .customer.sac! +
-                                    (widget.customer.muonSac == true
-                                        ? 3000
-                                        : 0) +
-                                    (widget.customer.nguNgay == true
-                                        ? 15000
-                                        : 0) +
-                                    (widget.customer.nguDem == true
-                                        ? 30000
-                                        : 0) +
-                                    (widget.customer.tam == true ? 5000 : 0) +
+                                            .customer.soLuongSac8k! *
+                                        10000 +
+                                    widget.customer.soLuongSac12k! * 15000 +
+                                    widget.customer.soLuongMuonSac! * 3000 +
+                                    widget.customer.soLuongSacNhanh! * 30000 +
+                                    15000 * widget.customer.soLuongNguNgay! +
+                                    (30000 * widget.customer.soLuongNguDem!) +
+                                    widget.customer.soLuongTam! * 5000 +
                                     getTotalDrinkPrice(listNuoc) +
                                     getTotalTaboccoPrice(listThuoc) +
                                     double.parse(
@@ -91,13 +87,15 @@ class _TabaccolistState extends State<Tabaccolist> {
                             setState(() {
                               widget.listThuocSelected.soLuongBan =
                                   widget.listThuocSelected.soLuongBan! + 1;
-                              widget.customer.tongTien = widget.customer.sac! +
-                                  (widget.customer.muonSac == true ? 3000 : 0) +
-                                  (widget.customer.nguNgay == true
-                                      ? 15000
-                                      : 0) +
-                                  (widget.customer.nguDem == true ? 30000 : 0) +
-                                  (widget.customer.tam == true ? 5000 : 0) +
+                              widget.customer.tongTien = widget
+                                          .customer.soLuongSac8k! *
+                                      10000 +
+                                  widget.customer.soLuongSac12k! * 15000 +
+                                  widget.customer.soLuongMuonSac! * 3000 +
+                                  widget.customer.soLuongSacNhanh! * 30000 +
+                                  15000 * widget.customer.soLuongNguNgay! +
+                                  (30000 * widget.customer.soLuongNguDem!) +
+                                  widget.customer.soLuongTam! * 5000 +
                                   getTotalDrinkPrice(listNuoc) +
                                   getTotalTaboccoPrice(listThuoc) +
                                   double.parse(
@@ -109,14 +107,16 @@ class _TabaccolistState extends State<Tabaccolist> {
                               widget.callBackFunc("");
                             });
                           },
-                        )),const Expanded(
-                           flex: 2,
-                           child: SizedBox(width: 3,),
-                        )
+                        )),
+                    const Expanded(
+                      flex: 2,
+                      child: SizedBox(
+                        width: 3,
+                      ),
+                    )
                   ],
                 )),
             //
-           
           ]),
     );
   }
