@@ -1,3 +1,4 @@
+import 'package:tscoffee/model/comboModel.dart';
 import 'package:tscoffee/model/drinkbillmodel.dart';
 import 'package:tscoffee/model/taboccobillmodel.dart';
 
@@ -19,6 +20,7 @@ class Billmodel {
   bool? _nguNgay = true;
   bool? _nguDem = true;
   bool? _tam = false;
+  List<ComboModel> _listCombo=[];
   List<Drinkbillmodel> _listNuoc = [];
   List<Taboccobillmodel> _listThuoc = [];
   double? _comGia = 0;
@@ -50,6 +52,7 @@ class Billmodel {
       bool? nguNgay,
       bool? nguDem,
       bool? tam,
+      List<ComboModel>? listCombo,
       List<Drinkbillmodel>? listNuoc,
       List<Taboccobillmodel>? listThuoc,
       double? comGia,
@@ -112,6 +115,8 @@ class Billmodel {
     }
     if (tam != null) {
       _tam = tam;
+    }if (listCombo != null) {
+      _listCombo= listCombo;
     }
     if (listNuoc != null) {
       _listNuoc = listNuoc;
@@ -191,6 +196,8 @@ class Billmodel {
   set nguDem(bool? nguDem) => _nguDem = nguDem;
   bool? get tam => _tam;
   set tam(bool? tam) => _tam = tam;
+   List<ComboModel> get listCombo => _listCombo;
+  set listCombo( List<ComboModel> listCombo) => _listCombo = listCombo;
   List<Drinkbillmodel> get listNuoc => _listNuoc;
   set listNuoc(List<Drinkbillmodel> listNuoc) => _listNuoc = listNuoc;
   List<Taboccobillmodel> get listThuoc => _listThuoc;
@@ -249,6 +256,12 @@ class Billmodel {
     _nguNgay = json['nguNgay'];
     _nguDem = json['nguDem'];
     _tam = json['tam'];
+     if (json['listCombo'] != null) {
+      _listCombo = <ComboModel>[];
+      json['listCombo'].forEach((v) {
+        _listCombo.add(ComboModel.fromJson(v));
+      });
+    }
     if (json['listNuoc'] != null) {
       _listNuoc = <Drinkbillmodel>[];
       json['listNuoc'].forEach((v) {
@@ -297,6 +310,7 @@ class Billmodel {
     data['nguNgay'] = _nguNgay;
     data['nguDem'] = _nguDem;
     data['tam'] = _tam;
+    data['listCombo'] = _listCombo;
     data['listNuoc'] = _listNuoc.map((v) => v.toJson()).toList();
     data['listThuoc'] = _listThuoc.map((v) => v.toJson()).toList();
     data['comGia'] = _comGia;

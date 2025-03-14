@@ -3,9 +3,11 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:tscoffee/apps/globalvariables.dart';
+import 'package:tscoffee/model/comboModel.dart';
 import 'package:tscoffee/model/drinkbillmodel.dart';
 import 'package:tscoffee/model/taboccobillmodel.dart';
 import 'package:http/http.dart' as http;
+import 'package:tscoffee/view/homepagewidget/addpagewidgets/combo/comboswidget.dart';
 import '../../model/billmodel.dart';
 import 'addpagewidgets/drink/drinkswidget.dart';
 import 'addpagewidgets/tobacco/tobaccowidget.dart';
@@ -148,18 +150,20 @@ class _AddCustomerState extends State<AddCustomer> {
 
   //#endregion
   getTongTien() {
-    widget.customer.tongTien = widget.customer.soLuongSac8k! * 10000 +
-        widget.customer.soLuongSac12k! * 15000 +
-        widget.customer.soLuongMuonSac! * 3000 +
-        widget.customer.soLuongSacNhanh! * 30000 +
-        15000 * widget.customer.soLuongNguNgay! +
-        (30000 * widget.customer.soLuongNguDem!) +
-        widget.customer.soLuongTam! * 5000 +
-        getTotalDrinkPrice(widget.customer.listNuoc) +
-        getTotalTaboccoPrice(widget.customer.listThuoc) +
-        (comGia.text != '' ? double.parse(comGia.text) : 0) +
-        (giaGiatDo.text != '' ? double.parse(giaGiatDo.text) : 0) +
-        double.parse(widget.customer.giaTu.toString());
+    widget.customer.tongTien =
+                        widget.customer.soLuongSac8k! * 10000 +
+                            widget.customer.soLuongSac12k! * 15000 +
+                            widget.customer.soLuongMuonSac! * 3000 +
+                            widget.customer.soLuongSacNhanh! * 30000 +
+                            15000 * widget.customer.soLuongNguNgay! +
+                            (30000 * widget.customer.soLuongNguDem!) +
+                            widget.customer.soLuongTam! * 5000 +
+                            getTotalComboPrice(widget.customer.listCombo)+
+                            getTotalDrinkPrice(widget.customer.listNuoc) +
+                            getTotalTaboccoPrice(widget.customer.listThuoc) +
+                            double.parse(widget.customer.comGia.toString()) +
+                            double.parse(widget.customer.giaGiatDo.toString()) +
+                            double.parse(widget.customer.giaTu.toString());
     callBack("");
   }
 
@@ -617,190 +621,189 @@ class _AddCustomerState extends State<AddCustomer> {
                             width: 1,
                           ),
                         ),
-                        child: Column(
+                        child: Row(
                           children: [
-                            Row(
-                              children: [
-                                const Expanded(
-                                    child: Center(child: Text('Ngủ đêm'))),
-                                Expanded(
-                                    flex: 1,
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Expanded(
-                                            flex: 1,
-                                            child: IconButton(
-                                              padding: EdgeInsets.zero,
-                                              icon: const Icon(
-                                                  Icons.remove_circle_outlined),
-                                              onPressed: () {
-                                                if (widget.customer
-                                                        .soLuongNguDem! >
-                                                    0) {
-                                                  widget.customer
-                                                      .soLuongNguDem = (widget
-                                                          .customer
-                                                          .soLuongNguDem! -
-                                                      1);
-                                                }
-                                                getTongTien();
-                                                setState(() {});
-                                              },
-                                            )),
-                                        Expanded(
-                                            flex: 1,
-                                            child: Center(
-                                                child: Container(
+                            Expanded(
+                              flex: 1,
+                              child: Column(
+                                children: [
+                                  Row(
+                                    children: [
+                                      const Expanded(
+                                          child: Center(child: Text('Ngủ đêm'))),
+                                      Expanded(
+                                          flex: 1,
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Expanded(
+                                                  flex: 1,
+                                                  child: IconButton(
                                                     padding: EdgeInsets.zero,
-                                                    child: Text(widget
-                                                        .customer.soLuongNguDem
-                                                        .toString())))),
-                                        Expanded(
-                                            flex: 1,
-                                            child: IconButton(
-                                              padding: EdgeInsets.zero,
-                                              icon: const Icon(
-                                                  Icons.add_circle_outlined),
-                                              onPressed: () {
-                                                widget.customer.soLuongNguDem =
-                                                    (widget.customer
-                                                            .soLuongNguDem! +
-                                                        1);
-                                                getTongTien();
-                                                setState(() {});
-                                              },
-                                            )),
-                                      ],
-                                    )),
-                                const Expanded(
-                                  flex: 2,
-                                  child: SizedBox(),
-                                ),
-                              ],
-                            ),
-                            Row(
-                              children: [
-                                const Expanded(
-                                    child: Center(child: Text('Ngủ ngày'))),
-                                Expanded(
-                                    flex: 1,
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Expanded(
-                                            flex: 1,
-                                            child: IconButton(
-                                              padding: EdgeInsets.zero,
-                                              icon: const Icon(
-                                                  Icons.remove_circle_outlined),
-                                              onPressed: () {
-                                                if (widget.customer
-                                                        .soLuongNguNgay! >
-                                                    0) {
-                                                  widget.customer
-                                                      .soLuongNguNgay = (widget
-                                                          .customer
-                                                          .soLuongNguNgay! -
-                                                      1);
-                                                }
-                                                getTongTien();
-                                                setState(() {});
-                                              },
-                                            )),
-                                        Expanded(
-                                            flex: 1,
-                                            child: Center(
-                                                child: Container(
+                                                    icon: const Icon(
+                                                        Icons.remove_circle_outlined),
+                                                    onPressed: () {
+                                                      if (widget.customer
+                                                              .soLuongNguDem! >
+                                                          0) {
+                                                        widget.customer
+                                                            .soLuongNguDem = (widget
+                                                                .customer
+                                                                .soLuongNguDem! -
+                                                            1);
+                                                      }
+                                                      getTongTien();
+                                                      setState(() {});
+                                                    },
+                                                  )),
+                                              Expanded(
+                                                  flex: 1,
+                                                  child: Center(
+                                                      child: Container(
+                                                          padding: EdgeInsets.zero,
+                                                          child: Text(widget
+                                                              .customer.soLuongNguDem
+                                                              .toString())))),
+                                              Expanded(
+                                                  flex: 1,
+                                                  child: IconButton(
                                                     padding: EdgeInsets.zero,
-                                                    child: Text(widget
-                                                        .customer.soLuongNguNgay
-                                                        .toString())))),
-                                        Expanded(
-                                            flex: 1,
-                                            child: IconButton(
-                                              padding: EdgeInsets.zero,
-                                              icon: const Icon(
-                                                  Icons.add_circle_outlined),
-                                              onPressed: () {
-                                                widget.customer.soLuongNguNgay =
-                                                    (widget.customer
-                                                            .soLuongNguNgay! +
-                                                        1);
-                                                getTongTien();
-                                                setState(() {});
-                                              },
-                                            )),
-                                      ],
-                                    )),
-                                const Expanded(
-                                  flex: 2,
-                                  child: SizedBox(),
-                                ),
-                              ],
-                            ),
-                            Row(
-                              children: [
-                                const Expanded(
-                                    child: Center(child: Text('Tắm'))),
-                                Expanded(
-                                    flex: 1,
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Expanded(
-                                            flex: 1,
-                                            child: IconButton(
-                                              padding: EdgeInsets.zero,
-                                              icon: const Icon(
-                                                  Icons.remove_circle_outlined),
-                                              onPressed: () {
-                                                if (widget
-                                                        .customer.soLuongTam! >
-                                                    0) {
-                                                  widget.customer.soLuongTam =
-                                                      (widget.customer
-                                                              .soLuongTam! -
-                                                          1);
-                                                }
-                                                getTongTien();
-                                                setState(() {});
-                                              },
-                                            )),
-                                        Expanded(
-                                            flex: 1,
-                                            child: Center(
-                                                child: Container(
+                                                    icon: const Icon(
+                                                        Icons.add_circle_outlined),
+                                                    onPressed: () {
+                                                      widget.customer.soLuongNguDem =
+                                                          (widget.customer
+                                                                  .soLuongNguDem! +
+                                                              1);
+                                                      getTongTien();
+                                                      setState(() {});
+                                                    },
+                                                  )),
+                                            ],
+                                          )),
+                                    ],
+                                  ),
+                                  Row(
+                                    children: [
+                                      const Expanded(
+                                          child: Center(child: Text('Ngủ ngày'))),
+                                      Expanded(
+                                          flex: 1,
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Expanded(
+                                                  flex: 1,
+                                                  child: IconButton(
                                                     padding: EdgeInsets.zero,
-                                                    child: Text(widget
-                                                        .customer.soLuongTam
-                                                        .toString())))),
-                                        Expanded(
-                                            flex: 1,
-                                            child: IconButton(
-                                              padding: EdgeInsets.zero,
-                                              icon: const Icon(
-                                                  Icons.add_circle_outlined),
-                                              onPressed: () {
-                                                widget.customer.soLuongTam =
-                                                    (widget.customer
-                                                            .soLuongTam! +
-                                                        1);
-                                                getTongTien();
-                                                setState(() {});
-                                              },
-                                            )),
-                                      ],
-                                    )),
-                                const Expanded(
-                                  flex: 2,
-                                  child: SizedBox(),
-                                ),
-                              ],
-                            )
+                                                    icon: const Icon(
+                                                        Icons.remove_circle_outlined),
+                                                    onPressed: () {
+                                                      if (widget.customer
+                                                              .soLuongNguNgay! >
+                                                          0) {
+                                                        widget.customer
+                                                            .soLuongNguNgay = (widget
+                                                                .customer
+                                                                .soLuongNguNgay! -
+                                                            1);
+                                                      }
+                                                      getTongTien();
+                                                      setState(() {});
+                                                    },
+                                                  )),
+                                              Expanded(
+                                                  flex: 1,
+                                                  child: Center(
+                                                      child: Container(
+                                                          padding: EdgeInsets.zero,
+                                                          child: Text(widget
+                                                              .customer.soLuongNguNgay
+                                                              .toString())))),
+                                              Expanded(
+                                                  flex: 1,
+                                                  child: IconButton(
+                                                    padding: EdgeInsets.zero,
+                                                    icon: const Icon(
+                                                        Icons.add_circle_outlined),
+                                                    onPressed: () {
+                                                      widget.customer.soLuongNguNgay =
+                                                          (widget.customer
+                                                                  .soLuongNguNgay! +
+                                                              1);
+                                                      getTongTien();
+                                                      setState(() {});
+                                                    },
+                                                  )),
+                                            ],
+                                          )),
+                                      
+                                    ],
+                                  ),
+                                  Row(
+                                    children: [
+                                      const Expanded(
+                                          child: Center(child: Text('Tắm'))),
+                                      Expanded(
+                                          flex: 1,
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Expanded(
+                                                  flex: 1,
+                                                  child: IconButton(
+                                                    padding: EdgeInsets.zero,
+                                                    icon: const Icon(
+                                                        Icons.remove_circle_outlined),
+                                                    onPressed: () {
+                                                      if (widget
+                                                              .customer.soLuongTam! >
+                                                          0) {
+                                                        widget.customer.soLuongTam =
+                                                            (widget.customer
+                                                                    .soLuongTam! -
+                                                                1);
+                                                      }
+                                                      getTongTien();
+                                                      setState(() {});
+                                                    },
+                                                  )),
+                                              Expanded(
+                                                  flex: 1,
+                                                  child: Center(
+                                                      child: Container(
+                                                          padding: EdgeInsets.zero,
+                                                          child: Text(widget
+                                                              .customer.soLuongTam
+                                                              .toString())))),
+                                              Expanded(
+                                                  flex: 1,
+                                                  child: IconButton(
+                                                    padding: EdgeInsets.zero,
+                                                    icon: const Icon(
+                                                        Icons.add_circle_outlined),
+                                                    onPressed: () {
+                                                      widget.customer.soLuongTam =
+                                                          (widget.customer
+                                                                  .soLuongTam! +
+                                                              1);
+                                                      getTongTien();
+                                                      setState(() {});
+                                                    },
+                                                  )),
+                                            ],
+                                          )),
+                                      
+                                    ],
+                                  )
+                                ],
+                              ),
+                            ),Expanded(flex: 1,
+                              child: Comboswidget(customer: widget.customer,
+                                    callBackFunc: callBack))
                           ],
                         ),
                       ),
@@ -1030,6 +1033,13 @@ class _AddCustomerState extends State<AddCustomer> {
     for (var item in list) {
       total += num.parse(item.taboccomodel!.price.toString()) *
           (int.parse(item.soLuongBan!.toString()));
+    }
+    return total;
+  }
+  double getTotalComboPrice(List<ComboModel> list) {
+    double total = 0;
+    for (var item in list) {
+      total += num.parse(item.price.toString()) ;
     }
     return total;
   }

@@ -5,6 +5,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:tscoffee/model/WebStorage.dart';
+import 'package:tscoffee/model/comboModel.dart';
 import 'package:tscoffee/model/drinkmodel.dart';
 import 'package:tscoffee/model/spendmodel.dart';
 import 'package:tscoffee/model/taboccomodel.dart';
@@ -48,6 +49,8 @@ List<Drinkmodel> listAllNuoc = [];
 List<Taboccomodel> listAllThuoc = [];
 List<Drinkmodel> listAllNuocSearch = [];
 List<Taboccomodel> listAllThuocSearch = [];
+List<ComboModel> listAllCombo = [];
+List<ComboModel> listAllComboSearch = [];
 bool loadData = true;
 List<Billmodel> parsePost(String responseBody) {
   var list = json.decode(responseBody)['result'] as List<dynamic>;
@@ -77,6 +80,12 @@ List<Taboccomodel> taboccoParsePost(String responseBody) {
   List<Taboccomodel> listBillModel =
       list.map((value) => Taboccomodel.fromJson(value)).toList();
   return listBillModel;
+}
+List<ComboModel> ComboParsePost(String responseBody) {
+  var list = json.decode(responseBody)['result'] as List<dynamic>;
+  List<ComboModel> listCombo =
+      list.map((value) => ComboModel.fromJson(value)).toList();
+  return listCombo;
 }
 
 Future<List<Billmodel>> fetch() async {
@@ -124,5 +133,16 @@ Future<List<Taboccomodel>> fetchTabocco() async {
     'Accept': '*/*'
   });
   final listModelParse = taboccoParsePost(response.body);
+  return listModelParse;
+}
+Future<List<ComboModel>> fetchCombo() async {
+  final url =
+      Uri.parse('https://tscoffee-server-1.onrender.com/v1/boards/combo');
+  final response = await http.get(url, headers: {
+    "Access-Control-Allow-Origin": "*",
+    'Content-Type': 'application/json',
+    'Accept': '*/*'
+  });
+  final listModelParse = ComboParsePost(response.body);
   return listModelParse;
 }

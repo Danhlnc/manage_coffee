@@ -92,6 +92,12 @@ class _HomeState extends State<Home> {
         listAllThuocSearch = onValue;
         setState(() {});
       });
+      fetchCombo().then((onValue) {
+        listAllCombo = [];
+        listAllCombo = onValue;
+        listAllComboSearch = onValue;
+        setState(() {});
+      });
       fetchSpend().then((onValue) {
         context.read<ProviderModel>().update(onValue);
         context.read<ProviderModel>().updateListTemp(dateTimeRange);
