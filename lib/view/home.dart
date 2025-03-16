@@ -5,6 +5,7 @@ import 'package:tscoffee/apps/globalvariables.dart';
 import 'package:tscoffee/model/WebStorage.dart';
 import 'package:tscoffee/model/billmodel.dart';
 import 'package:tscoffee/model/providerModel.dart';
+import 'package:tscoffee/view/QLyKhoWidget/QLyKhoScreen.dart';
 import 'package:tscoffee/view/login.dart';
 import 'homepagewidget/addpagewidgets/khachhangSceen.dart';
 import 'homepagewidget/doanhthupagewidget/doanhthuscreen.dart';
@@ -156,19 +157,7 @@ class _HomeState extends State<Home> {
               listBillsTotal: listBillsTotalDate, callBack: callBack),
 
           /// Notifications page
-          Container(
-            color: Colors.blueGrey,
-            child: const Column(
-              children: <Widget>[
-                Card(
-                  child: ListTile(
-                    title: Text('Nội dung đang được cập nhật.'),
-                    subtitle: Text('Vui lòng liên hệ ban quản trị.'),
-                  ),
-                ),
-              ],
-            ),
-          ),
+          QuanLyKhoScreen(),
           Container(
             color: Colors.blueGrey,
             child: Column(

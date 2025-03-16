@@ -33,6 +33,26 @@ class _AddCustomerState extends State<AddCustomer> {
     setState(() {});
   }
 
+  Future updateDrink(Map<String, dynamic> item) async {
+    final response = await http.put(
+      Uri.parse('https://tscoffee-server-1.onrender.com/v1/boards/drinks'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(item),
+    );
+    if (response.statusCode == 200) {
+      // If the server did return a 201 CREATED response,
+      // then parse the JSON.
+
+      date = DateTime.now();
+    } else {
+      // If the server did not return a 201 CREATED response,
+      // then throw an exception.
+      throw Exception('Failed to create album.');
+    }
+  }
+
   Future addBill(Map<String, dynamic> item) async {
     final response = await http.post(
       Uri.parse('https://tscoffee-server-1.onrender.com/v1/boards/bills'),
@@ -122,6 +142,25 @@ class _AddCustomerState extends State<AddCustomer> {
             widget.loading = true;
           });
           updateBill(widget.customer.toJson()).then((onValue) {
+            try {
+              if (widget.customer.listNuoc.first.soLuongBan! > 0) {
+                listAllNuoc.forEach((element) {
+                  if (element.drinkName ==
+                      widget.customer.listNuoc.first.drinkmodel!.drinkName) {
+                    try {
+                      element.countStore = (element.countStore as int) -
+                          (widget.customer.listNuoc.first.soLuongBan as int)!;
+
+                      updateDrink(element.toJson()).then((onValue) {
+                        setState(() {});
+                      });
+                    } catch (e) {}
+                  }
+                  ;
+                });
+              }
+            } catch (e) {}
+
             for (var element in listBillsTotal) {
               if (element.keys.first.sId == widget.customer.sId) {
                 element.keys.first.trangThai = widget.customer.trangThai;
@@ -150,20 +189,19 @@ class _AddCustomerState extends State<AddCustomer> {
 
   //#endregion
   getTongTien() {
-    widget.customer.tongTien =
-                        widget.customer.soLuongSac8k! * 10000 +
-                            widget.customer.soLuongSac12k! * 15000 +
-                            widget.customer.soLuongMuonSac! * 3000 +
-                            widget.customer.soLuongSacNhanh! * 30000 +
-                            15000 * widget.customer.soLuongNguNgay! +
-                            (30000 * widget.customer.soLuongNguDem!) +
-                            widget.customer.soLuongTam! * 5000 +
-                            getTotalComboPrice(widget.customer.listCombo)+
-                            getTotalDrinkPrice(widget.customer.listNuoc) +
-                            getTotalTaboccoPrice(widget.customer.listThuoc) +
-                            double.parse(widget.customer.comGia.toString()) +
-                            double.parse(widget.customer.giaGiatDo.toString()) +
-                            double.parse(widget.customer.giaTu.toString());
+    widget.customer.tongTien = widget.customer.soLuongSac8k! * 10000 +
+        widget.customer.soLuongSac12k! * 15000 +
+        widget.customer.soLuongMuonSac! * 3000 +
+        widget.customer.soLuongSacNhanh! * 30000 +
+        15000 * widget.customer.soLuongNguNgay! +
+        (30000 * widget.customer.soLuongNguDem!) +
+        widget.customer.soLuongTam! * 5000 +
+        getTotalComboPrice(widget.customer.listCombo) +
+        getTotalDrinkPrice(widget.customer.listNuoc) +
+        getTotalTaboccoPrice(widget.customer.listThuoc) +
+        double.parse(widget.customer.comGia.toString()) +
+        double.parse(widget.customer.giaGiatDo.toString()) +
+        double.parse(widget.customer.giaTu.toString());
     callBack("");
   }
 
@@ -630,7 +668,8 @@ class _AddCustomerState extends State<AddCustomer> {
                                   Row(
                                     children: [
                                       const Expanded(
-                                          child: Center(child: Text('Ngủ đêm'))),
+                                          child:
+                                              Center(child: Text('Ngủ đêm'))),
                                       Expanded(
                                           flex: 1,
                                           child: Row(
@@ -641,8 +680,8 @@ class _AddCustomerState extends State<AddCustomer> {
                                                   flex: 1,
                                                   child: IconButton(
                                                     padding: EdgeInsets.zero,
-                                                    icon: const Icon(
-                                                        Icons.remove_circle_outlined),
+                                                    icon: const Icon(Icons
+                                                        .remove_circle_outlined),
                                                     onPressed: () {
                                                       if (widget.customer
                                                               .soLuongNguDem! >
@@ -661,21 +700,24 @@ class _AddCustomerState extends State<AddCustomer> {
                                                   flex: 1,
                                                   child: Center(
                                                       child: Container(
-                                                          padding: EdgeInsets.zero,
+                                                          padding:
+                                                              EdgeInsets.zero,
                                                           child: Text(widget
-                                                              .customer.soLuongNguDem
+                                                              .customer
+                                                              .soLuongNguDem
                                                               .toString())))),
                                               Expanded(
                                                   flex: 1,
                                                   child: IconButton(
                                                     padding: EdgeInsets.zero,
-                                                    icon: const Icon(
-                                                        Icons.add_circle_outlined),
+                                                    icon: const Icon(Icons
+                                                        .add_circle_outlined),
                                                     onPressed: () {
-                                                      widget.customer.soLuongNguDem =
-                                                          (widget.customer
-                                                                  .soLuongNguDem! +
-                                                              1);
+                                                      widget.customer
+                                                          .soLuongNguDem = (widget
+                                                              .customer
+                                                              .soLuongNguDem! +
+                                                          1);
                                                       getTongTien();
                                                       setState(() {});
                                                     },
@@ -687,7 +729,8 @@ class _AddCustomerState extends State<AddCustomer> {
                                   Row(
                                     children: [
                                       const Expanded(
-                                          child: Center(child: Text('Ngủ ngày'))),
+                                          child:
+                                              Center(child: Text('Ngủ ngày'))),
                                       Expanded(
                                           flex: 1,
                                           child: Row(
@@ -698,8 +741,8 @@ class _AddCustomerState extends State<AddCustomer> {
                                                   flex: 1,
                                                   child: IconButton(
                                                     padding: EdgeInsets.zero,
-                                                    icon: const Icon(
-                                                        Icons.remove_circle_outlined),
+                                                    icon: const Icon(Icons
+                                                        .remove_circle_outlined),
                                                     onPressed: () {
                                                       if (widget.customer
                                                               .soLuongNguNgay! >
@@ -718,28 +761,30 @@ class _AddCustomerState extends State<AddCustomer> {
                                                   flex: 1,
                                                   child: Center(
                                                       child: Container(
-                                                          padding: EdgeInsets.zero,
+                                                          padding:
+                                                              EdgeInsets.zero,
                                                           child: Text(widget
-                                                              .customer.soLuongNguNgay
+                                                              .customer
+                                                              .soLuongNguNgay
                                                               .toString())))),
                                               Expanded(
                                                   flex: 1,
                                                   child: IconButton(
                                                     padding: EdgeInsets.zero,
-                                                    icon: const Icon(
-                                                        Icons.add_circle_outlined),
+                                                    icon: const Icon(Icons
+                                                        .add_circle_outlined),
                                                     onPressed: () {
-                                                      widget.customer.soLuongNguNgay =
-                                                          (widget.customer
-                                                                  .soLuongNguNgay! +
-                                                              1);
+                                                      widget.customer
+                                                          .soLuongNguNgay = (widget
+                                                              .customer
+                                                              .soLuongNguNgay! +
+                                                          1);
                                                       getTongTien();
                                                       setState(() {});
                                                     },
                                                   )),
                                             ],
                                           )),
-                                      
                                     ],
                                   ),
                                   Row(
@@ -756,16 +801,17 @@ class _AddCustomerState extends State<AddCustomer> {
                                                   flex: 1,
                                                   child: IconButton(
                                                     padding: EdgeInsets.zero,
-                                                    icon: const Icon(
-                                                        Icons.remove_circle_outlined),
+                                                    icon: const Icon(Icons
+                                                        .remove_circle_outlined),
                                                     onPressed: () {
-                                                      if (widget
-                                                              .customer.soLuongTam! >
+                                                      if (widget.customer
+                                                              .soLuongTam! >
                                                           0) {
-                                                        widget.customer.soLuongTam =
-                                                            (widget.customer
-                                                                    .soLuongTam! -
-                                                                1);
+                                                        widget.customer
+                                                            .soLuongTam = (widget
+                                                                .customer
+                                                                .soLuongTam! -
+                                                            1);
                                                       }
                                                       getTongTien();
                                                       setState(() {});
@@ -775,34 +821,39 @@ class _AddCustomerState extends State<AddCustomer> {
                                                   flex: 1,
                                                   child: Center(
                                                       child: Container(
-                                                          padding: EdgeInsets.zero,
+                                                          padding:
+                                                              EdgeInsets.zero,
                                                           child: Text(widget
-                                                              .customer.soLuongTam
+                                                              .customer
+                                                              .soLuongTam
                                                               .toString())))),
                                               Expanded(
                                                   flex: 1,
                                                   child: IconButton(
                                                     padding: EdgeInsets.zero,
-                                                    icon: const Icon(
-                                                        Icons.add_circle_outlined),
+                                                    icon: const Icon(Icons
+                                                        .add_circle_outlined),
                                                     onPressed: () {
-                                                      widget.customer.soLuongTam =
-                                                          (widget.customer
-                                                                  .soLuongTam! +
-                                                              1);
+                                                      widget.customer
+                                                          .soLuongTam = (widget
+                                                              .customer
+                                                              .soLuongTam! +
+                                                          1);
                                                       getTongTien();
                                                       setState(() {});
                                                     },
                                                   )),
                                             ],
                                           )),
-                                      
                                     ],
                                   )
                                 ],
                               ),
-                            ),Expanded(flex: 1,
-                              child: Comboswidget(customer: widget.customer,
+                            ),
+                            Expanded(
+                                flex: 1,
+                                child: Comboswidget(
+                                    customer: widget.customer,
                                     callBackFunc: callBack))
                           ],
                         ),
@@ -1036,10 +1087,11 @@ class _AddCustomerState extends State<AddCustomer> {
     }
     return total;
   }
+
   double getTotalComboPrice(List<ComboModel> list) {
     double total = 0;
     for (var item in list) {
-      total += num.parse(item.price.toString()) ;
+      total += num.parse(item.price.toString());
     }
     return total;
   }

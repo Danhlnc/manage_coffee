@@ -37,6 +37,7 @@ class Drinkmodel {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
+    data['_id'] = _iId;
     data['drinkName'] = _drinkName;
     data['price'] = _price;
     data['countStore'] = _countStore;
@@ -62,7 +63,7 @@ class Id {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['$oid'] = _oid;
+
     return data;
   }
 }

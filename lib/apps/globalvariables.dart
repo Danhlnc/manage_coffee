@@ -21,6 +21,20 @@ int daysBetween(DateTime from, DateTime to) {
   return (to.difference(from).inDays);
 }
 
+DateTimeRange dateTimeRangeQLKho = DateTime.now().hour < 7
+    ? DateTimeRange(
+        start: DateTime.parse(DateFormat('yyyy-MM-dd HH:mm').format(DateTime(
+            DateTime.now().year,
+            DateTime.now().month,
+            DateTime.now().day - 1,
+            7))),
+        end: DateTime.parse(DateFormat('yyyy-MM-dd HH:mm').format(DateTime(
+            DateTime.now().year, DateTime.now().month, DateTime.now().day, 7))))
+    : DateTimeRange(
+        start: DateTime.parse(DateFormat('yyyy-MM-dd HH:mm').format(DateTime(
+            DateTime.now().year, DateTime.now().month, DateTime.now().day, 7))),
+        end: DateTime.parse(DateFormat('yyyy-MM-dd HH:mm')
+            .format(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day + 1, 7))));
 bool checkDoiSac = true;
 DateTime date = DateTime.now();
 WebStorage webStorage = WebStorage();
@@ -81,6 +95,7 @@ List<Taboccomodel> taboccoParsePost(String responseBody) {
       list.map((value) => Taboccomodel.fromJson(value)).toList();
   return listBillModel;
 }
+
 List<ComboModel> ComboParsePost(String responseBody) {
   var list = json.decode(responseBody)['result'] as List<dynamic>;
   List<ComboModel> listCombo =
@@ -135,6 +150,7 @@ Future<List<Taboccomodel>> fetchTabocco() async {
   final listModelParse = taboccoParsePost(response.body);
   return listModelParse;
 }
+
 Future<List<ComboModel>> fetchCombo() async {
   final url =
       Uri.parse('https://tscoffee-server-1.onrender.com/v1/boards/combo');

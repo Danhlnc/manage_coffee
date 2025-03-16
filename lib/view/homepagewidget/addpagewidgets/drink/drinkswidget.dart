@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:tscoffee/model/comboModel.dart';
 import 'package:tscoffee/model/drinkbillmodel.dart';
 import 'package:tscoffee/model/taboccobillmodel.dart';
@@ -23,6 +26,26 @@ class _DrinkswidgetState extends State<Drinkswidget> {
   callBakFuncDrink(value) {
     widget.callBackFunc(value);
     setState(() {});
+  }
+
+  Future updateDrink(Map<String, dynamic> item) async {
+    final response = await http.put(
+      Uri.parse('https://tscoffee-server-1.onrender.com/v1/boards/drinks'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(item),
+    );
+    if (response.statusCode == 200) {
+      // If the server did return a 201 CREATED response,
+      // then parse the JSON.
+
+      date = DateTime.now();
+    } else {
+      // If the server did not return a 201 CREATED response,
+      // then throw an exception.
+      throw Exception('Failed to create album.');
+    }
   }
 
   @override
@@ -64,8 +87,7 @@ class _DrinkswidgetState extends State<Drinkswidget> {
                           15000 * widget.customer.soLuongNguNgay! +
                           (30000 * widget.customer.soLuongNguDem!) +
                           widget.customer.soLuongTam! * 5000 +
-                          
-                          getTotalComboPrice(widget.customer.listCombo)+
+                          getTotalComboPrice(widget.customer.listCombo) +
                           getTotalDrinkPrice(widget.customer.listNuoc) +
                           getTotalTaboccoPrice(widget.customer.listThuoc) +
                           double.parse(widget.customer.comGia.toString()) +
@@ -92,20 +114,24 @@ class _DrinkswidgetState extends State<Drinkswidget> {
                       return InkWell(
                         onTap: () {
                           setState(() {
-                            widget.customer.tongTien =
-                        widget.customer.soLuongSac8k! * 10000 +
-                            widget.customer.soLuongSac12k! * 15000 +
-                            widget.customer.soLuongMuonSac! * 3000 +
-                            widget.customer.soLuongSacNhanh! * 30000 +
-                            15000 * widget.customer.soLuongNguNgay! +
-                            (30000 * widget.customer.soLuongNguDem!) +
-                            widget.customer.soLuongTam! * 5000 +
-                            getTotalComboPrice(widget.customer.listCombo)+
-                            getTotalDrinkPrice(widget.customer.listNuoc) +
-                            getTotalTaboccoPrice(widget.customer.listThuoc) +
-                            double.parse(widget.customer.comGia.toString()) +
-                            double.parse(widget.customer.giaGiatDo.toString()) +
-                            double.parse(widget.customer.giaTu.toString());
+                            widget.customer.tongTien = widget
+                                        .customer.soLuongSac8k! *
+                                    10000 +
+                                widget.customer.soLuongSac12k! * 15000 +
+                                widget.customer.soLuongMuonSac! * 3000 +
+                                widget.customer.soLuongSacNhanh! * 30000 +
+                                15000 * widget.customer.soLuongNguNgay! +
+                                (30000 * widget.customer.soLuongNguDem!) +
+                                widget.customer.soLuongTam! * 5000 +
+                                getTotalComboPrice(widget.customer.listCombo) +
+                                getTotalDrinkPrice(widget.customer.listNuoc) +
+                                getTotalTaboccoPrice(
+                                    widget.customer.listThuoc) +
+                                double.parse(
+                                    widget.customer.comGia.toString()) +
+                                double.parse(
+                                    widget.customer.giaGiatDo.toString()) +
+                                double.parse(widget.customer.giaTu.toString());
                             widget.callBackFunc("");
                           });
                         },
@@ -121,26 +147,57 @@ class _DrinkswidgetState extends State<Drinkswidget> {
                               child: IconButton(
                                 icon: const Icon(Icons.delete_forever_outlined),
                                 onPressed: () {
-                                  setState(() {
-                                    widget.customer.listNuoc.remove(
-                                        widget.customer.listNuoc[index]);
-                                    widget.customer.listNuoc.length;
-                                    widget.customer.tongTien =
-                        widget.customer.soLuongSac8k! * 10000 +
-                            widget.customer.soLuongSac12k! * 15000 +
-                            widget.customer.soLuongMuonSac! * 3000 +
-                            widget.customer.soLuongSacNhanh! * 30000 +
-                            15000 * widget.customer.soLuongNguNgay! +
-                            (30000 * widget.customer.soLuongNguDem!) +
-                            widget.customer.soLuongTam! * 5000 +
-                            getTotalComboPrice(widget.customer.listCombo)+
-                            getTotalDrinkPrice(widget.customer.listNuoc) +
-                            getTotalTaboccoPrice(widget.customer.listThuoc) +
-                            double.parse(widget.customer.comGia.toString()) +
-                            double.parse(widget.customer.giaGiatDo.toString()) +
-                            double.parse(widget.customer.giaTu.toString());
-                                    widget.callBackFunc("");
-                                  });
+                                  try {
+                                    listAllNuoc.forEach((element) {
+                                      if (element.drinkName ==
+                                          widget.customer.listNuoc.first
+                                              .drinkmodel!.drinkName) {
+                                        element.countStore =
+                                            (element.countStore as int) +
+                                                (widget.customer.listNuoc.first
+                                                    .soLuongBan as int);
+                                        updateDrink(element.toJson())
+                                            .then((onValue) {
+                                          setState(() {
+                                            widget.customer.listNuoc.remove(
+                                                widget
+                                                    .customer.listNuoc[index]);
+                                            widget.customer.listNuoc.length;
+                                            widget.customer.tongTien = widget
+                                                        .customer
+                                                        .soLuongSac8k! *
+                                                    10000 +
+                                                widget.customer.soLuongSac12k! *
+                                                    15000 +
+                                                widget.customer.soLuongMuonSac! *
+                                                    3000 +
+                                                widget.customer.soLuongSacNhanh! *
+                                                    30000 +
+                                                15000 *
+                                                    widget.customer
+                                                        .soLuongNguNgay! +
+                                                (30000 *
+                                                    widget.customer
+                                                        .soLuongNguDem!) +
+                                                widget.customer.soLuongTam! *
+                                                    5000 +
+                                                getTotalComboPrice(
+                                                    widget.customer.listCombo) +
+                                                getTotalDrinkPrice(
+                                                    widget.customer.listNuoc) +
+                                                getTotalTaboccoPrice(
+                                                    widget.customer.listThuoc) +
+                                                double.parse(widget.customer.comGia
+                                                    .toString()) +
+                                                double.parse(
+                                                    widget.customer.giaGiatDo.toString()) +
+                                                double.parse(widget.customer.giaTu.toString());
+                                            widget.callBackFunc("");
+                                          });
+                                        });
+                                      }
+                                    });
+                                  } catch (e) {}
                                 },
                               ),
                             ),
@@ -174,10 +231,11 @@ class _DrinkswidgetState extends State<Drinkswidget> {
     return total;
   }
 }
+
 double getTotalComboPrice(List<ComboModel> list) {
-    double total = 0;
-    for (var item in list) {
-      total += num.parse(item.price.toString()) ;
-    }
-    return total;
+  double total = 0;
+  for (var item in list) {
+    total += num.parse(item.price.toString());
   }
+  return total;
+}

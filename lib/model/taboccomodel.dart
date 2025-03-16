@@ -38,7 +38,7 @@ class Taboccomodel {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-
+    data['_id'] = _iId;
     data['tobaccoName'] = _tobaccoName;
     data['price'] = _price;
     data['countStore'] = _countStore;
