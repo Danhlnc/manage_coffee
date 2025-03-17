@@ -3,7 +3,6 @@ import 'package:tscoffee/model/comboModel.dart';
 import 'package:tscoffee/model/drinkbillmodel.dart';
 import 'package:tscoffee/model/taboccobillmodel.dart';
 
-import '../../../../apps/globalvariables.dart';
 import '../../../../model/billmodel.dart';
 
 // ignore: must_be_immutable
@@ -49,20 +48,29 @@ class _TabaccolistState extends State<Tabaccolist> {
                               setState(() {
                                 widget.listThuocSelected.soLuongBan =
                                     widget.listThuocSelected.soLuongBan! - 1;
-                                widget.customer.tongTien =
-                        widget.customer.soLuongSac8k! * 10000 +
-                            widget.customer.soLuongSac12k! * 15000 +
-                            widget.customer.soLuongMuonSac! * 3000 +
-                            widget.customer.soLuongSacNhanh! * 30000 +
-                            15000 * widget.customer.soLuongNguNgay! +
-                            (30000 * widget.customer.soLuongNguDem!) +
-                            widget.customer.soLuongTam! * 5000 +
-                            getTotalComboPrice(widget.customer.listCombo)+
-                            getTotalDrinkPrice(widget.customer.listNuoc) +
-                            getTotalTaboccoPrice(widget.customer.listThuoc) +
-                            double.parse(widget.customer.comGia.toString()) +
-                            double.parse(widget.customer.giaGiatDo.toString()) +
-                            double.parse(widget.customer.giaTu.toString());
+                                widget.customer.tongTien = widget
+                                            .customer.soLuongSac8k! *
+                                        10000 +
+                                    widget.customer.soLuongSac12k! * 15000 +
+                                    widget.customer.soLuongMuonSac! * 3000 +
+                                    widget.customer.soLuongSacNhanh! * 30000 +
+                                    widget.customer.soLuongSacNhanh20k! *
+                                        20000 +
+                                    15000 * widget.customer.soLuongNguNgay! +
+                                    (30000 * widget.customer.soLuongNguDem!) +
+                                    widget.customer.soLuongTam! * 5000 +
+                                    getTotalComboPrice(
+                                        widget.customer.listCombo) +
+                                    getTotalDrinkPrice(
+                                        widget.customer.listNuoc) +
+                                    getTotalTaboccoPrice(
+                                        widget.customer.listThuoc) +
+                                    double.parse(
+                                        widget.customer.comGia.toString()) +
+                                    double.parse(
+                                        widget.customer.giaGiatDo.toString()) +
+                                    double.parse(
+                                        widget.customer.giaTu.toString());
 
                                 widget.callBackFunc("");
                               });
@@ -85,20 +93,27 @@ class _TabaccolistState extends State<Tabaccolist> {
                             setState(() {
                               widget.listThuocSelected.soLuongBan =
                                   widget.listThuocSelected.soLuongBan! + 1;
-                              widget.customer.tongTien =
-                        widget.customer.soLuongSac8k! * 10000 +
-                            widget.customer.soLuongSac12k! * 15000 +
-                            widget.customer.soLuongMuonSac! * 3000 +
-                            widget.customer.soLuongSacNhanh! * 30000 +
-                            15000 * widget.customer.soLuongNguNgay! +
-                            (30000 * widget.customer.soLuongNguDem!) +
-                            widget.customer.soLuongTam! * 5000 +
-                            getTotalComboPrice(widget.customer.listCombo)+
-                            getTotalDrinkPrice(widget.customer.listNuoc) +
-                            getTotalTaboccoPrice(widget.customer.listThuoc) +
-                            double.parse(widget.customer.comGia.toString()) +
-                            double.parse(widget.customer.giaGiatDo.toString()) +
-                            double.parse(widget.customer.giaTu.toString());
+                              widget.customer.tongTien = widget
+                                          .customer.soLuongSac8k! *
+                                      10000 +
+                                  widget.customer.soLuongSac12k! * 15000 +
+                                  widget.customer.soLuongMuonSac! * 3000 +
+                                  widget.customer.soLuongSacNhanh! * 30000 +
+                                  widget.customer.soLuongSacNhanh20k! * 20000 +
+                                  15000 * widget.customer.soLuongNguNgay! +
+                                  (30000 * widget.customer.soLuongNguDem!) +
+                                  widget.customer.soLuongTam! * 5000 +
+                                  getTotalComboPrice(
+                                      widget.customer.listCombo) +
+                                  getTotalDrinkPrice(widget.customer.listNuoc) +
+                                  getTotalTaboccoPrice(
+                                      widget.customer.listThuoc) +
+                                  double.parse(
+                                      widget.customer.comGia.toString()) +
+                                  double.parse(
+                                      widget.customer.giaGiatDo.toString()) +
+                                  double.parse(
+                                      widget.customer.giaTu.toString());
                               widget.callBackFunc("");
                             });
                           },
@@ -115,13 +130,15 @@ class _TabaccolistState extends State<Tabaccolist> {
           ]),
     );
   }
-double getTotalComboPrice(List<ComboModel> list) {
+
+  double getTotalComboPrice(List<ComboModel> list) {
     double total = 0;
     for (var item in list) {
-      total += num.parse(item.price.toString()) ;
+      total += num.parse(item.price.toString());
     }
     return total;
   }
+
   double getTotalDrinkPrice(List<Drinkbillmodel> list) {
     double total = 0;
     for (var item in list) {

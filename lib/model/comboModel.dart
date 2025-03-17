@@ -28,16 +28,16 @@ class ComboModel {
   set id(int? id) => _id = id;
   ComboModel.fromJson(Map<String, dynamic> json) {
     _iId = json['_id'];
-    _id =int.parse(json['id'].toString());
+    _id = int.parse(json['id'].toString());
     _name = json['name'];
     _price = int.parse(json['price'].toString());
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this._id;
-    data['name'] = this._name;
-    data['price'] = this._price;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = _id;
+    data['name'] = _name;
+    data['price'] = _price;
     return data;
   }
 }
@@ -52,8 +52,8 @@ class Id {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['$oid'] = this.oid;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['$oid'] = oid;
     return data;
   }
 }

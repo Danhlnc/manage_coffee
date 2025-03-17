@@ -145,7 +145,6 @@ class _DoanhthuscreenState extends State<Doanhthuscreen> {
                             }
                             listBillsTotalDate = [...listBillsTotalSearch];
                             callBack("");
-                            ;
                           } else {
                             listBillsTotalDate = [...listBillsTotal];
                             var listProDate = [...listBillsTotalDate];
@@ -160,7 +159,6 @@ class _DoanhthuscreenState extends State<Doanhthuscreen> {
                             }
                             checkTT = false;
                             callBack("");
-                            ;
                           }
                         },
                         decoration: const InputDecoration(

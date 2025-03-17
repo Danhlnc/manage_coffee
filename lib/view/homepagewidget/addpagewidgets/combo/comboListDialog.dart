@@ -6,10 +6,10 @@ import 'package:tscoffee/model/drinkmodel.dart';
 
 // ignore: must_be_immutable
 class ComboListDialog extends StatefulWidget {
-  
   Function callBackFunc;
   Billmodel customer;
-  ComboListDialog({required this.customer,required this.callBackFunc});
+  ComboListDialog(
+      {super.key, required this.customer, required this.callBackFunc});
 
   @override
   _DrinklistdialogState createState() => _DrinklistdialogState();
@@ -29,26 +29,25 @@ class _DrinklistdialogState extends State<ComboListDialog> {
               height: 330,
               child: SingleChildScrollView(
                 child: Container(
-                  margin: EdgeInsets.only(top: 2,bottom: 2),
+                  margin: const EdgeInsets.only(top: 2, bottom: 2),
                   width: 400,
                   height: 330,
                   child: ListView.builder(
                     itemCount: listAllCombo.length,
                     itemBuilder: (BuildContext ctx, int index) {
                       return Container(
-                        
-                        margin: EdgeInsets.only(top: 2,bottom: 2),
+                        margin: const EdgeInsets.only(top: 2, bottom: 2),
                         child: ElevatedButton(
-                         onPressed: () {
-                          setState(() {
-                            
-                           widget.customer.listCombo =[];
-                           widget.customer.listCombo.add(listAllCombo[index]);
-                           print(widget.customer);
-                          });
-                           widget.callBackFunc;
-                           Navigator.of(context).pop();
-                         },
+                          onPressed: () {
+                            setState(() {
+                              widget.customer.listCombo = [];
+                              widget.customer.listCombo
+                                  .add(listAllCombo[index]);
+                              print(widget.customer);
+                            });
+                            widget.callBackFunc;
+                            Navigator.of(context).pop();
+                          },
                           child: Text(
                             "${listAllCombo[index].name} : ${listAllCombo[index].price}",
                             style: const TextStyle(

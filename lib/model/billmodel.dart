@@ -11,16 +11,18 @@ class Billmodel {
   int? _soLuongMuonSac = 0;
   int? _soLuongTam = 0;
   int? _soLuongSacNhanh = 0;
+  int? _soLuongSacNhanh20k = 0;
   int? _soLuongSac8k = 0;
   int? _soLuongSac12k = 0;
   int? _soLuongNguNgay = 0;
   int? _soLuongNguDem = 0;
   bool? _muonSac = false;
+  bool? _chuyenKhoan = false;
   bool? _doiSac = false;
   bool? _nguNgay = true;
   bool? _nguDem = true;
   bool? _tam = false;
-  List<ComboModel> _listCombo=[];
+  List<ComboModel> _listCombo = [];
   List<Drinkbillmodel> _listNuoc = [];
   List<Taboccobillmodel> _listThuoc = [];
   double? _comGia = 0;
@@ -43,11 +45,13 @@ class Billmodel {
       int? soLuongMuonSac = 0,
       int? soLuongTam = 0,
       int? soLuongSacNhanh,
+      int? soLuongSacNhanh20k,
       int? soLuongSac8k,
       int? soLuongSac12k,
       int? soLuongNguNgay,
       int? soLuongNguDem,
       bool? muonSac,
+      bool? chuyenKhoan,
       bool? doiSac,
       bool? nguNgay,
       bool? nguDem,
@@ -83,6 +87,9 @@ class Billmodel {
     if (soLuongSacNhanh != null) {
       _soLuongSacNhanh = soLuongSacNhanh;
     }
+    if (soLuongSacNhanh20k != null) {
+      _soLuongSacNhanh20k = soLuongSacNhanh20k;
+    }
     if (soLuongMuonSac != null) {
       _soLuongMuonSac = soLuongMuonSac;
     }
@@ -104,6 +111,9 @@ class Billmodel {
     if (muonSac != null) {
       _muonSac = muonSac;
     }
+    if (chuyenKhoan != null) {
+      _chuyenKhoan = chuyenKhoan;
+    }
     if (doiSac != null) {
       _doiSac = doiSac;
     }
@@ -115,8 +125,9 @@ class Billmodel {
     }
     if (tam != null) {
       _tam = tam;
-    }if (listCombo != null) {
-      _listCombo= listCombo;
+    }
+    if (listCombo != null) {
+      _listCombo = listCombo;
     }
     if (listNuoc != null) {
       _listNuoc = listNuoc;
@@ -178,6 +189,9 @@ class Billmodel {
   int? get soLuongSacNhanh => _soLuongSacNhanh;
   set soLuongSacNhanh(int? soLuongSacNhanh) =>
       _soLuongSacNhanh = soLuongSacNhanh;
+  int? get soLuongSacNhanh20k => _soLuongSacNhanh20k;
+  set soLuongSacNhanh20k(int? soLuongSacNhanh20k) =>
+      _soLuongSacNhanh20k = soLuongSacNhanh20k;
   int? get soLuongSac8k => _soLuongSac8k;
   set soLuongSac8k(int? soLuongSac8k) => _soLuongSac8k = soLuongSac8k;
   int? get soLuongSac12k => _soLuongSac12k;
@@ -188,6 +202,8 @@ class Billmodel {
   set soLuongNguDem(int? soLuongNguDem) => _soLuongNguDem = soLuongNguDem;
   bool? get muonSac => _muonSac;
   set muonSac(bool? muonSac) => _muonSac = muonSac;
+  bool? get chuyenKhoan => _chuyenKhoan;
+  set chuyenKhoan(bool? chuyenKhoan) => _chuyenKhoan = chuyenKhoan;
   bool? get doiSac => _doiSac;
   set doiSac(bool? doiSac) => _doiSac = doiSac;
   bool? get nguNgay => _nguNgay;
@@ -196,8 +212,8 @@ class Billmodel {
   set nguDem(bool? nguDem) => _nguDem = nguDem;
   bool? get tam => _tam;
   set tam(bool? tam) => _tam = tam;
-   List<ComboModel> get listCombo => _listCombo;
-  set listCombo( List<ComboModel> listCombo) => _listCombo = listCombo;
+  List<ComboModel> get listCombo => _listCombo;
+  set listCombo(List<ComboModel> listCombo) => _listCombo = listCombo;
   List<Drinkbillmodel> get listNuoc => _listNuoc;
   set listNuoc(List<Drinkbillmodel> listNuoc) => _listNuoc = listNuoc;
   List<Taboccobillmodel> get listThuoc => _listThuoc;
@@ -239,6 +255,9 @@ class Billmodel {
     _soLuongSacNhanh = json['soLuongSacNhanh'] != null
         ? int.parse(json['soLuongSacNhanh'].toString())
         : 0;
+    _soLuongSacNhanh20k = json['soLuongSacNhanh20k'] != null
+        ? int.parse(json['soLuongSacNhanh20k'].toString())
+        : 0;
     _soLuongSac8k = json['soLuongSac8k'] != null
         ? int.parse(json['soLuongSac8k'].toString())
         : 0;
@@ -252,11 +271,12 @@ class Billmodel {
         ? int.parse(json['soLuongNguDem'].toString())
         : 0;
     _muonSac = json['muonSac'];
+    _doiSac = json['chuyenKhoan'] ?? false;
     _doiSac = json['doiSac'] ?? false;
     _nguNgay = json['nguNgay'];
     _nguDem = json['nguDem'];
     _tam = json['tam'];
-     if (json['listCombo'] != null) {
+    if (json['listCombo'] != null) {
       _listCombo = <ComboModel>[];
       json['listCombo'].forEach((v) {
         _listCombo.add(ComboModel.fromJson(v));
@@ -301,11 +321,13 @@ class Billmodel {
     data['soLuongTam'] = _soLuongTam;
 
     data['soLuongSacNhanh'] = _soLuongSacNhanh;
+    data['soLuongSacNhanh20k'] = _soLuongSacNhanh20k;
     data['soLuongSac8k'] = _soLuongSac8k;
     data['soLuongSac12k'] = _soLuongSac12k;
     data['soLuongNguNgay'] = _soLuongNguNgay;
     data['soLuongNguDem'] = _soLuongNguDem;
     data['muonSac'] = _muonSac;
+    data['chuyenKhoan'] = _chuyenKhoan;
     data['doiSac'] = _doiSac;
     data['nguNgay'] = _nguNgay;
     data['nguDem'] = _nguDem;

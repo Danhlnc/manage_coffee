@@ -95,7 +95,101 @@ class _AddCustomerState extends State<AddCustomer> {
   //#region create customer
   CreateCustomer(bool trangThai, bool staTus) async {
     try {
-      if (widget.customer.bienSoXe == "") {
+      if (widget.customer.listCombo.isNotEmpty &&
+          widget.customer.listNuoc.isEmpty) {
+        widget.customer.listCombo.forEach((action) async {
+          if (action.id != 5 && widget.customer.listNuoc.isEmpty) {
+            await showDialog(
+                context: context,
+                builder: (context) {
+                  return const AlertDialog(
+                    title: Text('Vui lòng chọn nước!'),
+                  );
+                });
+          } else if (widget.customer.bienSoXe == "") {
+            await showDialog(
+                context: context,
+                builder: (context) {
+                  return const AlertDialog(
+                    title: Text('Vui lòng nhập biển số xe!'),
+                  );
+                });
+          } else {
+            widget.customer.bienSoXe = bienSoXe.text;
+            widget.customer.comGia =
+                (comGia.text != '' ? double.parse(comGia.text) : 0);
+            widget.customer.giaGiatDo =
+                (comGia.text != '' ? double.parse(giaGiatDo.text) : 0);
+            widget.customer.ghiChu = ghiChu.text;
+            widget.customer.trangThai = trangThai;
+            widget.customer.createdBy = '';
+            widget.customer.modifyOn = DateTime.utc(
+                DateTime.now().year,
+                DateTime.now().month,
+                DateTime.now().day,
+                DateTime.now().hour,
+                DateTime.now().minute);
+            widget.customer.modifyBy = '';
+            widget.customer.trangThai = trangThai;
+            var details = {widget.customer: Colors.white};
+            var test = widget.customer.toJson();
+            test.remove('_id');
+            if (staTus) {
+              EasyLoading.show(status: 'loading...');
+              setState(() {
+                widget.loading = true;
+              });
+              addBill(test).then((onValue) {
+                setState(() {
+                  widget.loading = false;
+                });
+                EasyLoading.dismiss();
+                Navigator.of(context).pop();
+                widget.callBack("update");
+              });
+            } else {
+              EasyLoading.show(status: 'loading...');
+              setState(() {
+                widget.loading = true;
+              });
+              updateBill(widget.customer.toJson()).then((onValue) {
+                try {
+                  if (widget.customer.listNuoc.first.soLuongBan! > 0) {
+                    for (var element in listAllNuoc) {
+                      if (element.drinkName ==
+                          widget
+                              .customer.listNuoc.first.drinkmodel!.drinkName) {
+                        try {
+                          element.countStore = (element.countStore as int) -
+                              (widget.customer.listNuoc.first.soLuongBan
+                                  as int);
+
+                          updateDrink(element.toJson()).then((onValue) {
+                            setState(() {});
+                          });
+                        } catch (e) {}
+                      }
+                    }
+                  }
+                } catch (e) {}
+
+                for (var element in listBillsTotal) {
+                  if (element.keys.first.sId == widget.customer.sId) {
+                    element.keys.first.trangThai = widget.customer.trangThai;
+                  }
+                }
+                setState(() {
+                  widget.loading = false;
+                });
+
+                EasyLoading.dismiss();
+                Navigator.of(context).pop();
+                callBack("reload");
+              });
+            }
+          }
+        });
+      } else if (widget.customer.bienSoXe == "") {
         await showDialog(
             context: context,
             builder: (context) {
@@ -144,20 +238,19 @@ class _AddCustomerState extends State<AddCustomer> {
           updateBill(widget.customer.toJson()).then((onValue) {
             try {
               if (widget.customer.listNuoc.first.soLuongBan! > 0) {
-                listAllNuoc.forEach((element) {
+                for (var element in listAllNuoc) {
                   if (element.drinkName ==
                       widget.customer.listNuoc.first.drinkmodel!.drinkName) {
                     try {
                       element.countStore = (element.countStore as int) -
-                          (widget.customer.listNuoc.first.soLuongBan as int)!;
+                          (widget.customer.listNuoc.first.soLuongBan as int);
 
                       updateDrink(element.toJson()).then((onValue) {
                         setState(() {});
                       });
                     } catch (e) {}
                   }
-                  ;
-                });
+                }
               }
             } catch (e) {}
 
@@ -193,6 +286,7 @@ class _AddCustomerState extends State<AddCustomer> {
         widget.customer.soLuongSac12k! * 15000 +
         widget.customer.soLuongMuonSac! * 3000 +
         widget.customer.soLuongSacNhanh! * 30000 +
+        widget.customer.soLuongSacNhanh20k! * 20000 +
         15000 * widget.customer.soLuongNguNgay! +
         (30000 * widget.customer.soLuongNguDem!) +
         widget.customer.soLuongTam! * 5000 +
@@ -345,6 +439,7 @@ class _AddCustomerState extends State<AddCustomer> {
                           child: Row(
                             children: [
                               Expanded(
+                                flex: 2,
                                 child: TextField(
                                     controller: bienSoXe
                                       ..text = widget.customer.bienSoXe!,
@@ -365,6 +460,7 @@ class _AddCustomerState extends State<AddCustomer> {
                                     )),
                               ),
                               Expanded(
+                                flex: 2,
                                 child: Text(
                                   'Tổng tiền: ${widget.customer.tongTien!.toStringAsFixed(0)}',
                                   style: const TextStyle(
@@ -372,6 +468,21 @@ class _AddCustomerState extends State<AddCustomer> {
                                       color: Colors.redAccent),
                                 ),
                               ),
+                              Expanded(
+                                  flex: 1,
+                                  child: Row(
+                                    children: [
+                                      Checkbox(
+                                          value: widget.customer.chuyenKhoan,
+                                          onChanged: (value) {
+                                            setState(() {
+                                              widget.customer.chuyenKhoan =
+                                                  value;
+                                            });
+                                          }),
+                                      const Text('CK')
+                                    ],
+                                  ))
                             ],
                           ),
                         ),
@@ -519,7 +630,7 @@ class _AddCustomerState extends State<AddCustomer> {
                                   flex: 1,
                                   child: Row(
                                     children: [
-                                      Text(' Mượn Sạc:'),
+                                      const Text(' Mượn Sạc:'),
                                       Expanded(
                                           flex: 1,
                                           child: IconButton(
@@ -565,10 +676,10 @@ class _AddCustomerState extends State<AddCustomer> {
                                     ],
                                   ),
                                 ),
-                                Expanded(
+                                const Expanded(
                                   flex: 1,
                                   child: Row(
-                                    children: [const Text('')],
+                                    children: [Text('')],
                                   ),
                                 ),
                               ],
@@ -576,10 +687,10 @@ class _AddCustomerState extends State<AddCustomer> {
                             Row(
                               children: [
                                 Expanded(
-                                  flex: 1,
+                                  flex: 2,
                                   child: Row(
                                     children: [
-                                      Text(' Sạc Nhanh:'),
+                                      const Text(' Sạc Nhanh:'),
                                       Expanded(
                                           flex: 1,
                                           child: IconButton(
@@ -619,6 +730,51 @@ class _AddCustomerState extends State<AddCustomer> {
                                                   (widget.customer
                                                           .soLuongSacNhanh! +
                                                       1);
+                                              getTongTien();
+                                              setState(() {});
+                                            },
+                                          )),
+                                      const Text('  trên 50%  '),
+                                      Expanded(
+                                          flex: 1,
+                                          child: IconButton(
+                                            padding: EdgeInsets.zero,
+                                            icon: const Icon(
+                                                Icons.remove_circle_outlined),
+                                            onPressed: () {
+                                              if (widget.customer
+                                                      .soLuongSacNhanh20k! >
+                                                  0) {
+                                                widget.customer
+                                                    .soLuongSacNhanh20k = (widget
+                                                        .customer
+                                                        .soLuongSacNhanh20k! -
+                                                    1);
+                                              }
+                                              getTongTien();
+                                              setState(() {});
+                                            },
+                                          )),
+                                      Expanded(
+                                          flex: 1,
+                                          child: Center(
+                                              child: Container(
+                                                  padding: EdgeInsets.zero,
+                                                  child: Text(widget.customer
+                                                      .soLuongSacNhanh20k
+                                                      .toString())))),
+                                      Expanded(
+                                          flex: 1,
+                                          child: IconButton(
+                                            padding: EdgeInsets.zero,
+                                            icon: const Icon(
+                                                Icons.add_circle_outlined),
+                                            onPressed: () {
+                                              widget.customer
+                                                  .soLuongSacNhanh20k = (widget
+                                                      .customer
+                                                      .soLuongSacNhanh20k! +
+                                                  1);
                                               getTongTien();
                                               setState(() {});
                                             },

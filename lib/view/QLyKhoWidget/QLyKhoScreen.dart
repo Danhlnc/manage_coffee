@@ -14,10 +14,10 @@ class QuanLyKhoScreen extends StatefulWidget {
   State<QuanLyKhoScreen> createState() => _QuanLyKhoScreenState();
 }
 
-TextEditingController dateOne = new TextEditingController();
-TextEditingController monthOne = new TextEditingController();
-TextEditingController dateTwo = new TextEditingController();
-TextEditingController monthTwo = new TextEditingController();
+TextEditingController dateOne = TextEditingController();
+TextEditingController monthOne = TextEditingController();
+TextEditingController dateTwo = TextEditingController();
+TextEditingController monthTwo = TextEditingController();
 
 class _QuanLyKhoScreenState extends State<QuanLyKhoScreen> {
   @override
@@ -104,12 +104,14 @@ class _QuanLyKhoScreenState extends State<QuanLyKhoScreen> {
                                           onPressed: () {
                                             setState(() {
                                               dateTimeRange = DateTimeRange(
-                                                  start: new DateFormat(
-                                                          "dd/MM/yyyy")
-                                                      .parse(dateOne.text),
-                                                  end: new DateFormat(
-                                                          "dd/MM/yyyy")
-                                                      .parse(dateTwo.text));
+                                                  start: DateFormat(
+                                                          "dd/MM/yyyy HH:mm")
+                                                      .parse(
+                                                          "${dateOne.text} 07:00"),
+                                                  end: DateFormat(
+                                                          "dd/MM/yyyy HH:mm")
+                                                      .parse(
+                                                          "${dateTwo.text} 07:00"));
                                               listBillsTotalDate = [
                                                 ...listBillsTotal
                                               ];
@@ -134,7 +136,7 @@ class _QuanLyKhoScreenState extends State<QuanLyKhoScreen> {
                                         ),
                                       ),
                                     ),
-                                    Expanded(
+                                    const Expanded(
                                       flex: 1,
                                       child: Text(""),
                                     )
@@ -151,24 +153,31 @@ class _QuanLyKhoScreenState extends State<QuanLyKhoScreen> {
                                         child: Builder(builder: (context) {
                                           double count = 0;
                                           double tongTien = 0;
-                                          listBillsTotalDate.forEach((element) {
+                                          for (var element
+                                              in listBillsTotalDate) {
                                             if (element
                                                     .keys.first.soLuongSac12k !=
                                                 0) {
                                               count += element
                                                   .keys.first.soLuongSac12k!;
                                               tongTien += 15000;
-                                            } else if (element
+                                            }
+                                            if (element
                                                     .keys.first.soLuongSac8k !=
                                                 0) {
                                               count += element
                                                   .keys.first.soLuongSac8k!;
                                               tongTien += 10000;
                                             }
-                                          });
+                                            if (element.keys.first.listCombo
+                                                .isNotEmpty) {
+                                              count += 1;
+                                              tongTien += 15000;
+                                            }
+                                          }
                                           return Text(
-                                            "Số lượng sạc thường: ${count}    Tổng tiền = ${tongTien}",
-                                            style: TextStyle(
+                                            "Số lượng sạc thường: $count    Tổng tiền = $tongTien",
+                                            style: const TextStyle(
                                                 color: Colors.white,
                                                 fontWeight: FontWeight.bold),
                                           );
@@ -186,7 +195,8 @@ class _QuanLyKhoScreenState extends State<QuanLyKhoScreen> {
                                         child: Builder(builder: (context) {
                                           double count = 0;
                                           double tongTien = 0;
-                                          listBillsTotalDate.forEach((element) {
+                                          for (var element
+                                              in listBillsTotalDate) {
                                             if (element.keys.first
                                                     .soLuongSacNhanh !=
                                                 0) {
@@ -194,10 +204,10 @@ class _QuanLyKhoScreenState extends State<QuanLyKhoScreen> {
                                                   .keys.first.soLuongSacNhanh!;
                                               tongTien += 30000;
                                             }
-                                          });
+                                          }
                                           return Text(
-                                            "Số lượng sạc nhanh: ${count}    Tổng tiền = ${tongTien}",
-                                            style: TextStyle(
+                                            "Số lượng sạc nhanh: $count    Tổng tiền = $tongTien",
+                                            style: const TextStyle(
                                                 color: Colors.white,
                                                 fontWeight: FontWeight.bold),
                                           );
@@ -216,7 +226,8 @@ class _QuanLyKhoScreenState extends State<QuanLyKhoScreen> {
                                           double count = 0;
 
                                           double tongTien = 0;
-                                          listBillsTotalDate.forEach((element) {
+                                          for (var element
+                                              in listBillsTotalDate) {
                                             if (element.keys.first
                                                     .soLuongNguNgay !=
                                                 0) {
@@ -224,17 +235,17 @@ class _QuanLyKhoScreenState extends State<QuanLyKhoScreen> {
                                                   .soLuongNguNgay as double;
                                               tongTien += 15000;
                                             }
-                                            element.keys.first.listCombo
-                                                .forEach((element) {
+                                            for (var element in element
+                                                .keys.first.listCombo) {
                                               if (element.id == 1 ||
                                                   element.id == 4) {
                                                 count += 1;
                                               }
-                                            });
-                                          });
+                                            }
+                                          }
                                           return Text(
-                                            "Số lượng ngủ ngày: ${count}    Tổng tiền = ${tongTien}",
-                                            style: TextStyle(
+                                            "Số lượng ngủ ngày: $count    Tổng tiền = $tongTien",
+                                            style: const TextStyle(
                                                 color: Colors.white,
                                                 fontWeight: FontWeight.bold),
                                           );
@@ -252,7 +263,8 @@ class _QuanLyKhoScreenState extends State<QuanLyKhoScreen> {
                                         child: Builder(builder: (context) {
                                           double count = 0;
                                           double tongTien = 0;
-                                          listBillsTotalDate.forEach((element) {
+                                          for (var element
+                                              in listBillsTotalDate) {
                                             if (element
                                                     .keys.first.soLuongNguDem !=
                                                 0) {
@@ -260,10 +272,10 @@ class _QuanLyKhoScreenState extends State<QuanLyKhoScreen> {
                                                   .soLuongNguDem as double;
                                               tongTien += 30000;
                                             }
-                                          });
+                                          }
                                           return Text(
-                                            "Số lượng ngủ Đêm: ${count}    Tổng tiền = ${tongTien}",
-                                            style: TextStyle(
+                                            "Số lượng ngủ Đêm: $count    Tổng tiền = $tongTien",
+                                            style: const TextStyle(
                                                 color: Colors.white,
                                                 fontWeight: FontWeight.bold),
                                           );
@@ -281,22 +293,23 @@ class _QuanLyKhoScreenState extends State<QuanLyKhoScreen> {
                                         child: Builder(builder: (context) {
                                           double count = 0;
                                           double tongTien = 0;
-                                          listBillsTotalDate.forEach((element) {
-                                            element.keys.first.listNuoc
-                                                .forEach((element) {
+                                          for (var element
+                                              in listBillsTotalDate) {
+                                            for (var element in element
+                                                .keys.first.listNuoc) {
                                               count +=
                                                   element.soLuongBan as double;
-                                            });
-                                            element.keys.first.listCombo
-                                                .forEach((element) {
+                                            }
+                                            for (var element in element
+                                                .keys.first.listCombo) {
                                               if (element.id != 5) {
                                                 count += 1;
                                               }
-                                            });
-                                          });
+                                            }
+                                          }
                                           return Text(
-                                            "Số lượng nước: ${count}",
-                                            style: TextStyle(
+                                            "Số lượng nước: $count",
+                                            style: const TextStyle(
                                                 color: Colors.white,
                                                 fontWeight: FontWeight.bold),
                                           );
@@ -314,16 +327,17 @@ class _QuanLyKhoScreenState extends State<QuanLyKhoScreen> {
                                         child: Builder(builder: (context) {
                                           double count = 0;
                                           double tongTien = 0;
-                                          listBillsTotalDate.forEach((element) {
-                                            element.keys.first.listThuoc
-                                                .forEach((element) {
+                                          for (var element
+                                              in listBillsTotalDate) {
+                                            for (var element in element
+                                                .keys.first.listThuoc) {
                                               count +=
                                                   element.soLuongBan as double;
-                                            });
-                                          });
+                                            }
+                                          }
                                           return Text(
-                                            "Số lượng thuốc: ${count}",
-                                            style: TextStyle(
+                                            "Số lượng thuốc: $count",
+                                            style: const TextStyle(
                                                 color: Colors.white,
                                                 fontWeight: FontWeight.bold),
                                           );
@@ -341,17 +355,30 @@ class _QuanLyKhoScreenState extends State<QuanLyKhoScreen> {
                                         child: Builder(builder: (context) {
                                           double count = 0;
                                           double tongTien = 0;
-                                          listBillsTotalDate.forEach((element) {
+                                          for (var element
+                                              in listBillsTotalDate) {
                                             if (element.keys.first.comGia !=
                                                 0) {
                                               count += 1;
                                               tongTien +=
                                                   element.keys.first.comGia!;
                                             }
-                                          });
+                                            if (element.keys.first.listCombo
+                                                .isNotEmpty) {
+                                              for (var action in element
+                                                  .keys.first.listCombo) {
+                                                if (action.id == 2 ||
+                                                    action.id == 4) {
+                                                  count += 1;
+
+                                                  tongTien += 30000;
+                                                }
+                                              }
+                                            }
+                                          }
                                           return Text(
-                                            "Số lượng cơm: ${count}    Tổng tiền = ${tongTien}",
-                                            style: TextStyle(
+                                            "Số lượng cơm: $count    Tổng tiền = $tongTien",
+                                            style: const TextStyle(
                                                 color: Colors.white,
                                                 fontWeight: FontWeight.bold),
                                           );
@@ -369,17 +396,18 @@ class _QuanLyKhoScreenState extends State<QuanLyKhoScreen> {
                                         child: Builder(builder: (context) {
                                           double count = 0;
                                           double tongTien = 0;
-                                          listBillsTotalDate.forEach((element) {
+                                          for (var element
+                                              in listBillsTotalDate) {
                                             if (element.keys.first.giaGiatDo !=
                                                 0) {
                                               count += 1;
                                               tongTien +=
                                                   element.keys.first.giaGiatDo!;
                                             }
-                                          });
+                                          }
                                           return Text(
-                                            "Số lượng giặt đồ: ${count}    Tổng tiền = ${tongTien}",
-                                            style: TextStyle(
+                                            "Số lượng giặt đồ: $count    Tổng tiền = $tongTien",
+                                            style: const TextStyle(
                                                 color: Colors.white,
                                                 fontWeight: FontWeight.bold),
                                           );
@@ -393,59 +421,61 @@ class _QuanLyKhoScreenState extends State<QuanLyKhoScreen> {
                       flex: 2,
                       child: FractionallySizedBox(
                           widthFactor: 1, ////50% height
-                          child: ListView.builder(
-                              itemCount: listAllNuocSearch.length,
-                              itemBuilder: (BuildContext ctx, int index) {
-                                return Row(
-                                  children: [
-                                    Expanded(
-                                      flex: 1,
-                                      child: Container(
-                                        child: Card(
-                                          child: SizedBox(
-                                            height: 30,
-                                            child: Center(
-                                              child: Text(
-                                                  "${listAllNuocSearch[index].drinkName} : ${listAllNuocSearch[index].countStore}"),
+                          child: Padding(
+                            padding: const EdgeInsets.only(bottom: 60),
+                            child: ListView.builder(
+                                itemCount: listAllNuocSearch.length,
+                                itemBuilder: (BuildContext ctx, int index) {
+                                  return Row(
+                                    children: [
+                                      Expanded(
+                                        flex: 1,
+                                        child: Container(
+                                          child: Card(
+                                            child: SizedBox(
+                                              height: 30,
+                                              child: Center(
+                                                child: Text(
+                                                    "${listAllNuocSearch[index].drinkName} : ${listAllNuocSearch[index].countStore}"),
+                                              ),
                                             ),
                                           ),
                                         ),
                                       ),
-                                    ),
-                                    Expanded(
-                                        child: Card(
-                                      child: SizedBox(
-                                        height: 30,
-                                        child: Center(
-                                          child: TextField(
-                                              textAlign: TextAlign.center,
-                                              onChanged: (value) {
-                                                try {
-                                                  if (int.parse(value) >=
-                                                      int.parse(
-                                                          listAllNuoc[index]
-                                                              .countStore
-                                                              .toString())) {
-                                                    setState(() {
-                                                      listAllNuoc[index]
-                                                              .countStore =
-                                                          int.parse(value);
-                                                    });
-                                                    ;
-                                                  }
-                                                } catch (e) {}
-                                              },
-                                              decoration: InputDecoration(
-                                                border: InputBorder.none,
-                                                hintText:
-                                                    '${listAllNuoc[index].countStore}',
-                                              )),
+                                      Expanded(
+                                          child: Card(
+                                        child: SizedBox(
+                                          height: 30,
+                                          child: Center(
+                                            child: TextField(
+                                                textAlign: TextAlign.center,
+                                                onChanged: (value) {
+                                                  try {
+                                                    if (int.parse(value) >=
+                                                        int.parse(
+                                                            listAllNuoc[index]
+                                                                .countStore
+                                                                .toString())) {
+                                                      setState(() {
+                                                        listAllNuoc[index]
+                                                                .countStore =
+                                                            int.parse(value);
+                                                      });
+                                                    }
+                                                  } catch (e) {}
+                                                },
+                                                decoration: InputDecoration(
+                                                  border: InputBorder.none,
+                                                  hintText:
+                                                      '${listAllNuoc[index].countStore}',
+                                                )),
+                                          ),
                                         ),
-                                      ),
-                                    ))
-                                  ],
-                                );
-                              }))),
+                                      ))
+                                    ],
+                                  );
+                                }),
+                          ))),
                 ],
               ),
             ),
@@ -463,7 +493,7 @@ class _QuanLyKhoScreenState extends State<QuanLyKhoScreen> {
               setState(() {
                 widget.loading = true;
               });
-              listAllNuoc.forEach((element) {
+              for (var element in listAllNuoc) {
                 updateDrink(element.toJson()).then((onValue) {
                   setState(() {
                     count--;
@@ -473,10 +503,9 @@ class _QuanLyKhoScreenState extends State<QuanLyKhoScreen> {
                       });
                       EasyLoading.dismiss();
                     }
-                    ;
                   });
                 });
-              });
+              }
             },
             icon: const Icon(Icons.add),
             label: const Text('Nhập hàng'),

@@ -1,7 +1,4 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
-import 'package:tscoffee/apps/globalvariables.dart';
 
 import '../../../model/billmodel.dart';
 import '../../home.dart';

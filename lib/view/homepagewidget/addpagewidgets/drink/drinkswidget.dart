@@ -120,6 +120,7 @@ class _DrinkswidgetState extends State<Drinkswidget> {
                                 widget.customer.soLuongSac12k! * 15000 +
                                 widget.customer.soLuongMuonSac! * 3000 +
                                 widget.customer.soLuongSacNhanh! * 30000 +
+                                widget.customer.soLuongSacNhanh20k! * 20000 +
                                 15000 * widget.customer.soLuongNguNgay! +
                                 (30000 * widget.customer.soLuongNguDem!) +
                                 widget.customer.soLuongTam! * 5000 +
@@ -148,7 +149,7 @@ class _DrinkswidgetState extends State<Drinkswidget> {
                                 icon: const Icon(Icons.delete_forever_outlined),
                                 onPressed: () {
                                   try {
-                                    listAllNuoc.forEach((element) {
+                                    for (var element in listAllNuoc) {
                                       if (element.drinkName ==
                                           widget.customer.listNuoc.first
                                               .drinkmodel!.drinkName) {
@@ -173,6 +174,9 @@ class _DrinkswidgetState extends State<Drinkswidget> {
                                                     3000 +
                                                 widget.customer.soLuongSacNhanh! *
                                                     30000 +
+                                                widget.customer
+                                                        .soLuongSacNhanh20k! *
+                                                    20000 +
                                                 15000 *
                                                     widget.customer
                                                         .soLuongNguNgay! +
@@ -189,14 +193,13 @@ class _DrinkswidgetState extends State<Drinkswidget> {
                                                     widget.customer.listThuoc) +
                                                 double.parse(widget.customer.comGia
                                                     .toString()) +
-                                                double.parse(
-                                                    widget.customer.giaGiatDo.toString()) +
+                                                double.parse(widget.customer.giaGiatDo.toString()) +
                                                 double.parse(widget.customer.giaTu.toString());
                                             widget.callBackFunc("");
                                           });
                                         });
                                       }
-                                    });
+                                    }
                                   } catch (e) {}
                                 },
                               ),
