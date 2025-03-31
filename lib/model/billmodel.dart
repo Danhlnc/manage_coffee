@@ -271,7 +271,7 @@ class Billmodel {
         ? int.parse(json['soLuongNguDem'].toString())
         : 0;
     _muonSac = json['muonSac'];
-    _doiSac = json['chuyenKhoan'] ?? false;
+    _chuyenKhoan = json['chuyenKhoan'] ?? false;
     _doiSac = json['doiSac'] ?? false;
     _nguNgay = json['nguNgay'];
     _nguDem = json['nguDem'];

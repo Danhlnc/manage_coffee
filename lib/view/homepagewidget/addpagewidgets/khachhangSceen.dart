@@ -178,7 +178,11 @@ class _KhachhangSceenState extends State<KhachhangSceen> {
                               var listPro = [...listBills];
                               for (var action in listPro) {
                                 if (action.keys.first.createdOn!.day !=
-                                    date.day) {
+                                        date.day ||
+                                    action.keys.first.createdOn!.month !=
+                                        date.month ||
+                                    action.keys.first.createdOn!.year !=
+                                        date.year) {
                                   listBills.remove(action);
                                 }
                               }

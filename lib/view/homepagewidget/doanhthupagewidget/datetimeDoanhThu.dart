@@ -44,7 +44,6 @@ class _DatetimeDoanhThuState extends State<DatetimeDoanhThu> {
                                 dateTimeRange.end.month,
                                 dateTimeRange.end.day,
                                 7))));
-
                     context.read<ProviderModel>().updateListTemp(dateTimeRange);
                     context.read<ProviderModel>().getTotalCount();
                     for (var action in listProDate) {

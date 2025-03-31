@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tscoffee/apps/globalvariables.dart';
 import 'package:tscoffee/model/billmodel.dart';
-import 'package:tscoffee/model/drinkbillmodel.dart';
-import 'package:tscoffee/model/drinkmodel.dart';
 
 // ignore: must_be_immutable
 class ComboListDialog extends StatefulWidget {

@@ -96,19 +96,27 @@ class Login extends StatelessWidget {
             ),
             ElevatedButton(
               onPressed: () {
-                WebStorage.instance.sessionId = 'loginaccept';
-                if(_textEditingControllerUser.text == 'tscoffee' &&
-                        _textEditingControllerPass.text == 'tscoffee'){
-                Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => Home(),
-                            maintainState: false,
-                            barrierDismissible: true));
-                            
-                }else{
-                Navigator.pushReplacement(context,
-                        MaterialPageRoute(builder: (context) => Login()));
+                if (_textEditingControllerUser.text == 'tscoffee' &&
+                    _textEditingControllerPass.text == 'tscoffee') {
+                  WebStorage.instance.sessionId = 'logincustommer';
+                  Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => Home(),
+                          maintainState: false,
+                          barrierDismissible: true));
+                } else if (_textEditingControllerUser.text == 'tscoffee' &&
+                    _textEditingControllerPass.text == '11223399') {
+                  WebStorage.instance.sessionId = 'loginadmin';
+                  Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => Home(),
+                          maintainState: false,
+                          barrierDismissible: true));
+                } else {
+                  Navigator.pushReplacement(context,
+                      MaterialPageRoute(builder: (context) => Login()));
                 }
               },
               child: const Text(

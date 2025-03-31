@@ -41,7 +41,7 @@ class _BillsState extends State<Bills> {
           ),
         ),
         Expanded(
-          flex: 2,
+          flex: 1,
           child: Container(
             padding: const EdgeInsets.only(left: 4, right: 4),
             child: Text(
@@ -58,6 +58,22 @@ class _BillsState extends State<Bills> {
                           : Colors.blue),
             ),
           ),
+        ),
+        Expanded(
+          flex: 1,
+          child: widget.Bill.keys.first.chuyenKhoan == true
+              ? Text("Chuyển Khoản",
+                  style: TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.bold,
+                      color: widget.Bill.keys.first.trangThai == true
+                          ? (widget.Bill.keys.first.ghiChu != ""
+                              ? Colors.green
+                              : Colors.red)
+                          : widget.Bill.keys.first.ghiChu != ""
+                              ? Colors.green
+                              : Colors.blue))
+              : const SizedBox(),
         ),
         Expanded(
           flex: 1,

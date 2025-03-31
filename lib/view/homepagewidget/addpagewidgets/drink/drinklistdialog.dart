@@ -31,8 +31,9 @@ class _DrinklistdialogState extends State<Drinklistdialog> {
                 onChanged: (value) {
                   if (value != "") {
                     widget.listSearch.clear();
-                    for (var action in listAllNuocSearch) {
+                    for (var action in listAllNuoc) {
                       if (action.drinkName!
+                          .toString()
                           .toUpperCase()
                           .contains(value.toUpperCase())) {
                         widget.listSearch.add(action);
@@ -64,6 +65,22 @@ class _DrinklistdialogState extends State<Drinklistdialog> {
                   child: ListView.builder(
                     itemCount: listAllNuocSearch.length,
                     itemBuilder: (BuildContext ctx, int index) {
+                      if (listAllNuocSearch[index].drinkName != "Nước 18000" &&
+                          listAllNuocSearch[index].drinkName != "Nước 20000" &&
+                          listAllNuocSearch[index].drinkName != "Nước 15000" &&
+                          listAllNuocSearch[index].drinkName != "Cà phê đen" &&
+                          listAllNuocSearch[index].drinkName != "Cà phê sữa" &&
+                          listAllNuocSearch[index].drinkName != "Đậu Xanh" &&
+                          listAllNuocSearch[index].drinkName !=
+                              "Nước ép tươi" &&
+                          listAllNuocSearch[index].drinkName != "Mía" &&
+                          listAllNuocSearch[index].drinkName != "Bạc xỉu" &&
+                          listAllNuocSearch[index].drinkName != "Mì ly" &&
+                          listAllNuocSearch[index].drinkName != "Đá me" &&
+                          listAllNuocSearch[index].drinkName != "Suối" &&
+                          listAllNuocSearch[index].countStore == 0) {
+                        return const SizedBox();
+                      }
                       return ElevatedButton(
                         onPressed: () {
                           Drinkmodel newDrink = Drinkmodel(

@@ -124,6 +124,12 @@ Future<List<spendmodel>> fetchSpend() async {
     'Accept': '*/*'
   });
   final listModelParse = parseSpend(response.body);
+  for (var element in listModelParse) {
+    element.createdOn =
+        DateFormat("yyyy-MM-dd HH:mm").parse(element.createdOn.toString());
+  }
+  listModelParse
+      .sort((a, b) => a.createdOn!.compareTo(b.createdOn as DateTime));
   return listModelParse;
 }
 

@@ -272,7 +272,7 @@ class _DoanhthuscreenState extends State<Doanhthuscreen> {
                         const Text(
                           ' CThu: ',
                           style: TextStyle(
-                              fontSize: 16, fontWeight: FontWeight.bold),
+                              fontSize: 14, fontWeight: FontWeight.bold),
                         ),
                         Builder(builder: (context) {
                           double total = 0;
@@ -285,7 +285,26 @@ class _DoanhthuscreenState extends State<Doanhthuscreen> {
                           return Text(
                             total.toStringAsFixed(0),
                             style: const TextStyle(
-                                fontSize: 16, fontWeight: FontWeight.bold),
+                                fontSize: 14, fontWeight: FontWeight.bold),
+                          );
+                        }),
+                        const Text(
+                          ' CK: ',
+                          style: TextStyle(
+                              fontSize: 14, fontWeight: FontWeight.bold),
+                        ),
+                        Builder(builder: (context) {
+                          double total = 0;
+                          for (var element in listBillsTotalDate) {
+                            if (element.keys.first.chuyenKhoan == true) {
+                              total += double.parse(element.keys.first.tongTien!
+                                  .toStringAsFixed(0));
+                            }
+                          }
+                          return Text(
+                            total.toStringAsFixed(0),
+                            style: const TextStyle(
+                                fontSize: 14, fontWeight: FontWeight.bold),
                           );
                         })
                       ],
@@ -473,7 +492,8 @@ class _DoanhthuscreenState extends State<Doanhthuscreen> {
                                                             tenChitieu.text;
                                                         model.count = int.parse(
                                                             soTien.text);
-
+                                                        model.createdOn =
+                                                            DateTime.now();
                                                         var item =
                                                             model.toJson();
                                                         item.remove("_id");
@@ -557,8 +577,10 @@ class _DoanhthuscreenState extends State<Doanhthuscreen> {
                       Builder(builder: (context) {
                         double total = 0;
                         for (var element in listBillsTotalDate) {
-                          total += double.parse(
-                              element.keys.first.tongTien!.toStringAsFixed(0));
+                          if (element.keys.first.bienSoXe != "đổi tiền ck") {
+                            total += double.parse(element.keys.first.tongTien!
+                                .toStringAsFixed(0));
+                          }
                         }
                         return Text(total.toStringAsFixed(0),
                             style: const TextStyle(
@@ -584,20 +606,37 @@ class _DoanhthuscreenState extends State<Doanhthuscreen> {
                               double totalCThu = 0;
                               for (var element in listBillsTotalDate) {
                                 if (element.keys.first.trangThai == true) {
-                                  totalCThu += double.parse(element
-                                      .keys.first.tongTien!
-                                      .toStringAsFixed(0));
+                                  totalCThu += double.parse(
+                                      element.keys.first.tongTien!.toString());
+                                }
+                              }
+                              double totalCK = 0;
+                              for (var element in listBillsTotalDate) {
+                                if (element.keys.first.chuyenKhoan == true) {
+                                  totalCK += double.parse(
+                                      element.keys.first.tongTien!.toString());
                                 }
                               }
                               double total = 0;
                               for (var element in listBillsTotalDate) {
-                                total += double.parse(element
-                                    .keys.first.tongTien!
-                                    .toStringAsFixed(0));
+                                if (element.keys.first.bienSoXe !=
+                                    "đổi tiền ck") {
+                                  total += double.parse(element
+                                      .keys.first.tongTien!
+                                      .toStringAsFixed(0));
+                                }
                               }
-                              double totalClai = total -
-                                  totalCThu -
-                                  double.parse(value.countTotal.toString());
+                              double totalSpend = 0;
+                              for (var element in value.listSpend!) {
+                                if (element.createdOn!
+                                        .isBefore(dateTimeRange.end) &&
+                                    element.createdOn!
+                                        .isAfter(dateTimeRange.start)) {
+                                  totalSpend += element.count!.toDouble();
+                                }
+                              }
+                              double totalClai =
+                                  total - totalCThu - totalCK - totalSpend;
                               return Text("$totalClai",
                                   style: const TextStyle(
                                       fontSize: 16,

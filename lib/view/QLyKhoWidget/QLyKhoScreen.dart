@@ -155,6 +155,32 @@ class _QuanLyKhoScreenState extends State<QuanLyKhoScreen> {
                                           double tongTien = 0;
                                           for (var element
                                               in listBillsTotalDate) {
+                                            count++;
+                                            tongTien += element
+                                                .keys.first.tongTien as double;
+                                          }
+                                          return Text(
+                                            "Tổng lượt khách: $count    Tổng tiền = $tongTien",
+                                            style: const TextStyle(
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.bold),
+                                          );
+                                        }))
+                                  ],
+                                ),
+                              ),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.only(left: 2, right: 2),
+                                child: Row(
+                                  children: [
+                                    Expanded(
+                                        flex: 1,
+                                        child: Builder(builder: (context) {
+                                          double count = 0;
+                                          double tongTien = 0;
+                                          for (var element
+                                              in listBillsTotalDate) {
                                             if (element
                                                     .keys.first.soLuongSac12k !=
                                                 0) {
@@ -299,6 +325,10 @@ class _QuanLyKhoScreenState extends State<QuanLyKhoScreen> {
                                                 .keys.first.listNuoc) {
                                               count +=
                                                   element.soLuongBan as double;
+                                              tongTien +=
+                                                  element.drinkmodel!.price! *
+                                                      (element.soLuongBan
+                                                          as double);
                                             }
                                             for (var element in element
                                                 .keys.first.listCombo) {
@@ -308,7 +338,7 @@ class _QuanLyKhoScreenState extends State<QuanLyKhoScreen> {
                                             }
                                           }
                                           return Text(
-                                            "Số lượng nước: $count",
+                                            "Số lượng nước: $count Tổng tiền =$tongTien ",
                                             style: const TextStyle(
                                                 color: Colors.white,
                                                 fontWeight: FontWeight.bold),
@@ -333,10 +363,14 @@ class _QuanLyKhoScreenState extends State<QuanLyKhoScreen> {
                                                 .keys.first.listThuoc) {
                                               count +=
                                                   element.soLuongBan as double;
+                                              tongTien +=
+                                                  element.taboccomodel!.price! *
+                                                      (element.soLuongBan
+                                                          as double);
                                             }
                                           }
                                           return Text(
-                                            "Số lượng thuốc: $count",
+                                            "Số lượng thuốc: $count Tổng tiền =$tongTien",
                                             style: const TextStyle(
                                                 color: Colors.white,
                                                 fontWeight: FontWeight.bold),
@@ -399,7 +433,9 @@ class _QuanLyKhoScreenState extends State<QuanLyKhoScreen> {
                                           for (var element
                                               in listBillsTotalDate) {
                                             if (element.keys.first.giaGiatDo !=
-                                                0) {
+                                                    0 &&
+                                                element.keys.first.bienSoXe !=
+                                                    "đổi tiền ck") {
                                               count += 1;
                                               tongTien +=
                                                   element.keys.first.giaGiatDo!;

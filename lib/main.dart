@@ -94,14 +94,14 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-      print('Got a message whilst in the foreground!');
-      print('Message data: ${message.data}');
+    // FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+    //   print('Got a message whilst in the foreground!');
+    //   print('Message data: ${message.data}');
 
-      if (message.notification != null) {
-        print('Message also contained a notification: ${message.notification}');
-      }
-    });
+    //   if (message.notification != null) {
+    //     print('Message also contained a notification: ${message.notification}');
+    //   }
+    // });
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => ProviderModel()),
@@ -131,7 +131,8 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // ignore: unnecessary_null_comparison
-    bool isLogin = WebStorage.instance.sessionId.toString() != "null";
+    bool isLogin = WebStorage.instance.sessionId.toString() != "null" &&
+        WebStorage.instance.sessionId.toString() != "";
     return isLogin ? Home() : Login();
   }
 }

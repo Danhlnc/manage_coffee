@@ -36,7 +36,9 @@ class _DatetimeState extends State<Datetime> {
                     listBillsTotal = [...listBills];
                     var listPro = [...listBills];
                     for (var action in listPro) {
-                      if (action.keys.first.createdOn!.day != date.day) {
+                      if (action.keys.first.createdOn!.day != date.day ||
+                          action.keys.first.createdOn!.month != date.month ||
+                          action.keys.first.createdOn!.year != date.year) {
                         listBills.remove(action);
                       }
                     }
