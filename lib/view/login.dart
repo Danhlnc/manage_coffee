@@ -98,7 +98,16 @@ class Login extends StatelessWidget {
               onPressed: () {
                 if (_textEditingControllerUser.text == 'tscoffee' &&
                     _textEditingControllerPass.text == 'tscoffee') {
-                  WebStorage.instance.sessionId = 'logincustommer';
+                  WebStorage.instance.sessionId = 'Tính';
+                  Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => Home(),
+                          maintainState: false,
+                          barrierDismissible: true));
+                } else if (_textEditingControllerUser.text == 'tscoffee' &&
+                    _textEditingControllerPass.text == 'danh') {
+                  WebStorage.instance.sessionId = 'Danh';
                   Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
@@ -107,7 +116,7 @@ class Login extends StatelessWidget {
                           barrierDismissible: true));
                 } else if (_textEditingControllerUser.text == 'tscoffee' &&
                     _textEditingControllerPass.text == '11223399') {
-                  WebStorage.instance.sessionId = 'loginadmin';
+                  WebStorage.instance.sessionId = 'admin';
                   Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(

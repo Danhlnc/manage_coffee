@@ -45,6 +45,8 @@ class ProviderModel extends ChangeNotifier {
 
   updateListTemp(DateTimeRange date) {
     _listSpendTemp = [..._listSpend];
+
+    print(date);
     for (var element in _listSpend) {
       if (element.createdOn!.isAfter(date.start) &&
           element.createdOn!.isBefore(date.end)) {
@@ -52,6 +54,7 @@ class ProviderModel extends ChangeNotifier {
         _listSpendTemp.remove(element);
       }
     }
+    print(_listSpendTemp);
     notifyListeners();
   }
 

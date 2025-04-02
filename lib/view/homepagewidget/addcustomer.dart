@@ -125,31 +125,42 @@ class _AddCustomerState extends State<AddCustomer> {
                 (comGia.text != '' ? double.parse(giaGiatDo.text) : 0);
             widget.customer.ghiChu = ghiChu.text;
             widget.customer.trangThai = trangThai;
-            widget.customer.createdBy = '';
             widget.customer.modifyOn = DateTime.utc(
                 DateTime.now().year,
                 DateTime.now().month,
                 DateTime.now().day,
                 DateTime.now().hour,
                 DateTime.now().minute);
-            widget.customer.modifyBy = '';
             widget.customer.trangThai = trangThai;
+            widget.customer.createdBy =
+                WebStorage.instance.sessionId.toString();
+            widget.customer.modifyBy = WebStorage.instance.sessionId.toString();
             var details = {widget.customer: Colors.white};
             var test = widget.customer.toJson();
             test.remove('_id');
             if (staTus) {
-              EasyLoading.show(status: 'loading...');
-              setState(() {
-                widget.loading = true;
-              });
-              addBill(test).then((onValue) {
+              if (widget.customer.doiSac == true) {
+                await showDialog(
+                    context: context,
+                    builder: (context) {
+                      return const AlertDialog(
+                        title: Text('Chưa sạc xe không được thanh toán!'),
+                      );
+                    });
+              } else {
+                EasyLoading.show(status: 'loading...');
                 setState(() {
-                  widget.loading = false;
+                  widget.loading = true;
                 });
-                EasyLoading.dismiss();
-                Navigator.of(context).pop();
-                widget.callBack("update");
-              });
+                addBill(test).then((onValue) {
+                  setState(() {
+                    widget.loading = false;
+                  });
+                  EasyLoading.dismiss();
+                  Navigator.of(context).pop();
+                  widget.callBack("update");
+                });
+              }
             } else {
               EasyLoading.show(status: 'loading...');
               setState(() {
@@ -208,31 +219,41 @@ class _AddCustomerState extends State<AddCustomer> {
             (comGia.text != '' ? double.parse(giaGiatDo.text) : 0);
         widget.customer.ghiChu = ghiChu.text;
         widget.customer.trangThai = trangThai;
-        widget.customer.createdBy = '';
+        widget.customer.createdBy = WebStorage.instance.sessionId.toString();
+        widget.customer.modifyBy = WebStorage.instance.sessionId.toString();
         widget.customer.modifyOn = DateTime.utc(
             DateTime.now().year,
             DateTime.now().month,
             DateTime.now().day,
             DateTime.now().hour,
             DateTime.now().minute);
-        widget.customer.modifyBy = '';
         widget.customer.trangThai = trangThai;
         var details = {widget.customer: Colors.white};
         var test = widget.customer.toJson();
         test.remove('_id');
         if (staTus) {
-          EasyLoading.show(status: 'loading...');
-          setState(() {
-            widget.loading = true;
-          });
-          addBill(test).then((onValue) {
+          if (widget.customer.doiSac == true) {
+            await showDialog(
+                context: context,
+                builder: (context) {
+                  return const AlertDialog(
+                    title: Text('Chưa sạc xe không được thanh toán!'),
+                  );
+                });
+          } else {
+            EasyLoading.show(status: 'loading...');
             setState(() {
-              widget.loading = false;
+              widget.loading = true;
             });
-            EasyLoading.dismiss();
-            Navigator.of(context).pop();
-            widget.callBack("update");
-          });
+            addBill(test).then((onValue) {
+              setState(() {
+                widget.loading = false;
+              });
+              EasyLoading.dismiss();
+              Navigator.of(context).pop();
+              widget.callBack("update");
+            });
+          }
         } else {
           EasyLoading.show(status: 'loading...');
           setState(() {
@@ -307,6 +328,7 @@ class _AddCustomerState extends State<AddCustomer> {
   TextEditingController ghiChu = TextEditingController();
   String sac = '';
   bool? isCheckedDay = false;
+  bool isChecktrangThai = true;
   bool? isCheckedNight = false;
   bool? isCheckedTam = false;
   bool? isCheckedMuonSac = false;
@@ -316,6 +338,16 @@ class _AddCustomerState extends State<AddCustomer> {
 
   @override
   Widget build(BuildContext context) {
+    if (widget.customer.trangThai == false &&
+        WebStorage.instance.sessionId == "admin") {
+      isChecktrangThai = false;
+    } else if (widget.customer.trangThai == true &&
+            WebStorage.instance.sessionId == widget.customer.createdBy ||
+        widget.customer.trangThai == true && widget.customer.createdBy == "" ||
+        widget.customer.trangThai == true &&
+            widget.customer.createdBy == null) {
+      isChecktrangThai = false;
+    }
     return AbsorbPointer(
       absorbing: widget.loading,
       child: SizedBox(
@@ -425,13 +457,19 @@ class _AddCustomerState extends State<AddCustomer> {
               backgroundColor: Colors.blueGrey,
               title: Row(
                 children: [
-                  const Expanded(flex: 1, child: Text('Khách hàng')),
+                  Expanded(
+                      flex: 1,
+                      child: Text(
+                        widget.customer.createdBy.toString(),
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      )),
                   Expanded(
                     flex: 1,
                     child: AbsorbPointer(
-                      absorbing: WebStorage.instance.sessionId == 'loginadmin'
-                          ? false
-                          : true,
+                      absorbing: isChecktrangThai,
                       child: Card(
                         child: TextField(
                           controller: createdOn
@@ -471,10 +509,7 @@ class _AddCustomerState extends State<AddCustomer> {
                             Expanded(
                               flex: 2,
                               child: AbsorbPointer(
-                                absorbing: WebStorage.instance.sessionId ==
-                                        'loginadmin'
-                                    ? false
-                                    : true,
+                                absorbing: isChecktrangThai,
                                 child: TextField(
                                     controller: bienSoXe
                                       ..text = widget.customer.bienSoXe!,
@@ -524,9 +559,7 @@ class _AddCustomerState extends State<AddCustomer> {
                     ),
                     //sạc
                     AbsorbPointer(
-                      absorbing: WebStorage.instance.sessionId == 'loginadmin'
-                          ? false
-                          : true,
+                      absorbing: isChecktrangThai,
                       child: Container(
                         // ignore: sort_child_properties_last
                         child: Card(
@@ -602,11 +635,7 @@ class _AddCustomerState extends State<AddCustomer> {
                                   Expanded(
                                     flex: 1,
                                     child: AbsorbPointer(
-                                      absorbing:
-                                          WebStorage.instance.sessionId ==
-                                                  'loginadmin'
-                                              ? false
-                                              : true,
+                                      absorbing: isChecktrangThai,
                                       child: const Center(child: Text('<70%')),
                                     ),
                                   ),
@@ -854,9 +883,7 @@ class _AddCustomerState extends State<AddCustomer> {
                     ),
                     //ngủ
                     AbsorbPointer(
-                      absorbing: WebStorage.instance.sessionId == 'loginadmin'
-                          ? false
-                          : true,
+                      absorbing: isChecktrangThai,
                       child: Container(
                         // ignore: sort_child_properties_last
                         child: Card(
@@ -1073,9 +1100,7 @@ class _AddCustomerState extends State<AddCustomer> {
                     ),
                     //screen nước
                     AbsorbPointer(
-                        absorbing: WebStorage.instance.sessionId == 'loginadmin'
-                            ? false
-                            : true,
+                        absorbing: isChecktrangThai,
                         child: SizedBox(
                           child: Row(
                             children: [
@@ -1122,11 +1147,7 @@ class _AddCustomerState extends State<AddCustomer> {
                                       height: 40,
                                       margin: const EdgeInsets.all(5),
                                       child: AbsorbPointer(
-                                        absorbing:
-                                            WebStorage.instance.sessionId ==
-                                                    'loginadmin'
-                                                ? false
-                                                : true,
+                                        absorbing: isChecktrangThai,
                                         child: TextField(
                                           controller: comGia
                                             ..text = widget.customer.comGia!
@@ -1160,11 +1181,7 @@ class _AddCustomerState extends State<AddCustomer> {
                                       height: 40,
                                       margin: const EdgeInsets.all(5),
                                       child: AbsorbPointer(
-                                        absorbing:
-                                            WebStorage.instance.sessionId ==
-                                                    'loginadmin'
-                                                ? false
-                                                : true,
+                                        absorbing: isChecktrangThai,
                                         child: TextField(
                                           controller: giaGiatDo
                                             ..text = widget.customer.giaGiatDo!
@@ -1208,10 +1225,7 @@ class _AddCustomerState extends State<AddCustomer> {
                             children: <Widget>[
                               const Text("  Tủ:"),
                               AbsorbPointer(
-                                absorbing: WebStorage.instance.sessionId ==
-                                        'loginadmin'
-                                    ? false
-                                    : true,
+                                absorbing: isChecktrangThai,
                                 child: RadioMenuButton(
                                   value: 25000,
                                   groupValue: widget.customer.giaTu,
@@ -1226,10 +1240,7 @@ class _AddCustomerState extends State<AddCustomer> {
                                 ),
                               ),
                               AbsorbPointer(
-                                absorbing: WebStorage.instance.sessionId ==
-                                        'loginadmin'
-                                    ? false
-                                    : true,
+                                absorbing: isChecktrangThai,
                                 child: RadioMenuButton(
                                   value: 100000,
                                   groupValue: widget.customer.giaTu,
@@ -1244,10 +1255,7 @@ class _AddCustomerState extends State<AddCustomer> {
                                 ),
                               ),
                               AbsorbPointer(
-                                absorbing: WebStorage.instance.sessionId ==
-                                        'loginadmin'
-                                    ? false
-                                    : true,
+                                absorbing: isChecktrangThai,
                                 child: RadioMenuButton(
                                   value: 0,
                                   groupValue: widget.customer.giaTu,
@@ -1271,10 +1279,7 @@ class _AddCustomerState extends State<AddCustomer> {
                       child: Container(
                         margin: const EdgeInsets.all(5),
                         child: AbsorbPointer(
-                          absorbing:
-                              WebStorage.instance.sessionId == 'loginadmin'
-                                  ? false
-                                  : true,
+                          absorbing: isChecktrangThai,
                           child: TextField(
                             controller: ghiChu..text = widget.customer.ghiChu!,
                             obscureText: false,

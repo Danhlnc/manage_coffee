@@ -35,8 +35,27 @@ class _BillsState extends State<Bills> {
               "${widget.Bill.keys.first.createdOn!.month}"
               " "
               // ignore: prefer_interpolation_to_compose_strings
-              "${widget.Bill.keys.first.createdOn!.hour}:${widget.Bill.keys.first.createdOn!.minute < 10 ? "0" + widget.Bill.keys.first.createdOn!.minute.toString() : widget.Bill.keys.first.createdOn!.minute}",
-              style: const TextStyle(fontSize: 12),
+              "${widget.Bill.keys.first.createdOn!.hour}:${widget.Bill.keys.first.createdOn!.minute < 10 ? "0" + widget.Bill.keys.first.createdOn!.minute.toString() : widget.Bill.keys.first.createdOn!.minute}   ${widget.Bill.keys.first.createdBy}",
+              style: TextStyle(
+                  fontSize: 12,
+                  fontWeight: FontWeight.bold,
+                  color: widget.Bill.keys.first.trangThai == true
+                      ? widget.Bill.keys.first.doiSac == true
+                          ? Colors.orange
+                          : (widget.Bill.keys.first.soLuongSacNhanh! > 0 ||
+                                  widget.Bill.keys.first.soLuongSacNhanh20k! > 0
+                              ? Colors.purple
+                              : (widget.Bill.keys.first.ghiChu != ""
+                                  ? Colors.green
+                                  : Colors.red))
+                      : widget.Bill.keys.first.doiSac == true
+                          ? Colors.orange
+                          : (widget.Bill.keys.first.soLuongSacNhanh! > 0 ||
+                                  widget.Bill.keys.first.soLuongSacNhanh20k! > 0
+                              ? Colors.purple
+                              : widget.Bill.keys.first.ghiChu != ""
+                                  ? Colors.green
+                                  : Colors.blue)),
             ),
           ),
         ),
@@ -50,12 +69,22 @@ class _BillsState extends State<Bills> {
                   fontSize: 12,
                   fontWeight: FontWeight.bold,
                   color: widget.Bill.keys.first.trangThai == true
-                      ? (widget.Bill.keys.first.ghiChu != ""
-                          ? Colors.green
-                          : Colors.red)
-                      : widget.Bill.keys.first.ghiChu != ""
-                          ? Colors.green
-                          : Colors.blue),
+                      ? widget.Bill.keys.first.doiSac == true
+                          ? Colors.orange
+                          : (widget.Bill.keys.first.soLuongSacNhanh! > 0 ||
+                                  widget.Bill.keys.first.soLuongSacNhanh20k! > 0
+                              ? Colors.purple
+                              : (widget.Bill.keys.first.ghiChu != ""
+                                  ? Colors.green
+                                  : Colors.red))
+                      : widget.Bill.keys.first.doiSac == true
+                          ? Colors.orange
+                          : (widget.Bill.keys.first.soLuongSacNhanh! > 0 ||
+                                  widget.Bill.keys.first.soLuongSacNhanh20k! > 0
+                              ? Colors.purple
+                              : widget.Bill.keys.first.ghiChu != ""
+                                  ? Colors.green
+                                  : Colors.blue)),
             ),
           ),
         ),
@@ -67,12 +96,26 @@ class _BillsState extends State<Bills> {
                       fontSize: 12,
                       fontWeight: FontWeight.bold,
                       color: widget.Bill.keys.first.trangThai == true
-                          ? (widget.Bill.keys.first.ghiChu != ""
-                              ? Colors.green
-                              : Colors.red)
-                          : widget.Bill.keys.first.ghiChu != ""
-                              ? Colors.green
-                              : Colors.blue))
+                          ? widget.Bill.keys.first.doiSac == true
+                              ? Colors.orange
+                              : (widget.Bill.keys.first.soLuongSacNhanh! > 0 ||
+                                      widget.Bill.keys.first
+                                              .soLuongSacNhanh20k! >
+                                          0
+                                  ? Colors.purple
+                                  : (widget.Bill.keys.first.ghiChu != ""
+                                      ? Colors.green
+                                      : Colors.red))
+                          : widget.Bill.keys.first.doiSac == true
+                              ? Colors.orange
+                              : (widget.Bill.keys.first.soLuongSacNhanh! > 0 ||
+                                      widget.Bill.keys.first
+                                              .soLuongSacNhanh20k! >
+                                          0
+                                  ? Colors.purple
+                                  : widget.Bill.keys.first.ghiChu != ""
+                                      ? Colors.green
+                                      : Colors.blue)))
               : const SizedBox(),
         ),
         Expanded(
@@ -83,12 +126,22 @@ class _BillsState extends State<Bills> {
                 fontSize: 12,
                 fontWeight: FontWeight.bold,
                 color: widget.Bill.keys.first.trangThai == true
-                    ? (widget.Bill.keys.first.ghiChu != ""
-                        ? Colors.green
-                        : Colors.red)
-                    : widget.Bill.keys.first.ghiChu != ""
-                        ? Colors.green
-                        : Colors.blue),
+                    ? widget.Bill.keys.first.doiSac == true
+                        ? Colors.orange
+                        : (widget.Bill.keys.first.soLuongSacNhanh! > 0 ||
+                                widget.Bill.keys.first.soLuongSacNhanh20k! > 0
+                            ? Colors.purple
+                            : (widget.Bill.keys.first.ghiChu != ""
+                                ? Colors.green
+                                : Colors.red))
+                    : widget.Bill.keys.first.doiSac == true
+                        ? Colors.orange
+                        : (widget.Bill.keys.first.soLuongSacNhanh! > 0 ||
+                                widget.Bill.keys.first.soLuongSacNhanh20k! > 0
+                            ? Colors.purple
+                            : widget.Bill.keys.first.ghiChu != ""
+                                ? Colors.green
+                                : Colors.blue)),
           ),
         ),
       ],

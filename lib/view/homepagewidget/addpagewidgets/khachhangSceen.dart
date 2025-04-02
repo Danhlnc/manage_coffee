@@ -296,28 +296,6 @@ class _KhachhangSceenState extends State<KhachhangSceen> {
                                                     borderRadius:
                                                         BorderRadius.circular(
                                                             16), // if you need this
-                                                    side: BorderSide(
-                                                      color: (widget
-                                                                  .listBillsGridView[
-                                                                      index]
-                                                                  .keys
-                                                                  .first
-                                                                  .trangThai ==
-                                                              true
-                                                          ? widget
-                                                                          .listBillsGridView[
-                                                                              index]
-                                                                          .keys
-                                                                          .first
-                                                                          .doiSac ==
-                                                                      true &&
-                                                                  checkDoiSac ==
-                                                                      true
-                                                              ? Colors.yellow
-                                                              : Colors.white
-                                                          : Colors.blue),
-                                                      width: 6,
-                                                    ),
                                                   ),
                                                   color: widget
                                                       .listBillsGridView[index]
@@ -387,24 +365,6 @@ class _KhachhangSceenState extends State<KhachhangSceen> {
                                                         borderRadius:
                                                             BorderRadius.circular(
                                                                 16), // if you need this
-                                                        side: BorderSide(
-                                                          color: (widget
-                                                                      .listBillsGridView[
-                                                                          index]
-                                                                      .keys
-                                                                      .first
-                                                                      .trangThai ==
-                                                                  true
-                                                              ? widget.listBillsGridView[index].keys.first.doiSac ==
-                                                                          true &&
-                                                                      checkDoiSac ==
-                                                                          true
-                                                                  ? Colors
-                                                                      .yellow
-                                                                  : Colors.white
-                                                              : Colors.blue),
-                                                          width: 6,
-                                                        ),
                                                       ),
                                                       color: widget
                                                           .listBillsGridView[
@@ -474,24 +434,6 @@ class _KhachhangSceenState extends State<KhachhangSceen> {
                                                         borderRadius:
                                                             BorderRadius.circular(
                                                                 16), // if you need this
-                                                        side: BorderSide(
-                                                          color: (widget
-                                                                      .listBillsGridView[
-                                                                          index]
-                                                                      .keys
-                                                                      .first
-                                                                      .trangThai ==
-                                                                  true
-                                                              ? widget.listBillsGridView[index].keys.first.doiSac ==
-                                                                          true &&
-                                                                      checkDoiSac ==
-                                                                          true
-                                                                  ? Colors
-                                                                      .yellow
-                                                                  : Colors.white
-                                                              : Colors.blue),
-                                                          width: 6,
-                                                        ),
                                                       ),
                                                       color: widget
                                                           .listBillsGridView[

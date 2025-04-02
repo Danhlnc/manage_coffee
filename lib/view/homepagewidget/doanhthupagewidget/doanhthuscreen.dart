@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:tscoffee/model/providerModel.dart';
 import 'package:tscoffee/model/spendmodel.dart';
@@ -30,6 +31,11 @@ class Doanhthuscreen extends StatefulWidget {
   @override
   _DoanhthuscreenState createState() => _DoanhthuscreenState();
 }
+
+TextEditingController dateOne = TextEditingController();
+TextEditingController monthOne = TextEditingController();
+TextEditingController dateTwo = TextEditingController();
+TextEditingController monthTwo = TextEditingController();
 
 class _DoanhthuscreenState extends State<Doanhthuscreen> {
   callBack(String status) {
@@ -103,6 +109,11 @@ class _DoanhthuscreenState extends State<Doanhthuscreen> {
     if (widget.listBills.isEmpty) {
       widget.listBills = [...listBillsTotalDate];
     }
+
+    dateOne.text =
+        "${dateTimeRange.start.day}/${dateTimeRange.start.month}/${dateTimeRange.start.year}";
+    dateTwo.text =
+        "${dateTimeRange.end.day}/${dateTimeRange.end.month}/${dateTimeRange.end.year}";
     return AbsorbPointer(
       absorbing: widget.loading,
       child: Container(
@@ -110,12 +121,143 @@ class _DoanhthuscreenState extends State<Doanhthuscreen> {
         child: Column(
           mainAxisSize: MainAxisSize.max,
           children: [
+            Row(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: MediaQuery.of(context).size.width > 700
+                  ? [
+                      Expanded(
+                        flex: 2,
+                        child: Card(
+                          child: TextField(
+                              obscureText: false,
+                              controller: dateOne,
+                              decoration: InputDecoration(
+                                border: InputBorder.none,
+                                hintText:
+                                    '${dateTimeRange.start.day} / ${dateTimeRange.start.month}',
+                              )),
+                        ),
+                      ),
+                      Expanded(
+                        flex: 2,
+                        child: Card(
+                          child: TextField(
+                              obscureText: false,
+                              controller: dateTwo,
+                              decoration: InputDecoration(
+                                border: InputBorder.none,
+                                hintText:
+                                    '${dateTimeRange.end.day} / ${dateTimeRange.end.month}',
+                              )),
+                        ),
+                      ),
+                      Expanded(
+                        flex: 2,
+                        child: Card(
+                          child: TextButton(
+                            onPressed: () {
+                              setState(() {
+                                dateTimeRange = DateTimeRange(
+                                    start: DateFormat("dd/MM/yyyy HH:mm")
+                                        .parse("${dateOne.text} 07:00"),
+                                    end: DateFormat("dd/MM/yyyy HH:mm")
+                                        .parse("${dateTwo.text} 07:00"));
+                                listBillsTotalDate = [...listBillsTotal];
+                                var listProDate = [...listBillsTotalDate];
+                                for (var action in listProDate) {
+                                  if (action.keys.first.createdOn!
+                                          .isBefore(dateTimeRange.end) &&
+                                      action.keys.first.createdOn!
+                                          .isAfter(dateTimeRange.start)) {
+                                  } else {
+                                    listBillsTotalDate.remove(action);
+                                  }
+                                }
+                                checkTT = false;
+
+                                searchController.text = "";
+                                widget.listBills = listBillsTotalDate;
+                              });
+                            },
+                            child: const Text("Tìm kiếm"),
+                          ),
+                        ),
+                      ),
+                      const Expanded(
+                        flex: 6,
+                        child: Text(""),
+                      )
+                    ]
+                  : [
+                      Expanded(
+                        flex: 2,
+                        child: Card(
+                          child: TextField(
+                              obscureText: false,
+                              controller: dateOne,
+                              decoration: InputDecoration(
+                                border: InputBorder.none,
+                                hintText:
+                                    '${dateTimeRange.start.day} / ${dateTimeRange.start.month}',
+                              )),
+                        ),
+                      ),
+                      Expanded(
+                        flex: 2,
+                        child: Card(
+                          child: TextField(
+                              obscureText: false,
+                              controller: dateTwo,
+                              decoration: InputDecoration(
+                                border: InputBorder.none,
+                                hintText:
+                                    '${dateTimeRange.end.day} / ${dateTimeRange.end.month}',
+                              )),
+                        ),
+                      ),
+                      Expanded(
+                        flex: 2,
+                        child: Card(
+                          child: TextButton(
+                            onPressed: () {
+                              setState(() {
+                                dateTimeRange = DateTimeRange(
+                                    start: DateFormat("dd/MM/yyyy HH:mm")
+                                        .parse("${dateOne.text} 07:00"),
+                                    end: DateFormat("dd/MM/yyyy HH:mm")
+                                        .parse("${dateTwo.text} 07:00"));
+                                listBillsTotalDate = [...listBillsTotal];
+                                var listProDate = [...listBillsTotalDate];
+                                for (var action in listProDate) {
+                                  if (action.keys.first.createdOn!
+                                          .isBefore(dateTimeRange.end) &&
+                                      action.keys.first.createdOn!
+                                          .isAfter(dateTimeRange.start)) {
+                                  } else {
+                                    listBillsTotalDate.remove(action);
+                                  }
+                                  checkTT = false;
+                                  searchController.text = "";
+                                  widget.listBills = listBillsTotalDate;
+                                }
+                              });
+                            },
+                            child: const Text("Tìm kiếm"),
+                          ),
+                        ),
+                      ),
+                      const Expanded(
+                        flex: 1,
+                        child: Text(""),
+                      )
+                    ],
+            ),
             Container(
               margin: const EdgeInsets.only(left: 20, right: 20),
               child: Row(
                 children: [
-                  Expanded(
-                      flex: 2, child: DatetimeDoanhThu(callBack: callBack)),
                   Expanded(
                     flex: 4,
                     child: Card(
@@ -787,7 +929,7 @@ class _DoanhthuscreenState extends State<Doanhthuscreen> {
                                       : GridView.builder(
                                           gridDelegate:
                                               const SliverGridDelegateWithFixedCrossAxisCount(
-                                                  crossAxisCount: 16,
+                                                  crossAxisCount: 12,
                                                   mainAxisSpacing: 4),
                                           itemCount: widget.listBills.length,
                                           itemBuilder:
