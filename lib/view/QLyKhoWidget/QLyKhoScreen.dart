@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 import 'package:tscoffee/apps/globalvariables.dart';
+import 'package:tscoffee/model/providerModel.dart';
 
 class QuanLyKhoScreen extends StatefulWidget {
   bool loading = false;
@@ -130,6 +132,14 @@ class _QuanLyKhoScreenState extends State<QuanLyKhoScreen> {
                                                       .remove(action);
                                                 }
                                               }
+                                              ;
+                                              context
+                                                  .read<ProviderModel>()
+                                                  .updateListTemp(
+                                                      dateTimeRange);
+                                              context
+                                                  .read<ProviderModel>()
+                                                  .getTotalCount();
                                             });
                                           },
                                           child: const Text("Tìm kiếm"),

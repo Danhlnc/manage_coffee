@@ -12,7 +12,6 @@ import '../../../model/billmodel.dart';
 import '../../loading.dart';
 import '../addcustomer.dart';
 import '../addpagewidgets/billlist.dart';
-import 'datetimeDoanhThu.dart';
 
 import 'package:http/http.dart' as http;
 
@@ -179,6 +178,11 @@ class _DoanhthuscreenState extends State<Doanhthuscreen> {
 
                                 searchController.text = "";
                                 widget.listBills = listBillsTotalDate;
+
+                                context
+                                    .read<ProviderModel>()
+                                    .updateListTemp(dateTimeRange);
+                                context.read<ProviderModel>().getTotalCount();
                               });
                             },
                             child: const Text("Tìm kiếm"),
@@ -241,6 +245,10 @@ class _DoanhthuscreenState extends State<Doanhthuscreen> {
                                   checkTT = false;
                                   searchController.text = "";
                                   widget.listBills = listBillsTotalDate;
+                                  context
+                                      .read<ProviderModel>()
+                                      .updateListTemp(dateTimeRange);
+                                  context.read<ProviderModel>().getTotalCount();
                                 }
                               });
                             },
