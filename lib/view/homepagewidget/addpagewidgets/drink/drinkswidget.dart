@@ -2,8 +2,10 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
 import 'package:tscoffee/model/comboModel.dart';
 import 'package:tscoffee/model/drinkbillmodel.dart';
+import 'package:tscoffee/model/providerModel.dart';
 import 'package:tscoffee/model/taboccobillmodel.dart';
 
 import '../../../../apps/globalvariables.dart';
@@ -74,7 +76,9 @@ class _DrinkswidgetState extends State<Drinkswidget> {
                   await showDialog(
                       context: context,
                       builder: (BuildContext context) {
-                        listAllNuocSearch = [...listAllNuoc];
+                        context.read<ProviderModel>().listAllNuocSearch = [
+                          ...context.read<ProviderModel>().listAllNuoc
+                        ];
                         return Drinklistdialog(
                             listNuoc: widget.customer.listNuoc);
                       }).then((value) {
@@ -149,7 +153,9 @@ class _DrinkswidgetState extends State<Drinkswidget> {
                                 icon: const Icon(Icons.delete_forever_outlined),
                                 onPressed: () {
                                   try {
-                                    for (var element in listAllNuoc) {
+                                    for (var element in context
+                                        .read<ProviderModel>()
+                                        .listAllNuoc) {
                                       if (element.drinkName ==
                                           widget.customer.listNuoc.first
                                               .drinkmodel!.drinkName) {

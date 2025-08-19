@@ -128,6 +128,7 @@ class _MyAppState extends State<MyApp> {
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
+
   @override
   Widget build(BuildContext context) {
     // ignore: unnecessary_null_comparison

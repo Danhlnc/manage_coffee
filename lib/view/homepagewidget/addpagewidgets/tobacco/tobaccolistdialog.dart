@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:tscoffee/apps/globalvariables.dart';
+import 'package:provider/provider.dart';
+import 'package:tscoffee/model/providerModel.dart';
 import 'package:tscoffee/model/taboccobillmodel.dart';
 import 'package:tscoffee/model/taboccomodel.dart';
 
@@ -30,17 +31,22 @@ class _TobaccolistdialogState extends State<Tobaccolistdialog> {
                 onChanged: (value) {
                   if (value != "") {
                     widget.listSearch.clear();
-                    for (var action in listAllThuoc) {
+                    for (var action
+                        in context.read<ProviderModel>().listAllThuoc) {
                       if (action.tobaccoName!.toLowerCase().contains(value)) {
                         widget.listSearch.add(action);
                       }
                     }
                     setState(() {
-                      listAllThuocSearch = [...widget.listSearch];
+                      context.read<ProviderModel>().listAllThuocSearch = [
+                        ...widget.listSearch
+                      ];
                     });
                   } else {
                     setState(() {
-                      listAllThuocSearch = [...listAllThuoc];
+                      context.read<ProviderModel>().listAllThuocSearch = [
+                        ...context.read<ProviderModel>().listAllThuoc
+                      ];
                     });
                   }
                 },
@@ -59,15 +65,24 @@ class _TobaccolistdialogState extends State<Tobaccolistdialog> {
                   width: 400,
                   height: 330,
                   child: ListView.builder(
-                    itemCount: listAllThuocSearch.length,
+                    itemCount:
+                        context.read<ProviderModel>().listAllThuocSearch.length,
                     itemBuilder: (BuildContext ctx, int index) {
                       return ElevatedButton(
                         onPressed: () {
                           Taboccomodel newTabocco = Taboccomodel(
-                              tobaccoName:
-                                  listAllThuocSearch[index].tobaccoName,
-                              countStore: listAllThuocSearch[index].countStore,
-                              price: listAllThuocSearch[index].price);
+                              tobaccoName: context
+                                  .read<ProviderModel>()
+                                  .listAllThuocSearch[index]
+                                  .tobaccoName,
+                              countStore: context
+                                  .read<ProviderModel>()
+                                  .listAllThuocSearch[index]
+                                  .countStore,
+                              price: context
+                                  .read<ProviderModel>()
+                                  .listAllThuocSearch[index]
+                                  .price);
                           bool add = true;
 
                           Taboccobillmodel newMap =
@@ -75,7 +90,8 @@ class _TobaccolistdialogState extends State<Tobaccolistdialog> {
                           newMap.soLuongBan = 1;
                           newMap.taboccomodel = newTabocco;
                           if (widget.listThuoc.isNotEmpty) {
-                            for (var item in listThuoc) {
+                            for (var item
+                                in context.read<ProviderModel>().listThuoc) {
                               if (item.taboccomodel!.tobaccoName ==
                                   newTabocco.tobaccoName) {
                                 add = false;
@@ -83,27 +99,36 @@ class _TobaccolistdialogState extends State<Tobaccolistdialog> {
                             }
                             if (add == true) {
                               widget.listThuoc.add(newMap);
-                              listThuoc = widget.listThuoc;
+                              context.read<ProviderModel>().listThuoc =
+                                  widget.listThuoc;
                             }
                           } else {
                             Taboccomodel newTabocco = Taboccomodel(
-                                tobaccoName:
-                                    listAllThuocSearch[index].tobaccoName,
-                                countStore:
-                                    listAllThuocSearch[index].countStore,
-                                price: listAllThuocSearch[index].price);
+                                tobaccoName: context
+                                    .read<ProviderModel>()
+                                    .listAllThuocSearch[index]
+                                    .tobaccoName,
+                                countStore: context
+                                    .read<ProviderModel>()
+                                    .listAllThuocSearch[index]
+                                    .countStore,
+                                price: context
+                                    .read<ProviderModel>()
+                                    .listAllThuocSearch[index]
+                                    .price);
 
                             newMap.taboccomodel = newTabocco;
                             newMap.soLuongBan = 1;
                             if (newMap.soLuongBan != -1) {
                               widget.listThuoc.add(newMap);
-                              listThuoc = widget.listThuoc;
+                              context.read<ProviderModel>().listThuoc =
+                                  widget.listThuoc;
                             }
                           }
                           Navigator.of(context).pop();
                         },
                         child: Text(
-                          "${listAllThuocSearch[index].tobaccoName} : ${listAllThuocSearch[index].price}",
+                          "${context.read<ProviderModel>().listAllThuocSearch[index].tobaccoName} : ${context.read<ProviderModel>().listAllThuocSearch[index].price}",
                           style: const TextStyle(
                             fontSize: 16,
                           ),

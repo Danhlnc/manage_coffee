@@ -100,29 +100,19 @@ class Login extends StatelessWidget {
                     _textEditingControllerPass.text == 'tscoffee') {
                   WebStorage.instance.sessionId = 'Tính';
                   Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => Home(),
-                          maintainState: false,
-                          barrierDismissible: true));
+                      context, MaterialPageRoute(builder: (context) => Home()));
                 } else if (_textEditingControllerUser.text == 'tscoffee' &&
                     _textEditingControllerPass.text == 'danh') {
                   WebStorage.instance.sessionId = 'Danh';
+
                   Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => Home(),
-                          maintainState: false,
-                          barrierDismissible: true));
+                      context, MaterialPageRoute(builder: (context) => Home()));
                 } else if (_textEditingControllerUser.text == 'tscoffee' &&
                     _textEditingControllerPass.text == '11223399') {
                   WebStorage.instance.sessionId = 'admin';
+
                   Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => Home(),
-                          maintainState: false,
-                          barrierDismissible: true));
+                      context, MaterialPageRoute(builder: (context) => Home()));
                 } else {
                   Navigator.pushReplacement(context,
                       MaterialPageRoute(builder: (context) => Login()));

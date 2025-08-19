@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:tscoffee/model/comboModel.dart';
 import 'package:tscoffee/model/drinkbillmodel.dart';
+import 'package:tscoffee/model/providerModel.dart';
 import 'package:tscoffee/model/taboccobillmodel.dart';
 
-import '../../../../apps/globalvariables.dart';
 import '../../../../model/billmodel.dart';
 import 'tabaccolist.dart';
 import 'tobaccolistdialog.dart';
@@ -51,7 +52,9 @@ class _TobaccowidgetState extends State<Tobaccowidget> {
                   await showDialog(
                       context: context,
                       builder: (BuildContext context) {
-                        listAllThuocSearch = [...listAllThuoc];
+                        context.read<ProviderModel>().listAllThuocSearch = [
+                          ...context.read<ProviderModel>().listAllThuoc
+                        ];
                         return Tobaccolistdialog(
                           listThuoc: widget.customer.listThuoc,
                         );

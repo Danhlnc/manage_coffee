@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:tscoffee/apps/globalvariables.dart';
+import 'package:tscoffee/model/providerModel.dart';
 
 class Datetime extends StatefulWidget {
   Function callBack;
@@ -29,24 +31,28 @@ class _DatetimeState extends State<Datetime> {
             dataTimeRange != null
                 ? setState(() {
                     date = dataTimeRange;
-                    listBills = [...listBillsTotal];
-                    loadData = false;
-                    listBills.sort((b, a) => a.keys.first.modifyOn!
+                    context.read<ProviderModel>().listBills = [
+                      ...context.read<ProviderModel>().listBillsTotal
+                    ];
+                    context.read<ProviderModel>().updateloadData(false);
+                    context.read<ProviderModel>().listBills.sort((b, a) => a
+                        .keys.first.modifyOn!
                         .compareTo(b.keys.first.modifyOn as DateTime));
-                    listBillsTotal = [...listBills];
-                    var listPro = [...listBills];
+                    context.read<ProviderModel>().listBillsTotal = [
+                      ...context.read<ProviderModel>().listBills
+                    ];
+                    var listPro = [...context.read<ProviderModel>().listBills];
                     for (var action in listPro) {
                       if (action.keys.first.createdOn!.day != date.day ||
                           action.keys.first.createdOn!.month != date.month ||
-                          action.keys.first.createdOn!.year != date.year) {
-                        listBills.remove(action);
+                          action.keys.first.createdOn!.year != date.year ||
+                          action.keys.first.trangThai == false) {
+                        context.read<ProviderModel>().listBills.remove(action);
                       }
                     }
-                    widget.callBack("");
                   })
                 : setState(() {
                     date = DateTime.now();
-                    widget.callBack("");
                   });
           },
           child: Center(child: Text('${date.day}/${date.month}/${date.year}')),

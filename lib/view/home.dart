@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-import 'package:tscoffee/apps/globalvariables.dart';
 import 'package:tscoffee/model/WebStorage.dart';
 import 'package:tscoffee/model/billmodel.dart';
 import 'package:tscoffee/model/providerModel.dart';
 import 'package:tscoffee/view/QLyKhoWidget/QLyKhoScreen.dart';
 import 'package:tscoffee/view/login.dart';
-import 'homepagewidget/addpagewidgets/khachhangSceen.dart';
 import 'homepagewidget/doanhthupagewidget/doanhthuscreen.dart';
 
 // ignore: must_be_immutable
@@ -20,7 +17,6 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  int currentPageIndex = 0;
   bool item = true;
   final TextEditingController searchController = TextEditingController();
   Color cardBackgroundColor = Colors.white;
@@ -30,90 +26,26 @@ class _HomeState extends State<Home> {
     });
   }
 
-  List<Billmodel> list = [];
+  List<Map<Billmodel, Color>> list = [];
   search(List<Map<Billmodel, Color>> list) {
-    setState(() {
-      listBills = list;
-    });
+    context.read<ProviderModel>().updateListBill(list);
   }
 
-  callBack(String status) {
-    if (status == "update") {
-      loadData = true;
-      setState(() {});
-      fetch().then((onValue) {
-        listNuoc.clear();
-        listThuoc.clear();
-        widget.listBills.clear();
-        listBillsTotal.clear();
-        listBills.clear();
-        list.clear();
-        list = onValue;
-        for (var item in list) {
-          Map<Billmodel, Color> newmap = {item: Colors.white};
-          listBillsTotal.add(newmap);
-        }
-        loadData = false;
-        listBillsTotal.sort((b, a) => a.keys.first.createdOn!
-            .compareTo(b.keys.first.createdOn as DateTime));
-        listBills = [...listBillsTotal];
-        var listPro = [...listBills];
-        for (var action in listPro) {
-          if (DateFormat('yyyy-MM-dd').format(
-                  DateTime.parse(action.keys.first.createdOn.toString())) !=
-              DateFormat('yyyy-MM-dd').format(date)) {
-            listBills.remove(action);
-          }
-        }
+  callBack(String status) {}
 
-        listBills.sort((b, a) => a.keys.first.modifyOn!
-            .compareTo(b.keys.first.modifyOn as DateTime));
-
-        listBillsTotalDate = [...listBillsTotal];
-        var listProDate = [...listBillsTotalDate];
-        for (var action in listProDate) {
-          if (action.keys.first.createdOn!.isBefore(dateTimeRange.end) &&
-              action.keys.first.createdOn!.isAfter(dateTimeRange.start)) {
-          } else {
-            listBillsTotalDate.remove(action);
-          }
-        }
-        setState(() {});
-      });
-
-      fetchDrinks().then((onValue) {
-        listAllNuoc = [];
-        listAllNuoc = onValue;
-        listAllNuocSearch = onValue;
-        setState(() {});
-      });
-      fetchTabocco().then((onValue) {
-        listAllThuoc = [];
-        listAllThuoc = onValue;
-        listAllThuocSearch = onValue;
-        setState(() {});
-      });
-      fetchCombo().then((onValue) {
-        listAllCombo = [];
-        listAllCombo = onValue;
-        listAllComboSearch = onValue;
-        setState(() {});
-      });
-      fetchSpend().then((onValue) {
-        context.read<ProviderModel>().update(onValue);
-        context.read<ProviderModel>().updateListTemp(dateTimeRange);
-        context.read<ProviderModel>().getTotalCount();
-      });
-    } else {
-      setState(() {});
-    }
+  loading() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<ProviderModel>().updateloadData(true);
+      context.read<ProviderModel>().loadDataTotal();
+    });
   }
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    callBack('update');
+
+    loading();
   }
 
   @override
@@ -122,21 +54,22 @@ class _HomeState extends State<Home> {
       width: MediaQuery.of(context).size.width,
       height: MediaQuery.of(context).size.height,
       child: Scaffold(
+        key: context.read<ProviderModel>().scaffoldKey,
         resizeToAvoidBottomInset: true,
         bottomNavigationBar: NavigationBar(
           onDestinationSelected: (int index) {
             setState(() {
-              currentPageIndex = index;
+              context.read<ProviderModel>().currentPageIndex = index;
             });
           },
           indicatorColor: Colors.amber,
-          selectedIndex: currentPageIndex,
+          selectedIndex: context.read<ProviderModel>().currentPageIndex,
           destinations: const <Widget>[
-            NavigationDestination(
-              selectedIcon: Icon(Icons.home),
-              icon: Icon(Icons.home_outlined),
-              label: 'Khách hàng',
-            ),
+            // NavigationDestination(
+            //   selectedIcon: Icon(Icons.home),
+            //   icon: Icon(Icons.home_outlined),
+            //   label: 'Khách hàng',
+            // ),
             NavigationDestination(
               icon: Icon(Icons.area_chart),
               label: 'Doanh thu',
@@ -152,9 +85,12 @@ class _HomeState extends State<Home> {
           ],
         ),
         body: <Widget>[
-          KhachhangSceen(listBills: listBills, callBack: callBack),
+          // KhachhangSceen(
+          //     listBills: context.read<ProviderModel>().listBills,
+          //     callBack: callBack),
           Doanhthuscreen(
-              listBillsTotal: listBillsTotalDate, callBack: callBack),
+              listBillsTotal: context.read<ProviderModel>().listBillsTotalDate,
+              callBack: callBack),
 
           /// Notifications page
           QuanLyKhoScreen(),
@@ -166,6 +102,7 @@ class _HomeState extends State<Home> {
                   child: InkWell(
                     onTap: () {
                       WebStorage.instance.sessionId = "";
+                      context.read<ProviderModel>().currentPageIndex = 0;
                       Navigator.pushReplacement(context,
                           MaterialPageRoute(builder: (context) => Login()));
                     },
@@ -177,7 +114,7 @@ class _HomeState extends State<Home> {
               ],
             ),
           ),
-        ][currentPageIndex],
+        ][context.read<ProviderModel>().currentPageIndex],
       ),
     );
   }

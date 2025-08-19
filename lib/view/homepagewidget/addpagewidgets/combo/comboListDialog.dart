@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:tscoffee/apps/globalvariables.dart';
+import 'package:provider/provider.dart';
 import 'package:tscoffee/model/billmodel.dart';
+import 'package:tscoffee/model/providerModel.dart';
 
 // ignore: must_be_immutable
 class ComboListDialog extends StatefulWidget {
@@ -31,7 +32,8 @@ class _DrinklistdialogState extends State<ComboListDialog> {
                   width: 400,
                   height: 330,
                   child: ListView.builder(
-                    itemCount: listAllCombo.length,
+                    itemCount:
+                        context.read<ProviderModel>().listAllCombo.length,
                     itemBuilder: (BuildContext ctx, int index) {
                       return Container(
                         margin: const EdgeInsets.only(top: 2, bottom: 2),
@@ -39,15 +41,16 @@ class _DrinklistdialogState extends State<ComboListDialog> {
                           onPressed: () {
                             setState(() {
                               widget.customer.listCombo = [];
-                              widget.customer.listCombo
-                                  .add(listAllCombo[index]);
+                              widget.customer.listCombo.add(context
+                                  .read<ProviderModel>()
+                                  .listAllCombo[index]);
                               print(widget.customer);
                             });
                             widget.callBackFunc;
                             Navigator.of(context).pop();
                           },
                           child: Text(
-                            "${listAllCombo[index].name} : ${listAllCombo[index].price}",
+                            "${context.read<ProviderModel>().listAllCombo[index].name} : ${context.read<ProviderModel>().listAllCombo[index].price}",
                             style: const TextStyle(
                               fontSize: 16,
                             ),

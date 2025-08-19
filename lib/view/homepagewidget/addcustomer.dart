@@ -1,16 +1,16 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 import 'package:tscoffee/apps/globalvariables.dart';
 import 'package:tscoffee/model/WebStorage.dart';
 import 'package:tscoffee/model/comboModel.dart';
 import 'package:tscoffee/model/drinkbillmodel.dart';
+import 'package:tscoffee/model/providerModel.dart';
 import 'package:tscoffee/model/taboccobillmodel.dart';
 import 'package:http/http.dart' as http;
 import 'package:tscoffee/view/homepagewidget/addpagewidgets/combo/comboswidget.dart';
-import 'package:tscoffee/view/homepagewidget/addpagewidgets/datetime.dart';
 import '../../model/billmodel.dart';
 import 'addpagewidgets/drink/drinkswidget.dart';
 import 'addpagewidgets/tobacco/tobaccowidget.dart';
@@ -32,8 +32,15 @@ class AddCustomer extends StatefulWidget {
 
 class _AddCustomerState extends State<AddCustomer> {
   callBack(String status) {
-    widget.callBack(status);
-    setState(() {});
+    if (mounted) {
+      if (status == "reload") {
+        if (mounted) {
+          setState(() {});
+        }
+      } else {
+        setState(() {});
+      }
+    }
   }
 
   Future updateDrink(Map<String, dynamic> item) async {
@@ -95,115 +102,20 @@ class _AddCustomerState extends State<AddCustomer> {
     }
   }
 
+  bool trangThai = true;
   //#region create customer
-  CreateCustomer(bool trangThai, bool staTus) async {
+  CreateCustomer(bool trangThai, String staTus) async {
     try {
       if (widget.customer.listCombo.isNotEmpty &&
           widget.customer.listNuoc.isEmpty) {
-        widget.customer.listCombo.forEach((action) async {
-          if (action.id != 5 && widget.customer.listNuoc.isEmpty) {
-            await showDialog(
-                context: context,
-                builder: (context) {
-                  return const AlertDialog(
-                    title: Text('Vui lòng chọn nước!'),
-                  );
-                });
-          } else if (widget.customer.bienSoXe == "") {
-            await showDialog(
-                context: context,
-                builder: (context) {
-                  return const AlertDialog(
-                    title: Text('Vui lòng nhập biển số xe!'),
-                  );
-                });
-          } else {
-            widget.customer.bienSoXe = bienSoXe.text;
-            widget.customer.comGia =
-                (comGia.text != '' ? double.parse(comGia.text) : 0);
-            widget.customer.giaGiatDo =
-                (comGia.text != '' ? double.parse(giaGiatDo.text) : 0);
-            widget.customer.ghiChu = ghiChu.text;
-            widget.customer.trangThai = trangThai;
-            widget.customer.modifyOn = DateTime.utc(
-                DateTime.now().year,
-                DateTime.now().month,
-                DateTime.now().day,
-                DateTime.now().hour,
-                DateTime.now().minute);
-            widget.customer.trangThai = trangThai;
-            widget.customer.createdBy =
-                WebStorage.instance.sessionId.toString();
-            widget.customer.modifyBy = WebStorage.instance.sessionId.toString();
-            var details = {widget.customer: Colors.white};
-            var test = widget.customer.toJson();
-            test.remove('_id');
-            if (staTus) {
-              if (widget.customer.doiSac == true) {
-                await showDialog(
-                    context: context,
-                    builder: (context) {
-                      return const AlertDialog(
-                        title: Text('Chưa sạc xe không được thanh toán!'),
-                      );
-                    });
-              } else {
-                EasyLoading.show(status: 'loading...');
-                setState(() {
-                  widget.loading = true;
-                });
-                addBill(test).then((onValue) {
-                  setState(() {
-                    widget.loading = false;
-                  });
-                  EasyLoading.dismiss();
-                  Navigator.of(context).pop();
-                  widget.callBack("update");
-                });
-              }
-            } else {
-              EasyLoading.show(status: 'loading...');
-              setState(() {
-                widget.loading = true;
-              });
-              updateBill(widget.customer.toJson()).then((onValue) {
-                try {
-                  if (widget.customer.listNuoc.first.soLuongBan! > 0) {
-                    for (var element in listAllNuoc) {
-                      if (element.drinkName ==
-                          widget
-                              .customer.listNuoc.first.drinkmodel!.drinkName) {
-                        try {
-                          element.countStore = (element.countStore as int) -
-                              (widget.customer.listNuoc.first.soLuongBan
-                                  as int);
-
-                          updateDrink(element.toJson()).then((onValue) {
-                            setState(() {});
-                          });
-                        } catch (e) {}
-                      }
-                    }
-                  }
-                } catch (e) {}
-
-                for (var element in listBillsTotal) {
-                  if (element.keys.first.sId == widget.customer.sId) {
-                    element.keys.first.trangThai = widget.customer.trangThai;
-                  }
-                }
-                setState(() {
-                  widget.loading = false;
-                });
-
-                EasyLoading.dismiss();
-                Navigator.of(context).pop();
-                callBack("reload");
-              });
-            }
-          }
-        });
-      } else if (widget.customer.bienSoXe == "") {
+        await showDialog(
+            context: context,
+            builder: (context) {
+              return const AlertDialog(
+                title: Text('Vui lòng chọn nước!'),
+              );
+            });
+      } else if (widget.customer.bienSoXe == "" && widget.customer.sId != "") {
         await showDialog(
             context: context,
             builder: (context) {
@@ -218,8 +130,12 @@ class _AddCustomerState extends State<AddCustomer> {
         widget.customer.giaGiatDo =
             (comGia.text != '' ? double.parse(giaGiatDo.text) : 0);
         widget.customer.ghiChu = ghiChu.text;
-        widget.customer.trangThai = trangThai;
-        widget.customer.createdBy = WebStorage.instance.sessionId.toString();
+        staTus == "thanh toán" || staTus == "xác nhận"
+            ? widget.customer.trangThai = false
+            : widget.customer.trangThai = true;
+        if (widget.customer.createdBy == "") {
+          widget.customer.createdBy = WebStorage.instance.sessionId.toString();
+        }
         widget.customer.modifyBy = WebStorage.instance.sessionId.toString();
         widget.customer.modifyOn = DateTime.utc(
             DateTime.now().year,
@@ -227,69 +143,27 @@ class _AddCustomerState extends State<AddCustomer> {
             DateTime.now().day,
             DateTime.now().hour,
             DateTime.now().minute);
-        widget.customer.trangThai = trangThai;
         var details = {widget.customer: Colors.white};
-        var test = widget.customer.toJson();
-        test.remove('_id');
-        if (staTus) {
-          if (widget.customer.doiSac == true) {
-            await showDialog(
-                context: context,
-                builder: (context) {
-                  return const AlertDialog(
-                    title: Text('Chưa sạc xe không được thanh toán!'),
-                  );
-                });
-          } else {
-            EasyLoading.show(status: 'loading...');
-            setState(() {
-              widget.loading = true;
-            });
-            addBill(test).then((onValue) {
-              setState(() {
-                widget.loading = false;
-              });
-              EasyLoading.dismiss();
-              Navigator.of(context).pop();
-              widget.callBack("update");
-            });
-          }
-        } else {
-          EasyLoading.show(status: 'loading...');
-          setState(() {
-            widget.loading = true;
-          });
-          updateBill(widget.customer.toJson()).then((onValue) {
-            try {
-              if (widget.customer.listNuoc.first.soLuongBan! > 0) {
-                for (var element in listAllNuoc) {
-                  if (element.drinkName ==
-                      widget.customer.listNuoc.first.drinkmodel!.drinkName) {
-                    try {
-                      element.countStore = (element.countStore as int) -
-                          (widget.customer.listNuoc.first.soLuongBan as int);
-
-                      updateDrink(element.toJson()).then((onValue) {
-                        setState(() {});
-                      });
-                    } catch (e) {}
-                  }
-                }
-              }
-            } catch (e) {}
-
-            for (var element in listBillsTotal) {
-              if (element.keys.first.sId == widget.customer.sId) {
-                element.keys.first.trangThai = widget.customer.trangThai;
-              }
-            }
-            setState(() {
-              widget.loading = false;
-            });
-
-            EasyLoading.dismiss();
+        var item = widget.customer.toJson();
+        if (staTus == "thêm") {
+          item.remove('_id');
+          context.read<ProviderModel>().updateloadData(true);
+          addBill(item).then((onValue) {
+            context.read<ProviderModel>().loadDataTotal();
             Navigator.of(context).pop();
-            callBack("reload");
+          });
+        } else if (staTus == "thanh toán") {
+          context.read<ProviderModel>().updateloadData(true);
+          updateBill(item).then((onValue) {
+            context.read<ProviderModel>().loadDataTotal();
+            Navigator.of(context).pop();
+          });
+        } else if (staTus == "cập nhật" || staTus == "xác nhận") {
+          context.read<ProviderModel>().updateloadData(true);
+
+          updateBill(item).then((onValue) {
+            context.read<ProviderModel>().loadDataTotal();
+            Navigator.of(context).pop();
           });
         }
       }
@@ -338,8 +212,7 @@ class _AddCustomerState extends State<AddCustomer> {
 
   @override
   Widget build(BuildContext context) {
-    if (widget.customer.trangThai == false &&
-        WebStorage.instance.sessionId == "admin") {
+    if (WebStorage.instance.sessionId == "admin") {
       isChecktrangThai = false;
     } else if (widget.customer.trangThai == true &&
             WebStorage.instance.sessionId == widget.customer.createdBy ||
@@ -363,15 +236,18 @@ class _AddCustomerState extends State<AddCustomer> {
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(12)),
                       onPressed: () {
-                        CreateCustomer(true, true);
+                        CreateCustomer(trangThai, "thêm");
+                        widget.callBack;
                       },
                       icon: const Icon(Icons.add),
                       label: const Text(' Thêm'),
                     );
-                  } else if (widget.customer.sId != '') {
+                  } else if (widget.customer.bienSoXe != '') {
                     if (widget.customer.trangThai == true) {
-                      listNuoc = widget.customer.listNuoc;
-                      listThuoc = widget.customer.listThuoc;
+                      context.read<ProviderModel>().listNuoc =
+                          widget.customer.listNuoc;
+                      context.read<ProviderModel>().listThuoc =
+                          widget.customer.listThuoc;
                       return Container(
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.end,
@@ -382,7 +258,8 @@ class _AddCustomerState extends State<AddCustomer> {
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(12)),
                                 onPressed: () {
-                                  CreateCustomer(true, false);
+                                  CreateCustomer(true, "cập nhật");
+                                  widget.callBack;
                                 },
                                 icon: const Icon(Icons.update),
                                 label: const Text(' Cập nhật'),
@@ -429,7 +306,8 @@ class _AddCustomerState extends State<AddCustomer> {
                                         );
                                       });
                                   if (val == 1) {
-                                    CreateCustomer(false, false);
+                                    CreateCustomer(false, "thanh toán");
+                                    widget.callBack;
                                   }
                                 },
                                 icon: const Icon(Icons.payment),
@@ -445,7 +323,8 @@ class _AddCustomerState extends State<AddCustomer> {
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12)),
                     onPressed: () async {
-                      CreateCustomer(false, false);
+                      CreateCustomer(!trangThai, "xác nhận");
+                      widget.callBack;
                     },
                     icon: const Icon(Icons.payment),
                     label: const Text(' Xác nhận'),
@@ -454,6 +333,10 @@ class _AddCustomerState extends State<AddCustomer> {
               ),
             ),
             appBar: AppBar(
+              leading: IconButton(
+                icon: const Icon(Icons.arrow_back, color: Colors.orange),
+                onPressed: () => Navigator.of(context).pop(),
+              ),
               backgroundColor: Colors.blueGrey,
               title: Row(
                 children: [
@@ -479,10 +362,13 @@ class _AddCustomerState extends State<AddCustomer> {
                                 .toString(),
                           obscureText: false,
                           onSubmitted: (value) {
-                            setState(() {
-                              widget.customer.createdOn = DateTime.parse(value);
-                              widget.customer;
-                            });
+                            if (mounted) {
+                              setState(() {
+                                widget.customer.createdOn =
+                                    DateTime.parse(value);
+                                widget.customer;
+                              });
+                            }
                           },
                         ),
                       ),
@@ -515,10 +401,12 @@ class _AddCustomerState extends State<AddCustomer> {
                                       ..text = widget.customer.bienSoXe!,
                                     obscureText: false,
                                     onSubmitted: (value) {
-                                      setState(() {
-                                        widget.customer.bienSoXe = value;
-                                        widget.customer;
-                                      });
+                                      if (mounted) {
+                                        setState(() {
+                                          widget.customer.bienSoXe = value;
+                                          widget.customer;
+                                        });
+                                      }
                                     },
                                     onChanged: (value) {
                                       widget.customer.bienSoXe = value;
@@ -546,9 +434,12 @@ class _AddCustomerState extends State<AddCustomer> {
                                     Checkbox(
                                         value: widget.customer.chuyenKhoan,
                                         onChanged: (value) {
-                                          setState(() {
-                                            widget.customer.chuyenKhoan = value;
-                                          });
+                                          if (mounted) {
+                                            setState(() {
+                                              widget.customer.chuyenKhoan =
+                                                  value;
+                                            });
+                                          }
                                         }),
                                     const Text('CK')
                                   ],
@@ -602,7 +493,9 @@ class _AddCustomerState extends State<AddCustomer> {
                                                         1);
                                                   }
                                                   getTongTien();
-                                                  setState(() {});
+                                                  if (mounted) {
+                                                    setState(() {});
+                                                  }
                                                 },
                                               )),
                                           Expanded(
@@ -626,7 +519,9 @@ class _AddCustomerState extends State<AddCustomer> {
                                                           1);
 
                                                   getTongTien();
-                                                  setState(() {});
+                                                  if (mounted) {
+                                                    setState(() {});
+                                                  }
                                                 },
                                               )),
                                         ],
@@ -662,7 +557,9 @@ class _AddCustomerState extends State<AddCustomer> {
                                                         1);
                                                   }
                                                   getTongTien();
-                                                  setState(() {});
+                                                  if (mounted) {
+                                                    setState(() {});
+                                                  }
                                                 },
                                               )),
                                           Expanded(
@@ -687,7 +584,9 @@ class _AddCustomerState extends State<AddCustomer> {
                                                           .soLuongSac12k! +
                                                       1);
                                                   getTongTien();
-                                                  setState(() {});
+                                                  if (mounted) {
+                                                    setState(() {});
+                                                  }
                                                 },
                                               )),
                                         ],
@@ -722,7 +621,9 @@ class _AddCustomerState extends State<AddCustomer> {
                                                       1);
                                                 }
                                                 getTongTien();
-                                                setState(() {});
+                                                if (mounted) {
+                                                  setState(() {});
+                                                }
                                               },
                                             )),
                                         Expanded(
@@ -745,7 +646,9 @@ class _AddCustomerState extends State<AddCustomer> {
                                                             .soLuongMuonSac! +
                                                         1);
                                                 getTongTien();
-                                                setState(() {});
+                                                if (mounted) {
+                                                  setState(() {});
+                                                }
                                               },
                                             ))
                                       ],
@@ -757,15 +660,34 @@ class _AddCustomerState extends State<AddCustomer> {
                                       children: [Text('')],
                                     ),
                                   ),
+                                  Expanded(
+                                    flex: 1,
+                                    child: Row(
+                                      children: [
+                                        Checkbox(
+                                            value: widget.customer.doiSac,
+                                            onChanged: (value) {
+                                              widget.customer.doiSac = value;
+                                              if (mounted) {
+                                                setState(() {
+                                                  widget.customer.trangThai =
+                                                      true;
+                                                });
+                                              }
+                                            }),
+                                        const Text('Đợi sạc')
+                                      ],
+                                    ),
+                                  ),
                                 ],
                               ),
                               Row(
                                 children: [
                                   Expanded(
-                                    flex: 2,
+                                    flex: 3,
                                     child: Row(
                                       children: [
-                                        const Text(' Sạc Nhanh:'),
+                                        const Text(' S.Nhanh:'),
                                         Expanded(
                                             flex: 1,
                                             child: IconButton(
@@ -783,7 +705,9 @@ class _AddCustomerState extends State<AddCustomer> {
                                                       1);
                                                 }
                                                 getTongTien();
-                                                setState(() {});
+                                                if (mounted) {
+                                                  setState(() {});
+                                                }
                                               },
                                             )),
                                         Expanded(
@@ -807,10 +731,12 @@ class _AddCustomerState extends State<AddCustomer> {
                                                         .soLuongSacNhanh! +
                                                     1);
                                                 getTongTien();
-                                                setState(() {});
+                                                if (mounted) {
+                                                  setState(() {});
+                                                }
                                               },
                                             )),
-                                        const Text('  trên 50%  '),
+                                        const Text('  >50%  '),
                                         Expanded(
                                             flex: 1,
                                             child: IconButton(
@@ -828,7 +754,9 @@ class _AddCustomerState extends State<AddCustomer> {
                                                       1);
                                                 }
                                                 getTongTien();
-                                                setState(() {});
+                                                if (mounted) {
+                                                  setState(() {});
+                                                }
                                               },
                                             )),
                                         Expanded(
@@ -852,25 +780,11 @@ class _AddCustomerState extends State<AddCustomer> {
                                                         .soLuongSacNhanh20k! +
                                                     1);
                                                 getTongTien();
-                                                setState(() {});
+                                                if (mounted) {
+                                                  setState(() {});
+                                                }
                                               },
                                             ))
-                                      ],
-                                    ),
-                                  ),
-                                  Expanded(
-                                    flex: 1,
-                                    child: Row(
-                                      children: [
-                                        Checkbox(
-                                            value: widget.customer.doiSac,
-                                            onChanged: (value) {
-                                              widget.customer.doiSac = value;
-                                              setState(() {
-                                                getTongTien();
-                                              });
-                                            }),
-                                        const Text('Đợi sạc')
                                       ],
                                     ),
                                   ),
@@ -929,7 +843,9 @@ class _AddCustomerState extends State<AddCustomer> {
                                                               1);
                                                         }
                                                         getTongTien();
-                                                        setState(() {});
+                                                        if (mounted) {
+                                                          setState(() {});
+                                                        }
                                                       },
                                                     )),
                                                 Expanded(
@@ -955,7 +871,9 @@ class _AddCustomerState extends State<AddCustomer> {
                                                                 .soLuongNguDem! +
                                                             1);
                                                         getTongTien();
-                                                        setState(() {});
+                                                        if (mounted) {
+                                                          setState(() {});
+                                                        }
                                                       },
                                                     )),
                                               ],
@@ -991,7 +909,9 @@ class _AddCustomerState extends State<AddCustomer> {
                                                               1);
                                                         }
                                                         getTongTien();
-                                                        setState(() {});
+                                                        if (mounted) {
+                                                          setState(() {});
+                                                        }
                                                       },
                                                     )),
                                                 Expanded(
@@ -1017,7 +937,9 @@ class _AddCustomerState extends State<AddCustomer> {
                                                                 .soLuongNguNgay! +
                                                             1);
                                                         getTongTien();
-                                                        setState(() {});
+                                                        if (mounted) {
+                                                          setState(() {});
+                                                        }
                                                       },
                                                     )),
                                               ],
@@ -1052,7 +974,9 @@ class _AddCustomerState extends State<AddCustomer> {
                                                               1);
                                                         }
                                                         getTongTien();
-                                                        setState(() {});
+                                                        if (mounted) {
+                                                          setState(() {});
+                                                        }
                                                       },
                                                     )),
                                                 Expanded(
@@ -1078,7 +1002,9 @@ class _AddCustomerState extends State<AddCustomer> {
                                                                 .soLuongTam! +
                                                             1);
                                                         getTongTien();
-                                                        setState(() {});
+                                                        if (mounted) {
+                                                          setState(() {});
+                                                        }
                                                       },
                                                     )),
                                               ],
@@ -1159,13 +1085,15 @@ class _AddCustomerState extends State<AddCustomer> {
                                             labelText: 'Nhập số tiền',
                                           ),
                                           onSubmitted: (value) {
-                                            setState(() {
-                                              try {
-                                                widget.customer.comGia =
-                                                    double.parse(value);
-                                              } catch (e) {}
-                                              getTongTien();
-                                            });
+                                            if (mounted) {
+                                              setState(() {
+                                                try {
+                                                  widget.customer.comGia =
+                                                      double.parse(value);
+                                                } catch (e) {}
+                                                getTongTien();
+                                              });
+                                            }
                                           },
                                         ),
                                       ),
@@ -1193,13 +1121,15 @@ class _AddCustomerState extends State<AddCustomer> {
                                             labelText: 'Nhập số tiền',
                                           ),
                                           onSubmitted: (value) {
-                                            setState(() {
-                                              try {
-                                                widget.customer.giaGiatDo =
-                                                    double.parse(value);
-                                              } catch (e) {}
-                                              getTongTien();
-                                            });
+                                            if (mounted) {
+                                              setState(() {
+                                                try {
+                                                  widget.customer.giaGiatDo =
+                                                      double.parse(value);
+                                                } catch (e) {}
+                                                getTongTien();
+                                              });
+                                            }
                                           },
                                         ),
                                       ),
@@ -1230,11 +1160,13 @@ class _AddCustomerState extends State<AddCustomer> {
                                   value: 25000,
                                   groupValue: widget.customer.giaTu,
                                   onChanged: (value) {
-                                    setState(() {
-                                      widget.customer.giaTu =
-                                          double.parse(value.toString());
-                                      getTongTien();
-                                    });
+                                    if (mounted) {
+                                      setState(() {
+                                        widget.customer.giaTu =
+                                            double.parse(value.toString());
+                                        getTongTien();
+                                      });
+                                    }
                                   },
                                   child: const Text('Tuần'),
                                 ),
@@ -1245,11 +1177,13 @@ class _AddCustomerState extends State<AddCustomer> {
                                   value: 100000,
                                   groupValue: widget.customer.giaTu,
                                   onChanged: (value) {
-                                    setState(() {
-                                      widget.customer.giaTu =
-                                          double.parse(value.toString());
-                                      getTongTien();
-                                    });
+                                    if (mounted) {
+                                      setState(() {
+                                        widget.customer.giaTu =
+                                            double.parse(value.toString());
+                                        getTongTien();
+                                      });
+                                    }
                                   },
                                   child: const Text('Tháng'),
                                 ),
@@ -1260,11 +1194,13 @@ class _AddCustomerState extends State<AddCustomer> {
                                   value: 0,
                                   groupValue: widget.customer.giaTu,
                                   onChanged: (value) {
-                                    setState(() {
-                                      widget.customer.giaTu =
-                                          double.parse(value.toString());
-                                      getTongTien();
-                                    });
+                                    if (mounted) {
+                                      setState(() {
+                                        widget.customer.giaTu =
+                                            double.parse(value.toString());
+                                        getTongTien();
+                                      });
+                                    }
                                   },
                                   child: const Text('Không'),
                                 ),
@@ -1278,25 +1214,24 @@ class _AddCustomerState extends State<AddCustomer> {
                     Card(
                       child: Container(
                         margin: const EdgeInsets.all(5),
-                        child: AbsorbPointer(
-                          absorbing: isChecktrangThai,
-                          child: TextField(
-                            controller: ghiChu..text = widget.customer.ghiChu!,
-                            obscureText: false,
-                            minLines: 2,
-                            maxLines: 2,
-                            onChanged: (value) {
+                        child: TextField(
+                          controller: ghiChu..text = widget.customer.ghiChu!,
+                          obscureText: false,
+                          minLines: 2,
+                          maxLines: 2,
+                          onChanged: (value) {
+                            if (mounted) {
                               setState(() {
                                 try {
                                   widget.customer.ghiChu = value;
                                 } catch (e) {}
                                 getTongTien();
                               });
-                            },
-                            decoration: const InputDecoration(
-                              border: OutlineInputBorder(),
-                              labelText: 'Ghi chú',
-                            ),
+                            }
+                          },
+                          decoration: const InputDecoration(
+                            border: OutlineInputBorder(),
+                            labelText: 'Ghi chú',
                           ),
                         ),
                       ),

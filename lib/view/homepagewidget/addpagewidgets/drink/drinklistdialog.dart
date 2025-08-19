@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:tscoffee/apps/globalvariables.dart';
+import 'package:provider/provider.dart';
 import 'package:tscoffee/model/drinkbillmodel.dart';
 import 'package:tscoffee/model/drinkmodel.dart';
+import 'package:tscoffee/model/providerModel.dart';
 
 // ignore: must_be_immutable
 class Drinklistdialog extends StatefulWidget {
@@ -31,7 +32,8 @@ class _DrinklistdialogState extends State<Drinklistdialog> {
                 onChanged: (value) {
                   if (value != "") {
                     widget.listSearch.clear();
-                    for (var action in listAllNuoc) {
+                    for (var action
+                        in context.read<ProviderModel>().listAllNuoc) {
                       if (action.drinkName!
                           .toString()
                           .toUpperCase()
@@ -40,11 +42,15 @@ class _DrinklistdialogState extends State<Drinklistdialog> {
                       }
                     }
                     setState(() {
-                      listAllNuocSearch = [...widget.listSearch];
+                      context.read<ProviderModel>().listAllNuocSearch = [
+                        ...widget.listSearch
+                      ];
                     });
                   } else {
                     setState(() {
-                      listAllNuocSearch = [...listAllNuoc];
+                      context.read<ProviderModel>().listAllNuocSearch = [
+                        ...context.read<ProviderModel>().listAllNuoc
+                      ];
                     });
                   }
                 },
@@ -63,30 +69,24 @@ class _DrinklistdialogState extends State<Drinklistdialog> {
                   width: 400,
                   height: 330,
                   child: ListView.builder(
-                    itemCount: listAllNuocSearch.length,
+                    itemCount:
+                        context.read<ProviderModel>().listAllNuocSearch.length,
                     itemBuilder: (BuildContext ctx, int index) {
-                      if (listAllNuocSearch[index].drinkName != "Nước 18000" &&
-                          listAllNuocSearch[index].drinkName != "Nước 20000" &&
-                          listAllNuocSearch[index].drinkName != "Nước 15000" &&
-                          listAllNuocSearch[index].drinkName != "Cà phê đen" &&
-                          listAllNuocSearch[index].drinkName != "Cà phê sữa" &&
-                          listAllNuocSearch[index].drinkName != "Đậu Xanh" &&
-                          listAllNuocSearch[index].drinkName !=
-                              "Nước ép tươi" &&
-                          listAllNuocSearch[index].drinkName != "Mía" &&
-                          listAllNuocSearch[index].drinkName != "Bạc xỉu" &&
-                          listAllNuocSearch[index].drinkName != "Mì ly" &&
-                          listAllNuocSearch[index].drinkName != "Đá me" &&
-                          listAllNuocSearch[index].drinkName != "Suối" &&
-                          listAllNuocSearch[index].countStore == 0) {
-                        return const SizedBox();
-                      }
                       return ElevatedButton(
                         onPressed: () {
                           Drinkmodel newDrink = Drinkmodel(
-                              drinkName: listAllNuocSearch[index].drinkName,
-                              countStore: listAllNuocSearch[index].countStore,
-                              price: listAllNuocSearch[index].price);
+                              drinkName: context
+                                  .read<ProviderModel>()
+                                  .listAllNuocSearch[index]
+                                  .drinkName,
+                              countStore: context
+                                  .read<ProviderModel>()
+                                  .listAllNuocSearch[index]
+                                  .countStore,
+                              price: context
+                                  .read<ProviderModel>()
+                                  .listAllNuocSearch[index]
+                                  .price);
                           bool add = true;
 
                           Drinkbillmodel newMap =
@@ -94,7 +94,8 @@ class _DrinklistdialogState extends State<Drinklistdialog> {
                           newMap.soLuongBan = 1;
                           newMap.drinkmodel = newDrink;
                           if (widget.listNuoc.isNotEmpty) {
-                            for (var item in listNuoc) {
+                            for (var item
+                                in context.read<ProviderModel>().listNuoc) {
                               if (item.drinkmodel!.drinkName ==
                                   newDrink.drinkName) {
                                 add = false;
@@ -102,26 +103,37 @@ class _DrinklistdialogState extends State<Drinklistdialog> {
                             }
                             if (add == true) {
                               widget.listNuoc.add(newMap);
-                              listNuoc = widget.listNuoc;
+                              context.read<ProviderModel>().listNuoc =
+                                  widget.listNuoc;
                             }
                           } else {
                             Drinkmodel newDrink = Drinkmodel(
-                                drinkName: listAllNuocSearch[index].drinkName,
-                                countStore: listAllNuocSearch[index].countStore,
-                                price: listAllNuocSearch[index].price);
+                                drinkName: context
+                                    .read<ProviderModel>()
+                                    .listAllNuocSearch[index]
+                                    .drinkName,
+                                countStore: context
+                                    .read<ProviderModel>()
+                                    .listAllNuocSearch[index]
+                                    .countStore,
+                                price: context
+                                    .read<ProviderModel>()
+                                    .listAllNuocSearch[index]
+                                    .price);
 
                             newMap.drinkmodel = newDrink;
                             newMap.soLuongBan = 1;
                             if (newMap.soLuongBan != -1) {
                               widget.listNuoc.add(newMap);
-                              listNuoc = widget.listNuoc;
+                              context.read<ProviderModel>().listNuoc =
+                                  widget.listNuoc;
                             }
                           }
                           setState(() {});
                           Navigator.of(context).pop();
                         },
                         child: Text(
-                          "${listAllNuocSearch[index].drinkName} : ${listAllNuocSearch[index].price}",
+                          "${context.read<ProviderModel>().listAllNuocSearch[index].drinkName} : ${context.read<ProviderModel>().listAllNuocSearch[index].price}",
                           style: const TextStyle(
                             fontSize: 16,
                           ),

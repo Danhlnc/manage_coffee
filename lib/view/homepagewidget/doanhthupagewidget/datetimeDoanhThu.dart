@@ -29,8 +29,12 @@ class _DatetimeDoanhThuState extends State<DatetimeDoanhThu> {
                 lastDate: DateTime(2100)))!;
             dateTimeRange.start.day != DateTime.now().day
                 ? setState(() {
-                    listBillsTotalDate = [...listBillsTotal];
-                    var listProDate = [...listBillsTotalDate];
+                    context.read<ProviderModel>().listBillsTotalDate = [
+                      ...context.read<ProviderModel>().listBillsTotal
+                    ];
+                    var listProDate = [
+                      ...context.read<ProviderModel>().listBillsTotalDate
+                    ];
                     dateTimeRange = DateTimeRange(
                         start: DateTime.parse(DateFormat('yyyy-MM-dd HH:mm')
                             .format(DateTime(
@@ -52,10 +56,12 @@ class _DatetimeDoanhThuState extends State<DatetimeDoanhThu> {
                           action.keys.first.createdOn!
                               .isAfter(dateTimeRange.start)) {
                       } else {
-                        listBillsTotalDate.remove(action);
+                        context
+                            .read<ProviderModel>()
+                            .listBillsTotalDate
+                            .remove(action);
                       }
                     }
-                    widget.callBack("");
                   })
                 : setState(() {
                     dateTimeRange = DateTime.now().hour < 7
@@ -79,15 +85,22 @@ class _DatetimeDoanhThuState extends State<DatetimeDoanhThu> {
 
                     context.read<ProviderModel>().updateListTemp(dateTimeRange);
                     context.read<ProviderModel>().getTotalCount();
-                    listBillsTotalDate = [...listBillsTotal];
-                    var listProDate = [...listBillsTotalDate];
+                    context.read<ProviderModel>().listBillsTotalDate = [
+                      ...context.read<ProviderModel>().listBillsTotal
+                    ];
+                    var listProDate = [
+                      ...context.read<ProviderModel>().listBillsTotalDate
+                    ];
                     for (var action in listProDate) {
                       if (action.keys.first.createdOn!
                               .isBefore(dateTimeRange.end) &&
                           action.keys.first.createdOn!
                               .isAfter(dateTimeRange.start)) {
                       } else {
-                        listBillsTotalDate.remove(action);
+                        context
+                            .read<ProviderModel>()
+                            .listBillsTotalDate
+                            .remove(action);
                       }
                     }
                     widget.callBack("");

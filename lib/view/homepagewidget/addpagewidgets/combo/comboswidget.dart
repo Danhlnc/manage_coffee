@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:tscoffee/model/comboModel.dart';
 import 'package:tscoffee/model/drinkbillmodel.dart';
+import 'package:tscoffee/model/providerModel.dart';
 import 'package:tscoffee/model/taboccobillmodel.dart';
 import 'package:tscoffee/view/homepagewidget/addpagewidgets/combo/comboListDialog.dart';
 
-import '../../../../apps/globalvariables.dart';
 import '../../../../model/billmodel.dart';
 
 // ignore: must_be_immutable
@@ -38,7 +39,9 @@ class _DrinkswidgetState extends State<Comboswidget> {
               await showDialog(
                   context: context,
                   builder: (BuildContext context) {
-                    listAllNuocSearch = [...listAllNuoc];
+                    context.read<ProviderModel>().listAllNuocSearch = [
+                      ...context.read<ProviderModel>().listAllNuoc
+                    ];
                     return ComboListDialog(
                       customer: widget.customer,
                       callBackFunc: callBack,
