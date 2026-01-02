@@ -10,6 +10,8 @@ import '../../../model/billmodel.dart';
 import '../../loading.dart';
 import '../addcustomer.dart';
 import '../addpagewidgets/billlist.dart';
+import 'package:date_format_field/date_format_field.dart';
+
 
 // ignore: must_be_immutable
 class Doanhthuscreen extends StatefulWidget {
@@ -93,91 +95,140 @@ class _DoanhthuscreenState extends State<Doanhthuscreen> {
                         Expanded(
                           flex: 2,
                           child: Card(
-                            child: TextField(
-                                obscureText: false,
-                                controller: dateOne,
-                                onSubmitted: (value) {
-                                  try {
-                                    setState(() {
-                                      dateTimeRange = DateTimeRange(
-                                          start: DateFormat("dd/MM/yyyy HH:mm")
-                                              .parse("${dateOne.text} 07:00"),
-                                          end: DateTime.parse(
-                                              DateFormat('yyyy-MM-dd HH:mm')
-                                                  .format(DateTime(
-                                                      dateTimeRange.end.year,
-                                                      dateTimeRange.end.month,
-                                                      dateTimeRange.end.day,
-                                                      7))));
-                                    });
-                                  } catch (e) {}
-                                },
-                                onChanged: (value) {
-                                  try {
-                                    setState(() {
-                                      dateTimeRange = DateTimeRange(
-                                          start: DateFormat("dd/MM/yyyy HH:mm")
-                                              .parse("${dateOne.text} 07:00"),
-                                          end: DateTime.parse(
-                                              DateFormat('yyyy-MM-dd HH:mm')
-                                                  .format(DateTime(
-                                                      dateTimeRange.end.year,
-                                                      dateTimeRange.end.month,
-                                                      dateTimeRange.end.day,
-                                                      7))));
-                                    });
-                                  } catch (e) {}
-                                },
-                                decoration: InputDecoration(
+                            child: 
+                            // TextField(
+                            //     obscureText: false,
+                            //     controller: dateOne,
+                            //     onSubmitted: (value) {
+                            //       try {
+                            //         setState(() {
+                            //           dateTimeRange = DateTimeRange(
+                            //               start: DateFormat("dd/MM/yyyy HH:mm")
+                            //                   .parse("${dateOne.text} 07:00"),
+                            //               end: DateTime.parse(
+                            //                   DateFormat('yyyy-MM-dd HH:mm')
+                            //                       .format(DateTime(
+                            //                           dateTimeRange.end.year,
+                            //                           dateTimeRange.end.month,
+                            //                           dateTimeRange.end.day,
+                            //                           7))));
+                            //         });
+                            //       } catch (e) {}
+                            //     },
+                            //     onChanged: (value) {
+                            //       try {
+                            //         setState(() {
+                            //           dateTimeRange = DateTimeRange(
+                            //               start: DateFormat("dd/MM/yyyy HH:mm")
+                            //                   .parse("${dateOne.text} 07:00"),
+                            //               end: DateTime.parse(
+                            //                   DateFormat('yyyy-MM-dd HH:mm')
+                            //                       .format(DateTime(
+                            //                           dateTimeRange.end.year,
+                            //                           dateTimeRange.end.month,
+                            //                           dateTimeRange.end.day,
+                            //                           7))));
+                            //         });
+                            //       } catch (e) {}
+                            //     },
+                            //     decoration: InputDecoration(
+                            //       border: InputBorder.none,
+                            //       hintText:
+                            //           '${dateTimeRange.start.day} / ${dateTimeRange.start.month}',
+                            //     ))
+                            DateFormatField(
+                                type: DateFormatType.type2,
+                                controller: dateOne,decoration: InputDecoration(
                                   border: InputBorder.none,
                                   hintText:
                                       '${dateTimeRange.start.day} / ${dateTimeRange.start.month}',
-                                )),
+                                ),
+                                onComplete: (date) {
+                                     try {
+                                    setState(() {
+                                      dateTimeRange = DateTimeRange(
+                                          start: DateFormat("dd/MM/yyyy HH:mm")
+                                              .parse("${dateOne.text} 07:00"),
+                                          end: DateTime.parse(
+                                              DateFormat('yyyy-MM-dd HH:mm')
+                                                  .format(DateTime(
+                                                      dateTimeRange.end.year,
+                                                      dateTimeRange.end.month,
+                                                      dateTimeRange.end.day,
+                                                      7))));
+                                    });
+                                  } catch (e) {}
+                                },
+                            ),
                           ),
                         ),
                         Expanded(
                           flex: 2,
                           child: Card(
-                            child: TextField(
-                                obscureText: false,
-                                controller: dateTwo,
-                                onSubmitted: (value) {
-                                  try {
-                                    setState(() {
-                                      dateTimeRange = DateTimeRange(
-                                          start: DateTime.parse(
-                                              DateFormat('yyyy-MM-dd HH:mm')
-                                                  .format(DateTime(
-                                                      dateTimeRange.start.year,
-                                                      dateTimeRange.start.month,
-                                                      dateTimeRange.start.day,
-                                                      7))),
-                                          end: DateFormat("dd/MM/yyyy HH:mm")
-                                              .parse("${dateTwo.text} 07:00"));
-                                    });
-                                  } catch (e) {}
-                                },
-                                onChanged: (value) {
-                                  try {
-                                    setState(() {
-                                      dateTimeRange = DateTimeRange(
-                                          start: DateTime.parse(
-                                              DateFormat('yyyy-MM-dd HH:mm')
-                                                  .format(DateTime(
-                                                      dateTimeRange.start.year,
-                                                      dateTimeRange.start.month,
-                                                      dateTimeRange.start.day,
-                                                      7))),
-                                          end: DateFormat("dd/MM/yyyy HH:mm")
-                                              .parse("${dateTwo.text} 07:00"));
-                                    });
-                                  } catch (e) {}
-                                },
-                                decoration: InputDecoration(
+                            child: DateFormatField(
+                                type: DateFormatType.type2,
+                                controller: dateTwo,decoration: InputDecoration(
                                   border: InputBorder.none,
                                   hintText:
-                                      '${dateTimeRange.end.day} / ${dateTimeRange.end.month}',
-                                )),
+                                      '${dateTimeRange.end.day} / ${dateTimeRange.start.month}',
+                                ),
+                                onComplete: (date) {
+                                    try {
+                                    setState(() {
+                                      dateTimeRange = DateTimeRange(
+                                          start: DateTime.parse(
+                                              DateFormat('yyyy-MM-dd HH:mm')
+                                                  .format(DateTime(
+                                                      dateTimeRange.start.year,
+                                                      dateTimeRange.start.month,
+                                                      dateTimeRange.start.day,
+                                                      7))),
+                                          end: DateFormat("dd/MM/yyyy HH:mm")
+                                              .parse("${dateTwo.text} 07:00"));
+                                    });
+                                  } catch (e) {}
+                                },
+                            ),
+                            // TextField(
+                            //     obscureText: false,
+                            //     controller: dateTwo,
+                            //     onSubmitted: (value) {
+                            //       try {
+                            //         setState(() {
+                            //           dateTimeRange = DateTimeRange(
+                            //               start: DateTime.parse(
+                            //                   DateFormat('yyyy-MM-dd HH:mm')
+                            //                       .format(DateTime(
+                            //                           dateTimeRange.start.year,
+                            //                           dateTimeRange.start.month,
+                            //                           dateTimeRange.start.day,
+                            //                           7))),
+                            //               end: DateFormat("dd/MM/yyyy HH:mm")
+                            //                   .parse("${dateTwo.text} 07:00"));
+                            //         });
+                            //       } catch (e) {}
+                            //     },
+                            //     onChanged: (value) {
+                            //       try {
+                            //         setState(() {
+                            //           dateTimeRange = DateTimeRange(
+                            //               start: DateTime.parse(
+                            //                   DateFormat('yyyy-MM-dd HH:mm')
+                            //                       .format(DateTime(
+                            //                           dateTimeRange.start.year,
+                            //                           dateTimeRange.start.month,
+                            //                           dateTimeRange.start.day,
+                            //                           7))),
+                            //               end: DateFormat("dd/MM/yyyy HH:mm")
+                            //                   .parse("${dateTwo.text} 07:00"));
+                            //         });
+                            //       } catch (e) {}
+                            //     },
+                            //     decoration: InputDecoration(
+                            //       border: InputBorder.none,
+                            //       hintText:
+                            //           '${dateTimeRange.end.day} / ${dateTimeRange.end.month}',
+                            //     )),
                           ),
                         ),
                         Expanded(
@@ -208,31 +259,63 @@ class _DoanhthuscreenState extends State<Doanhthuscreen> {
                         Expanded(
                           flex: 2,
                           child: Card(
-                            child: TextField(
-                                obscureText: false,
-                                controller: dateOne,
-                                decoration: InputDecoration(
+                            child: DateFormatField(
+                                type: DateFormatType.type2,
+                                controller: dateOne,decoration: InputDecoration(
                                   border: InputBorder.none,
                                   hintText:
                                       '${dateTimeRange.start.day} / ${dateTimeRange.start.month}',
-                                )),
+                                ),
+                                onComplete: (date) {
+                                     try {
+                                    setState(() {
+                                      dateTimeRange = DateTimeRange(
+                                          start: DateFormat("dd/MM/yyyy HH:mm")
+                                              .parse("${dateOne.text} 07:00"),
+                                          end: DateTime.parse(
+                                              DateFormat('yyyy-MM-dd HH:mm')
+                                                  .format(DateTime(
+                                                      dateTimeRange.end.year,
+                                                      dateTimeRange.end.month,
+                                                      dateTimeRange.end.day,
+                                                      7))));
+                                    });
+                                  } catch (e) {}
+                                },
+                            ),
                           ),
                         ),
                         Expanded(
                           flex: 2,
                           child: Card(
-                            child: TextField(
-                                obscureText: false,
-                                controller: dateTwo,
-                                decoration: InputDecoration(
+                            child: DateFormatField(
+                                type: DateFormatType.type2,
+                                controller: dateTwo,decoration: InputDecoration(
                                   border: InputBorder.none,
                                   hintText:
-                                      '${dateTimeRange.end.day} / ${dateTimeRange.end.month}',
-                                )),
+                                      '${dateTimeRange.end.day} / ${dateTimeRange.start.month}',
+                                ),
+                                onComplete: (date) {
+                                    try {
+                                    setState(() {
+                                      dateTimeRange = DateTimeRange(
+                                          start: DateTime.parse(
+                                              DateFormat('yyyy-MM-dd HH:mm')
+                                                  .format(DateTime(
+                                                      dateTimeRange.start.year,
+                                                      dateTimeRange.start.month,
+                                                      dateTimeRange.start.day,
+                                                      7))),
+                                          end: DateFormat("dd/MM/yyyy HH:mm")
+                                              .parse("${dateTwo.text} 07:00"));
+                                    });
+                                  } catch (e) {}
+                                },
+                            ),
                           ),
                         ),
                         Expanded(
-                          flex: 2,
+                          flex: 1,
                           child: Card(
                             child: TextButton(
                               onPressed: () {
@@ -389,10 +472,7 @@ class _DoanhthuscreenState extends State<Doanhthuscreen> {
                             ),
                           ),
                         ),
-                        const Expanded(
-                          flex: 1,
-                          child: Text(""),
-                        )
+                      
                       ],
               ),
               Container(
