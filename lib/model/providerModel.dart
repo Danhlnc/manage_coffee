@@ -247,7 +247,7 @@ class ProviderModel extends ChangeNotifier {
     Map<String, dynamic> m = {};
     m['DateOne'] = DateTime.parse(DateFormat('yyyy-MM-dd HH:mm').format(
             DateTime(
-                dateTimeRange.start.year,
+                dateTimeRange.start.month==1?dateTimeRange.start.year-1:dateTimeRange.start.year,
                 dateTimeRange.start.month > 1
                     ? dateTimeRange.start.month - 1
                     : 12,
